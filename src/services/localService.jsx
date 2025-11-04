@@ -1,4 +1,4 @@
-export const STOKEN = "Health_Risk_Assessment_s";
+export const STOKEN = "Health_Risk_Assessment";
 
 export const saveTokenLocal = (_token) => {
     localStorage.setItem(STOKEN, _token);
