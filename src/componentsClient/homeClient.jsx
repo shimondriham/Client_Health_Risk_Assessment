@@ -22,7 +22,7 @@ const HomeClient = () => {
         try {
             let data = await doApiGet(url);
             setmyInfo(data.data);
-            dispatch(addName({ name: data.data.FirstName }));
+            dispatch(addName({ name: data.data.fullName }));
             if (data.data.role == "admin") {
                 dispatch(addIsAdmin({ isAdmin: true }));
             }
@@ -33,7 +33,7 @@ const HomeClient = () => {
 
     return (
         <div className="container text-center" style={{ height: '100vh', padding: '20px', }}>
-            <h1 className='mb-2'>Welcome {myName}{myInfo.FirstName}</h1>
+            <h1 className='mb-2'>Welcome {myName}-{myInfo.email}</h1>
         </div>
     );
 };
