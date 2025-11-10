@@ -11,6 +11,13 @@ import DashboardAdmin from './componentsAdmin/dashboardAdmin';
 import DashboardAdmin222 from './componentsAdmin/dashboardAdmin222';
 import Varification from './componentsClient/varification';
 import LogoutClient from './componentsClient/logoutClient';
+import BiomechanicalAss from './componentsClient/BiomechanicalAss';
+import Calibration from './componentsClient/Calibration';
+import CalibrationVideo from './componentsClient/CalibrationVideo';
+import H_statement from './componentsClient/h_statement';
+import HealthForm from './componentsClient/healthForm';
+import OutCome from './componentsClient/OutCome';
+import Reports from './componentsClient/Reports';
 
 function AppRoutes() {
   return (
@@ -24,10 +31,16 @@ function AppRoutes() {
         <Route path="/" element={<LayoutClient />}>
           <Route index element={<Welcome />} />
           <Route path="/signup" element={<SignUpClient />} />
-          <Route path="/varification" element={<Varification/>}/>
+          <Route path="/varification" element={<Varification />} />
           <Route path="/login" element={<LogInClient />} />
-          <Route path="/homeClient" element={<HomeClient />} /> 
           <Route path="/logout" element={<LogoutClient />} />
+          <Route path="/biomechanicalAss" element={<BiomechanicalAss />} />
+          <Route path="/calibration" element={<Calibration />} />
+          <Route path="/calibrationVideo" element={<CalibrationVideo />} />
+          <Route path="/h_statement" element={<H_statement />} />
+          <Route path="/healthForm" element={<HealthForm />} />
+          <Route path="/outCome" element={<OutCome />} />
+          <Route path="/reports" element={<Reports />} />
           <Route path="/*" element={<Page404 />} />
         </Route>
       </Routes>
