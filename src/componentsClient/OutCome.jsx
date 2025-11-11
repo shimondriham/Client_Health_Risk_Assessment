@@ -101,7 +101,7 @@ function OutCome() {
           position: "absolute",
           bottom: "30px",
           right: "30px",
-          backgroundColor: "#d3d3d3",
+          backgroundColor: "#b6b6bdff",
           border: "none",
           padding: "10px 20px",
           borderRadius: "10px",
