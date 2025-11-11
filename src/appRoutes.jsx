@@ -18,6 +18,7 @@ import H_statement from './componentsClient/h_statement';
 import HealthForm from './componentsClient/healthForm';
 import OutCome from './componentsClient/OutCome';
 import Reports from './componentsClient/Reports';
+import ExplanatoryV from './componentsClient/explanatoryV';
 
 function AppRoutes() {
   return (
@@ -34,6 +35,7 @@ function AppRoutes() {
           <Route path="/varification" element={<Varification />} />
           <Route path="/login" element={<LogInClient />} />
           <Route path="/logout" element={<LogoutClient />} />
+          <Route path="/explanatoryV" element={<ExplanatoryV />} />
           <Route path="/biomechanicalAss" element={<BiomechanicalAss />} />
           <Route path="/calibration" element={<Calibration />} />
           <Route path="/calibrationVideo" element={<CalibrationVideo />} />

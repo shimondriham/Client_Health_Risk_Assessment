@@ -24,6 +24,9 @@ function HeaderClient() {
   const onloginClick = () => {
     nav("/login");
   }
+  const onExplanatoryVClick = () => {
+    nav("/explanatoryV");
+  }
   const onBioMClick = () => {
     nav("/biomechanicalAss");
   }
@@ -91,6 +94,9 @@ function HeaderClient() {
         }
         {IfShowNav ? " " :
           <button className='btn btn-info border-black px-4 m-1' onClick={onReportsClick}>Reports</button>
+        }
+        {IfShowNav ? " " :
+          <button className='btn btn-info border-black px-4 m-1' onClick={onExplanatoryVClick}>ExplanatoryV</button>
         }
 
 
