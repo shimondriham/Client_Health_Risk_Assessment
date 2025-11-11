@@ -57,6 +57,7 @@ function HeaderClient() {
 
 
 
+
   return (
     <div className='p-3 container'>
       <div className='d-flex flex-wrap gap-3 justify-content-center'>
@@ -93,7 +94,6 @@ function HeaderClient() {
           <button className='btn btn-info border-black px-4 m-1' onClick={onReportsClick}>Reports</button>
         }
 
-
         {IfShowNav ?
           <button className='btn btn-info border-black px-4 m-1' onClick={onHomeClick}>Home</button>
           : ""}
@@ -103,7 +103,7 @@ function HeaderClient() {
         {IfShowNav && IsAdmin ?
           <button className='btn btn-info border-black px-4 m-1' onClick={onAdminClick}>Admin</button>
           : ""}
-
+    
 
       </div>
     </div>
