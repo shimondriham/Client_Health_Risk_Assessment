@@ -48,7 +48,7 @@ function HeaderClient() {
   const onReportsClick = () => {
     nav("/Reports");
   }
-  
+
   const onlogout = () => {
     dispatch(addIfShowNav({ ifShowNav: false }));
     nav("/logout");
@@ -62,55 +62,57 @@ function HeaderClient() {
 
 
   return (
-    <div className='p-3 container'>
-      <div className='d-flex flex-wrap gap-3 justify-content-center'>
-          <button className='btn btn-info border-black px-4 m-1' onClick={onWelcomeClick}>Welcome</button>
-        
+    <div className='p-2'>
+      <div className='d-flex flex-wrap justify-content-center'>
+
+        {/* before login */}
         {IfShowNav ? " " :
-          <button className='btn btn-info border-black px-4 m-1' onClick={onSignUpClick}>Sign Up</button>
+          <button className='btn btn-info border-black px-1 m-1' onClick={onWelcomeClick}>Welcome</button>
         }
         {IfShowNav ? " " :
-          <button className='btn btn-info border-black px-4 m-1' onClick={onVarifictionClick}>Verification</button>
+          <button className='btn btn-info border-black px-1 m-1' onClick={onSignUpClick}>Sign Up</button>
         }
         {IfShowNav ? " " :
-          <button className='btn btn-info border-black px-4 m-1' onClick={onloginClick}>Login</button>
+          <button className='btn btn-info border-black px-1 m-1' onClick={onVarifictionClick}>Verification</button>
         }
         {IfShowNav ? " " :
-          <button className='btn btn-info border-black px-4 m-1' onClick={onBioMClick}>Bio Assessment</button>
-        }
-        {IfShowNav ? " " :
-          <button className='btn btn-info border-black px-4 m-1' onClick={onCaliClick}>Calibration</button>
-        }
-        {IfShowNav ? " " :
-          <button className='btn btn-info border-black px-4 m-1' onClick={onCaliVClick}>Calibration Video</button>
-        }
-        {IfShowNav ? " " :
-          <button className='btn btn-info border-black px-4 m-1' onClick={onH_statementClick}>Health Statement</button>
-        }
-        {IfShowNav ? " " :
-          <button className='btn btn-info border-black px-4 m-1' onClick={onHealthFormClick}>Health Form</button>
-        }
-        {IfShowNav ? " " :
-          <button className='btn btn-info border-black px-4 m-1' onClick={onOutComeClick}>Outcome</button>
-        }
-        {IfShowNav ? " " :
-          <button className='btn btn-info border-black px-4 m-1' onClick={onReportsClick}>Reports</button>
-        }
-        {IfShowNav ? " " :
-          <button className='btn btn-info border-black px-4 m-1' onClick={onExplanatoryVClick}>ExplanatoryV</button>
+          <button className='btn btn-info border-black px-1 m-1' onClick={onloginClick}>Login</button>
         }
 
+        {/* after login */}
         {IfShowNav ?
-          <button className='btn btn-info border-black px-4 m-1' onClick={onHomeClick}>Home</button>
+          <button className='btn btn-info border-black px-1 m-1' onClick={onHomeClick}>Home</button>
           : ""}
         {IfShowNav ?
-          <button className='btn btn-info border-black px-4 m-1' onClick={onlogout}>Logout</button>
+          <button className='btn btn-info border-black px-1 m-1' onClick={onExplanatoryVClick}>ExplanatoryV</button>
+          : ""}
+        {IfShowNav ?
+          <button className='btn btn-info border-black px-1 m-1' onClick={onHealthFormClick}>Health Form</button>
+          : ""}
+        {IfShowNav ?
+          <button className='btn btn-info border-black px-1 m-1' onClick={onCaliVClick}>Calibration Video</button>
+          : ""}
+        {IfShowNav ?
+          <button className='btn btn-info border-black px-1 m-1' onClick={onCaliClick}>Calibration</button>
+          : ""}
+        {IfShowNav ?
+          <button className='btn btn-info border-black px-1 m-1' onClick={onH_statementClick}>Health Statement</button>
+          : ""}
+        {IfShowNav ?
+          <button className='btn btn-info border-black px-1 m-1' onClick={onBioMClick}>Bio Assessment</button>
+          : ""}
+        {IfShowNav ?
+          <button className='btn btn-info border-black px-1 m-1' onClick={onOutComeClick}>Outcome</button>
+          : ""}
+        {IfShowNav ?
+          <button className='btn btn-info border-black px-1 m-1' onClick={onReportsClick}>Reports</button>
+          : ""}
+        {IfShowNav ?
+          <button className='btn btn-info border-black px-1 m-1' onClick={onlogout}>Logout</button>
           : ""}
         {IfShowNav && IsAdmin ?
-          <button className='btn btn-info border-black px-4 m-1' onClick={onAdminClick}>Admin</button>
+          <button className='btn btn-info border-black px-1 m-1' onClick={onAdminClick}>Admin</button>
           : ""}
-    
-
       </div>
     </div>
   )

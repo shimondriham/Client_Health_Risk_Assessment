@@ -35,6 +35,7 @@ function AppRoutes() {
           <Route path="/varification" element={<Varification />} />
           <Route path="/login" element={<LogInClient />} />
           <Route path="/logout" element={<LogoutClient />} />
+          <Route path="/homeClient" element={<HomeClient />} />
           <Route path="/explanatoryV" element={<ExplanatoryV />} />
           <Route path="/biomechanicalAss" element={<BiomechanicalAss />} />
           <Route path="/calibration" element={<Calibration />} />
