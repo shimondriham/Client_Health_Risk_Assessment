@@ -6,13 +6,14 @@ function OutCome() {
       style={{
         fontFamily: "Arial, sans-serif",
         backgroundColor: "white",
-        minHeight: "100vh",
+        // height: "100vh", 
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "flex-start",
-        position: "relative",
-        paddingTop: "60px",
+        paddingTop: "20px",
+        boxSizing: "border-box",
+        overflow: "hidden", 
       }}
     >
       
@@ -35,8 +36,8 @@ function OutCome() {
           backgroundColor: "#d9d9d9",
           border: "1px solid gray",
           borderRadius: "15px",
-          width: "70%",
-          padding: "20px",
+          width: "50%",
+          padding: "10px",
           boxSizing: "border-box",
           boxShadow: "2px 2px 6px rgba(0,0,0,0.1)",
         }}
@@ -101,12 +102,8 @@ function OutCome() {
           position: "absolute",
           bottom: "30px",
           right: "30px",
-          backgroundColor: "#b6b6bdff",
           border: "none",
           padding: "10px 20px",
-          borderRadius: "10px",
-          cursor: "pointer",
-          fontWeight: "bold",
         }}
         onClick={() => alert("Download clicked")}
       >Download</button>
