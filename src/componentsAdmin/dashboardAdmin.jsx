@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import 'bootstrap-icons/font/bootstrap-icons.css';
+// import 'bootstrap-icons/font/bootstrap-icons.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { doApiGet } from '../services/apiService';
 import { reverse } from 'lodash';
