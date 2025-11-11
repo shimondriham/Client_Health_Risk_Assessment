@@ -2,111 +2,63 @@ import React from "react";
 
 function OutCome() {
   return (
-    <div
-      style={{
-        fontFamily: "Arial, sans-serif",
-        backgroundColor: "white",
-        // height: "100vh", 
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "flex-start",
-        paddingTop: "20px",
-        boxSizing: "border-box",
-        overflow: "hidden", 
-      }}
-    >
-      
-      <div style={{ textAlign: "center", marginBottom: "20px" }}>
-        <h2>
-          <strong>User!</strong> Thank you for completing the assessment,
-        </h2>
-        <p>Here’s a summary of your current strengths and opportunities for growth.</p>
-      </div>
+    <div className="container mt-5">
+      <div className="row justify-content-center">
+        <div className="col-12 col-md-8 shadow-lg p-4 bg-white rounded">
+          
+          
+          <div className="text-center mb-4">
+            <h2><strong>User!</strong> Thank you for completing the assessment</h2>
+            <p>Here’s a summary of your current strengths and opportunities for growth.</p>
+          </div>
 
-      
-      <div style={{ textAlign: "center", marginBottom: "30px" }}>
-        <p>name / Client : User</p>
-        <p>Date: 04/11/2025</p>
-      </div>
+          
+          <div className="text-center mb-4">
+            <p>Name / Client: <strong>User</strong></p>
+            <p>Date: 04/11/2025</p>
+          </div>
 
-      
-      <div
-        style={{
-          backgroundColor: "#d9d9d9",
-          border: "1px solid gray",
-          borderRadius: "15px",
-          width: "50%",
-          padding: "10px",
-          boxSizing: "border-box",
-          boxShadow: "2px 2px 6px rgba(0,0,0,0.1)",
-        }}
-      >
-        <table
-          style={{
-            borderCollapse: "collapse",
-            width: "100%",
-            backgroundColor: "#f5f5f5",
-            borderRadius: "10px",
-            overflow: "hidden",
-          }}
-        >
-          <thead>
-            <tr style={{ backgroundColor: "#bcbcbc" }}>
-              <th
-                style={{
-                  borderBottom: "2px solid gray",
-                  padding: "10px",
-                  textAlign: "left",
-                }}
-              >Domain</th>
-              <th
-                style={{
-                  borderBottom: "2px solid gray",
-                  padding: "10px",
-                  textAlign: "left",
-                }}
-              >Score</th>
-              <th
-                style={{
-                  borderBottom: "2px solid gray",
-                  padding: "10px",
-                  textAlign: "left",
-                }}
-              >Description</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td style={{ padding: "10px", borderBottom: "1px solid gray" }}>Communication</td>
-              <td style={{ padding: "10px", borderBottom: "1px solid gray" }}>85</td>
-              <td style={{ padding: "10px", borderBottom: "1px solid gray" }}>Strong verbal and written skills</td>
-            </tr>
-            <tr>
-              <td style={{ padding: "10px", borderBottom: "1px solid gray" }}>Teamwork</td>
-              <td style={{ padding: "10px", borderBottom: "1px solid gray" }}>78</td>
-              <td style={{ padding: "10px", borderBottom: "1px solid gray" }}>Good collaboration with peers</td>
-            </tr>
-            <tr>
-              <td style={{ padding: "10px" }}>Problem Solving</td>
-              <td style={{ padding: "10px" }}>92</td>
-              <td style={{ padding: "10px" }}>Excellent analytical thinking</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+          
+          <div className="table-responsive mb-4">
+            <table className="table table-striped table-bordered rounded">
+              <thead className="table-secondary">
+                <tr>
+                  <th scope="col">Domain</th>
+                  <th scope="col">Score</th>
+                  <th scope="col">Description</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Communication</td>
+                  <td>85</td>
+                  <td>Strong verbal and written skills</td>
+                </tr>
+                <tr>
+                  <td>Teamwork</td>
+                  <td>78</td>
+                  <td>Good collaboration with peers</td>
+                </tr>
+                <tr>
+                  <td>Problem Solving</td>
+                  <td>92</td>
+                  <td>Excellent analytical thinking</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
 
-      
-      <button //כפתור הורדה
-        style={{
-          position: "absolute",
-          bottom: "30px",
-          right: "30px",
-          border: "none",
-          padding: "10px 20px",
-        }}
-        onClick={() => alert("Download clicked")}
-      >Download</button>
+          
+          <div className='m-2 text-end'>
+                <button className="btn btn-primary btn-lg w-20 text-end"
+              onClick={() => alert("Download clicked")}
+            >
+              Download
+            </button>
+          </div>
+
+        </div>
+      </div>
     </div>
   );
 }
