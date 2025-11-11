@@ -20,10 +20,7 @@ function OutCome() {
         <h2>
           <strong>User!</strong> Thank you for completing the assessment,
         </h2>
-        <p>
-          Here’s a summary of your current strengths and opportunities for
-          growth.
-        </p>
+        <p>Here’s a summary of your current strengths and opportunities for growth.</p>
       </div>
 
       
@@ -61,51 +58,33 @@ function OutCome() {
                   padding: "10px",
                   textAlign: "left",
                 }}
-              >
-                Domain
-              </th>
+              >Domain</th>
               <th
                 style={{
                   borderBottom: "2px solid gray",
                   padding: "10px",
                   textAlign: "left",
                 }}
-              >
-                Score
-              </th>
+              >Score</th>
               <th
                 style={{
                   borderBottom: "2px solid gray",
                   padding: "10px",
                   textAlign: "left",
                 }}
-              >
-                Description
-              </th>
+              >Description</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td style={{ padding: "10px", borderBottom: "1px solid gray" }}>
-                Communication
-              </td>
-              <td style={{ padding: "10px", borderBottom: "1px solid gray" }}>
-                85
-              </td>
-              <td style={{ padding: "10px", borderBottom: "1px solid gray" }}>
-                Strong verbal and written skills
-              </td>
+              <td style={{ padding: "10px", borderBottom: "1px solid gray" }}>Communication</td>
+              <td style={{ padding: "10px", borderBottom: "1px solid gray" }}>85</td>
+              <td style={{ padding: "10px", borderBottom: "1px solid gray" }}>Strong verbal and written skills</td>
             </tr>
             <tr>
-              <td style={{ padding: "10px", borderBottom: "1px solid gray" }}>
-                Teamwork
-              </td>
-              <td style={{ padding: "10px", borderBottom: "1px solid gray" }}>
-                78
-              </td>
-              <td style={{ padding: "10px", borderBottom: "1px solid gray" }}>
-                Good collaboration with peers
-              </td>
+              <td style={{ padding: "10px", borderBottom: "1px solid gray" }}>Teamwork</td>
+              <td style={{ padding: "10px", borderBottom: "1px solid gray" }}>78</td>
+              <td style={{ padding: "10px", borderBottom: "1px solid gray" }}>Good collaboration with peers</td>
             </tr>
             <tr>
               <td style={{ padding: "10px" }}>Problem Solving</td>
@@ -117,7 +96,7 @@ function OutCome() {
       </div>
 
       
-      <button
+      <button //כפתור הורדה
         style={{
           position: "absolute",
           bottom: "30px",
@@ -130,9 +109,7 @@ function OutCome() {
           fontWeight: "bold",
         }}
         onClick={() => alert("Download clicked")}
-      >
-        Download
-      </button>
+      >Download</button>
     </div>
   );
 }
