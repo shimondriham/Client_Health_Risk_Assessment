@@ -1,48 +1,61 @@
-import React ,{  useEffect, useRef, useState} from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 
 const CameraComponent = () => {
   const videoRef = useRef(null);
-    const [error, setError] = useState(null);
-    
-    useEffect(() => { 
-      const openCamera = async () => {
-        try {
-          const stream = await navigator.mediaDevices.getUserMedia({
-            video: true, audio: true,
-          });
-          if (videoRef.current) {
-            videoRef.current.srcObject = stream;
-            videoRef.current.play();
-          } 
-        } catch (err) {
+  const streamRef = useRef(null);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    let isMounted = true;
+
+    const openCamera = async () => {
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({
+          video: true, audio: true,
+        });
+        
+        // אם הקומפוננטה עדיין מותקנת, תאחסן את ה-stream
+        if (isMounted && videoRef.current) {
+          streamRef.current = stream;
+          videoRef.current.srcObject = stream;
+          videoRef.current.play();
+        }
+      } catch (err) {
+        if (isMounted) {
           setError(`Error opening camera: ${err.message}`);
         }
-      };
+      }
+    };
 
-      openCamera();
+    openCamera();
 
-      return () => {
-        if (videoRef.current && videoRef.current.srcObject) {
-          videoRef.current.srcObject.getTracks().forEach(track => track.stop());
-        }
-      };
-    }, []);
+    return () => {
+      isMounted = false;
+      
+      // עצור את כל ה-tracks
+      if (streamRef.current) {
+        console.log("הפונקציה רצה!");
+        streamRef.current.getTracks().forEach(track => track.stop());
+        streamRef.current = null;
+      }
+      
+      // וודא שה-video עצמו מכ"ס
+      if (videoRef.current) {
+        videoRef.current.srcObject = null;
+      }
+    };
+  }, []);
 
-    return (
-      <div>
-        <video 
-          ref={videoRef} 
-          style={{ borderRadius: '24px', width: '100%', height: '100%' }} 
-          autoPlay
-
-        />
-        {error && <p style={{ color: 'red' }}>{error}</p>}
-      </div>
-    );
-  }
-
-        
-
-
+  return (
+    <div>
+      <video
+        ref={videoRef}
+        style={{ borderRadius: '24px', width: '100%', height: '100%' }}
+        autoPlay
+      />
+      {error && <p style={{ color: 'red' }}>{error}</p>}
+    </div>
+  );
+}
 
 export default CameraComponent;
