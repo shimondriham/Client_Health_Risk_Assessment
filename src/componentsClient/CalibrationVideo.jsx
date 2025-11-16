@@ -10,7 +10,7 @@ function CalibrationVideo() {
 
   return (
     <div className="container mt-1 text-center">
-         <h1>Logo</h1>
+          <img style={{ height: '60px', width: '60px', borderRadius: '50px' }} src="src/assets/react.svg" alt="logo" />
       <h2>Calibration Video</h2>
 
       <video 
