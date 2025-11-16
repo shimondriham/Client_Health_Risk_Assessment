@@ -14,7 +14,6 @@ const CameraComponent = () => {
           video: true, audio: true,
         });
         
-        // אם הקומפוננטה עדיין מותקנת, תאחסן את ה-stream
         if (isMounted && videoRef.current) {
           streamRef.current = stream;
           videoRef.current.srcObject = stream;
@@ -32,14 +31,12 @@ const CameraComponent = () => {
     return () => {
       isMounted = false;
       
-      // עצור את כל ה-tracks
       if (streamRef.current) {
         console.log("הפונקציה רצה!");
         streamRef.current.getTracks().forEach(track => track.stop());
         streamRef.current = null;
       }
       
-      // וודא שה-video עצמו מכ"ס
       if (videoRef.current) {
         videoRef.current.srcObject = null;
       }
