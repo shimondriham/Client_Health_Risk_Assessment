@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { doApiGet } from "../services/apiService";
+import { useNavigate } from "react-router-dom";
 
 function DashboardAdmin222() {
+  let nav = useNavigate();
   const initialUsers = [
     {
       id: 1,
@@ -21,7 +23,10 @@ function DashboardAdmin222() {
 
   let [ar, setAr] = useState(initialUsers);
   const ThisID = useSelector((state) => state.myDetailsSlice.idMorInfoAdmin);
-  const [thisUser, setThisUser] = useState([]);
+  const [thisUser, setThisUser] = useState([]); 
+   
+  
+
 
   useEffect(() => {
     doApi();
@@ -50,6 +55,9 @@ function DashboardAdmin222() {
   //     console.log(error);
   //   }
   // };
+   const toOutCome = (id) => {
+    nav("/admin/tooutcome");
+  };
 
 
   return (
@@ -67,6 +75,7 @@ function DashboardAdmin222() {
               <th>date</th>
               <th>?</th>
               <th>?</th>
+              <th>?</th>
             </tr>
           </thead>
           <tbody>
@@ -77,6 +86,11 @@ function DashboardAdmin222() {
                   <td>{user.date_created ? user.date_created.substring(10, length - 1) : ""}</td>
                   <td>{user.a}</td>
                   <td>{user.b}</td>
+                  <td>
+                  <button className="btn btn-sm" onClick={() => toOutCome()}>
+                    <i className="bi bi-arrow-right-circle-fill">---</i>
+                  </button>
+                </td>
                 </tr>
               );
             })}

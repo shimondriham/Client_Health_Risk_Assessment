@@ -27,6 +27,7 @@ function AppRoutes() {
         <Route path="/admin" element={<LayoutAdmin />}>
           <Route index element={<DashboardAdmin />} />
           <Route path='/admin/admin222' element={<DashboardAdmin222 />} />
+          <Route path='/admin/tooutcome' element={<OutCome />} />
         </Route>
 
         <Route path="/" element={<LayoutClient />}>
