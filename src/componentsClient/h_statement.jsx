@@ -43,7 +43,7 @@ export default function HStatement() {
 
       {confirmed && 
       (<div className='m-2 text-center'>
-          <button onClick={toBiomechanicalAss} className='btn btn-primary btn-lg w-50'>Continue</button>
+          <button  onClick={toBiomechanicalAss} className='btn btn-primary btn-lg w-50'>Continue</button>
         </div>
       )}    
     </div>
