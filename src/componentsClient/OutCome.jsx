@@ -56,6 +56,13 @@ function OutCome() {
               Download
             </button>
           </div>
+           <div className='m-2 text-start'>
+                <button className="btn btn-primary btn-lg w-20 text-end"
+              onClick={() => alert("Download clicked")}
+            >
+              Download
+            </button>
+          </div>
 
         </div>
       </div>
