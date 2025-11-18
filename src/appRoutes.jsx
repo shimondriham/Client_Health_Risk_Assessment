@@ -19,6 +19,7 @@ import HealthForm from './componentsClient/healthForm';
 import OutCome from './componentsClient/OutCome';
 import Reports from './componentsClient/Reports';
 import ExplanatoryV from './componentsClient/explanatoryV';
+import OutComeAdmin from './componentsAdmin/outComeAdmit';
 
 function AppRoutes() {
   return (
@@ -27,7 +28,7 @@ function AppRoutes() {
         <Route path="/admin" element={<LayoutAdmin />}>
           <Route index element={<DashboardAdmin />} />
           <Route path='/admin/admin222' element={<DashboardAdmin222 />} />
-          <Route path='/admin/tooutcome' element={<OutCome />} />
+          <Route path='/admin/tooutcome' element={<OutComeAdmin />} />
         </Route>
 
         <Route path="/" element={<LayoutClient />}>
