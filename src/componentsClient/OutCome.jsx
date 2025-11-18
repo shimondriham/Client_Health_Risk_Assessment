@@ -56,6 +56,11 @@ function OutCome() {
 
           
           <div className="d-flex justify-content-between m-2">
+              <button
+          className="btn btn-primary btn-lg" onClick={HomeP}
+          >
+          ⟵ Back to Home
+         </button>
           <button
             className="btn btn-primary btn-lg"
             onClick={() => alert("Download clicked")}
@@ -63,11 +68,11 @@ function OutCome() {
            Download
           </button>
 
-          <button
+          {/* <button
           className="btn btn-primary btn-lg" onClick={HomeP}
           >
           ⟵ Back to Home
-         </button>
+         </button> */}
          </div>
 
         </div>
