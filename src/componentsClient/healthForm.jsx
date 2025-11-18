@@ -44,7 +44,7 @@ function HealthForm() {
   };
 
   return (
-    <div style={{direction:"ltr",width:"100%",height:"100vh",display:"flex",flexDirection:"column",alignItems:"center",fontFamily:"Arial",background:"#f9fafb"}}>
+    <div style={{direction:"ltr",width:"100%",display:"flex",flexDirection:"column",alignItems:"center",fontFamily:"Arial",background:"#f9fafb"}}>
       
       
       <div style={{display:"flex",justifyContent:"center",alignItems:"center",gap:"45px",padding:"30px 0"}}>

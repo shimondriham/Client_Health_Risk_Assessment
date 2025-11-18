@@ -10,8 +10,8 @@ function ExplanatoryV() {
   };
 
   return (
-    <div className="container mt-1 text-center">
-          <img style={{ height: '60px', width: '60px', borderRadius: '50px' }} src="src/assets/react.svg" alt="logo" />
+    <div className="container  text-center">
+          {/* <img style={{ height: '60px', width: '60px', borderRadius: '50px' }} src="src/assets/react.svg" alt="logo" /> */}
       <h2>ExplanatoryV</h2>
 
       <video 
