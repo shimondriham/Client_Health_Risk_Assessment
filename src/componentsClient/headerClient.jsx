@@ -6,12 +6,7 @@ import { FaBars } from "react-icons/fa";
 
 function HeaderClient() {
   const nav = useNavigate();
-  const Admin = () => {
-    nav("/HomeClient");
-  };
-  const LogOut = () => {
-    nav("/HomeClient");
-  };
+  
   const dispatch = useDispatch();
   const IfShowNav = useSelector(state => state.myDetailsSlice.ifShowNav);
   const IsAdmin = useSelector(state => state.myDetailsSlice.isAdmin);
@@ -31,11 +26,11 @@ function HeaderClient() {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  const menuItems = [
-    { label: "Logout", action: () => alert("Logout") },
-    { label: "Admin", action: () => alert("Admin") },
+  // const menuItems = [
+  //   { label: "Logout", action: () => onClick={onlogout} },
+  //   { label: "Admin", action: () => alert("Admin") },
     
-  ];
+  // ];
 
   const onWelcomeClick = () => nav("/");
   const onHomeClick = () => nav("/homeClient");
@@ -52,6 +47,11 @@ function HeaderClient() {
   const onReportsClick = () => nav("/Reports");
   const onlogout = () => { dispatch(addIfShowNav({ ifShowNav: false })); nav("/logout"); }
 
+   const menuItems = [
+    { label: "Logout", action: () => onlogout() },
+    { label: "Admin", action: () => alert("Admin") },
+    
+  ];
   return (
     <div className='p-2'>
       <div className='d-flex align-items-center justify-content-center flex-wrap'>
@@ -91,7 +91,7 @@ function HeaderClient() {
         position: "absolute",
         top: "40px",
         right: 0,
-        width: "200px",
+        width: "90px",
         overflow: "hidden",
         borderRadius: "4px",
         zIndex: 100,
