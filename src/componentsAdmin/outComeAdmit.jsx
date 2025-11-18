@@ -1,8 +1,11 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 function OutComeAdmin() {
+  const ThisID = useSelector((state) => state.myDetailsSlice.idMorInfoAdmin);
       let nav = useNavigate();
+
       const HomeP = () => {
         nav("/HomeClient");
       };
@@ -17,7 +20,7 @@ function OutComeAdmin() {
           
           <div className="text-center mb-4">
             <h2><strong>User!</strong> Thank you for completing the assessment</h2>
-            <p>Here’s a summary of your current strengths and opportunities for growth.</p>
+            <p>Summary of the subject's current strengths and opportunities for growth</p>
           </div>
 
           

@@ -56,7 +56,7 @@ function DashboardAdmin222() {
   //   }
   // };
    const toOutCome = (id) => {
-    nav("/admin/tooutcome");
+    nav("/admin/outcomeadmin");
   };
 
 
