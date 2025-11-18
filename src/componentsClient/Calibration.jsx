@@ -9,7 +9,7 @@ function Calibration() {
   return (
     <div className="d-flex justify-content-center align-items-center px-3" >
       <div className="bg-white p-5  text-center" style={{ maxWidth: '75%', width: '100%', borderRadius: '16px', maxHeight: '95vh', }}>
-        <div className="mb-3">
+        <div className="mb-0">
           {/* <img style={{ height: '60px', width: '60px', borderRadius: '50px' }} src="src/assets/react.svg" alt="logo" /> */}
         </div>
         <h3 className="py-0">Media Device Check</h3>
