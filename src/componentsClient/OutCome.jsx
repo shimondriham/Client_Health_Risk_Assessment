@@ -1,6 +1,12 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
+ 
 function OutCome() {
+  let nav = useNavigate();
+  const HomeP = () => {
+    nav("/HomeClient");
+  };
   return (
     <div className="container mt-5">
       <div className="row justify-content-center">
@@ -49,20 +55,20 @@ function OutCome() {
           </div>
 
           
-          <div className='m-2 text-end'>
-                <button className="btn btn-primary btn-lg w-20 text-end"
-              onClick={() => alert("Download clicked")}
-            >
-              Download
-            </button>
-          </div>
-           <div className='m-2 text-start'>
-                <button className="btn btn-primary btn-lg w-20 text-end"
-              onClick={() => alert("Download clicked")}
-            >
-              Download
-            </button>
-          </div>
+          <div className="d-flex justify-content-between m-2">
+          <button
+            className="btn btn-primary btn-lg"
+            onClick={() => alert("Download clicked")}
+          >
+           Download
+          </button>
+
+          <button
+          className="btn btn-primary btn-lg" onClick={HomeP}
+          >
+          ⟵ Back to Home
+         </button>
+         </div>
 
         </div>
       </div>
