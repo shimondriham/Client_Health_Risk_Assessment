@@ -4,6 +4,7 @@ const initialState = {
   name: "test1",
   email: "test1@gmail.com",
   idMorInfoAdmin: "0",
+  idOutComeAdmin: "0",
   ifShowNav: false,
   isAdmin: false,
 }
@@ -21,6 +22,9 @@ const myDetailsSlice = createSlice({
     addIdMorInfoAdmin: (start, activation) => {
       start.idMorInfoAdmin = activation.payload.idMorInfoAdmin;
     },
+    addIdOutComeAdmin: (start, activation) => {
+      start.idOutComeAdmin = activation.payload.idOutComeAdmin;
+    },
     addIfShowNav: (start, activation) => {
       start.ifShowNav = activation.payload.ifShowNav;
     },
@@ -34,6 +38,7 @@ export const {
   addName,
   addEmail,
   addIdMorInfoAdmin,
+  addIdOutComeAdmin,
   addIfShowNav,
   addIsAdmin
 } = myDetailsSlice.actions

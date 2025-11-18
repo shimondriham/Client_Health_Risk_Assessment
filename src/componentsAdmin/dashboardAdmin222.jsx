@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { doApiGet } from "../services/apiService";
 import { useNavigate } from "react-router-dom";
+import { addIdOutComeAdmin } from "../featuers/myDetailsSlice";
 
 function DashboardAdmin222() {
   let nav = useNavigate();
@@ -11,20 +12,21 @@ function DashboardAdmin222() {
       date_created: "10/10/2025111",
       a: "a",
       b: "a",
-
+      _id: "645f2b5e8888888888888888"
     },
     {
       id: 2,
       date_created: "10/11/2025111",
       a: "b",
       b: "b",
+      _id: "645f2b5e8f1b2c001f6e4c3d"
     },
   ];
 
   let [ar, setAr] = useState(initialUsers);
   const ThisID = useSelector((state) => state.myDetailsSlice.idMorInfoAdmin);
   const [thisUser, setThisUser] = useState([]); 
-   
+   const dispatch = useDispatch();
   
 
 
@@ -56,6 +58,7 @@ function DashboardAdmin222() {
   //   }
   // };
    const toOutCome = (id) => {
+    dispatch(addIdOutComeAdmin({ idOutComeAdmin: id }));
     nav("/admin/outcomeadmin");
   };
 
@@ -87,7 +90,7 @@ function DashboardAdmin222() {
                   <td>{user.a}</td>
                   <td>{user.b}</td>
                   <td>
-                  <button className="btn btn-sm" onClick={() => toOutCome()}>
+                  <button className="btn btn-sm" onClick={() => toOutCome(user._id)}>
                     <i className="bi bi-arrow-right-circle-fill">---</i>
                   </button>
                 </td>
