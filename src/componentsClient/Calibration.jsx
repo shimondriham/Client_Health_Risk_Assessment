@@ -13,7 +13,7 @@ function Calibration() {
           {/* <img style={{ height: '60px', width: '60px', borderRadius: '50px' }} src="src/assets/react.svg" alt="logo" /> */}
         </div>
         <h3 className="py-0">Media Device Check</h3>
-        <div className=" mx-auto" style={{ width: '85%', overflow: 'hidden', borderRadius: '24px' }}>
+        <div className=" mx-auto" style={{ width: '80%', overflow: 'hidden', borderRadius: '24px' }}>
           <CameraComponent />
         </div>
       </div>
