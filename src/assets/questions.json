@@ -121,7 +121,7 @@
             "None of the above"
           ],
           "followUps": [],
-          "whenShowFollowUps": ["Any except None"]
+          "whenShowFollowUps": []
         },
         {
           "id": 14,
