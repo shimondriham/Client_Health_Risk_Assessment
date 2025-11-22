@@ -9,8 +9,7 @@
           "type": "radio",
           "options": ["Yes", "No", "Prefer not to say"],
           "followUps": [2,3,4,5,6],
-          "whenShowFollowUps": ["Yes"],
-          "restriction": ""
+          "whenShowFollowUps": ["Yes"]
         },
         {
           "id": 2,
@@ -18,17 +17,24 @@
           "type": "checkbox",
           "options": ["Coronary artery disease","Heart failure","Arrhythmia/irregular heartbeat","Heart valve issue","Other: [text field]"],
           "followUps": [],
-          "whenShowFollowUps": [],
-          "restriction": ""
+          "whenShowFollowUps": []
         },
         {
           "id": 3,
           "question": "Year diagnosed",
           "type": "dropdown",
-          "options": ["1950","1951","1952","1953","1954","1955","1956","1957","1958","1959","1960","1961","1962","1963","1964","1965","1966","1967","1968","1969","1970","1971","1972","1973","1974","1975","1976","1977","1978","1979","1980","1981","1982","1983","1984","1985","1986","1987","1988","1989","1990","1991","1992","1993","1994","1995","1996","1997","1998","1999","2000","2001","2002","2003","2004","2005","2006","2007","2008","2009","2010","2011","2012","2013","2014","2015","2016","2017","2018","2019","2020","2021","2022","2023","2024","2025"],
+          "options": [
+            "1950","1951","1952","1953","1954","1955","1956","1957","1958","1959",
+            "1960","1961","1962","1963","1964","1965","1966","1967","1968","1969",
+            "1970","1971","1972","1973","1974","1975","1976","1977","1978","1979",
+            "1980","1981","1982","1983","1984","1985","1986","1987","1988","1989",
+            "1990","1991","1992","1993","1994","1995","1996","1997","1998","1999",
+            "2000","2001","2002","2003","2004","2005","2006","2007","2008","2009",
+            "2010","2011","2012","2013","2014","2015","2016","2017","2018","2019",
+            "2020","2021","2022","2023","2024","2025"
+          ],
           "followUps": [],
-          "whenShowFollowUps": [],
-          "restriction": ""
+          "whenShowFollowUps": []
         },
         {
           "id": 4,
@@ -36,8 +42,7 @@
           "type": "radio",
           "options": ["Yes - my doctor approved","No clearance yet","Not sure"],
           "followUps": [5,6],
-          "whenShowFollowUps": [],
-          "restriction": ""
+          "whenShowFollowUps": []
         },
         {
           "id": 5,
@@ -45,8 +50,7 @@
           "type": "file",
           "options": ["PDF","JPG","PNG"],
           "followUps": [],
-          "whenShowFollowUps": [],
-          "restriction": ""
+          "whenShowFollowUps": []
         },
         {
           "id": 6,
@@ -54,8 +58,7 @@
           "type": "date",
           "options": [],
           "followUps": [],
-          "whenShowFollowUps": [],
-          "restriction": ""
+          "whenShowFollowUps": []
         },
         {
           "id": 7,
@@ -63,8 +66,7 @@
           "type": "radio",
           "options": ["Yes","No"],
           "followUps": [8,9],
-          "whenShowFollowUps": ["Yes"],
-          "restriction": ""
+          "whenShowFollowUps": ["Yes"]
         },
         {
           "id": 8,
@@ -72,8 +74,7 @@
           "type": "radio",
           "options": ["Rarely - once or twice ever","Sometimes - a few times a year","Frequently - monthly or more"],
           "followUps": [],
-          "whenShowFollowUps": [],
-          "restriction": ""
+          "whenShowFollowUps": []
         },
         {
           "id": 9,
@@ -81,8 +82,7 @@
           "type": "date",
           "options": [],
           "followUps": [],
-          "whenShowFollowUps": [],
-          "restriction": ""
+          "whenShowFollowUps": []
         },
         {
           "id": 10,
@@ -90,8 +90,7 @@
           "type": "radio",
           "options": ["Yes","No"],
           "followUps": [11,12],
-          "whenShowFollowUps": ["Yes"],
-          "restriction": ""
+          "whenShowFollowUps": ["Yes"]
         },
         {
           "id": 11,
@@ -99,8 +98,7 @@
           "type": "checkbox",
           "options": ["At rest","With minimal exertion (walking, climbing stairs)","Only during vigorous activity"],
           "followUps": [],
-          "whenShowFollowUps": [],
-          "restriction": ""
+          "whenShowFollowUps": []
         },
         {
           "id": 12,
@@ -108,8 +106,7 @@
           "type": "radio",
           "options": ["Yes","No"],
           "followUps": [],
-          "whenShowFollowUps": [],
-          "restriction": ""
+          "whenShowFollowUps": []
         },
         {
           "id": 13,
@@ -124,26 +121,23 @@
             "None of the above"
           ],
           "followUps": [],
-          "whenShowFollowUps": ["Any except None"],
-          "restriction": ""
+          "whenShowFollowUps": ["Any except None"]
         },
         {
           "id": 14,
           "question": "Do you ever feel dizzy, lose your balance, or lose consciousness?",
           "type": "radio",
           "options": ["Yes","No"],
-          "followUps": [15,16,17,18,19,20],
-          "whenShowFollowUps": ["Yes"],
-          "restriction": ""
+          "followUps": [15,16,17,18,19],
+          "whenShowFollowUps": ["Yes"]
         },
         {
           "id": 15,
           "question": "What happens? (Select all that apply)",
           "type": "checkbox",
           "options": ["Dizziness/lightheadedness","Loss of balance","Fainting/loss of consciousness"],
-          "followUps": [16],
-          "whenShowFollowUps": [],
-          "restriction": ""
+          "followUps": [],
+          "whenShowFollowUps": []
         },
         {
           "id": 16,
@@ -151,8 +145,7 @@
           "type": "radio",
           "options": ["Rarely","Sometimes","Frequently"],
           "followUps": [],
-          "whenShowFollowUps": [],
-          "restriction": ""
+          "whenShowFollowUps": []
         },
         {
           "id": 17,
@@ -160,17 +153,15 @@
           "type": "date",
           "options": [],
           "followUps": [],
-          "whenShowFollowUps": [],
-          "restriction": ""
+          "whenShowFollowUps": []
         },
         {
           "id": 18,
           "question": "When does the dizziness typically occur?",
           "type": "checkbox",
           "options": ["When standing up from sitting or lying down","During position changes","With head movements","Randomly/unpredictably","During or after exercise"],
-          "followUps": [19],
-          "whenShowFollowUps": [],
-          "restriction": ""
+          "followUps": [],
+          "whenShowFollowUps": []
         },
         {
           "id": 19,
@@ -178,8 +169,7 @@
           "type": "radio",
           "options": ["Yes","No"],
           "followUps": [],
-          "whenShowFollowUps": [],
-          "restriction": ""
+          "whenShowFollowUps": []
         },
         {
           "id": 20,
@@ -187,8 +177,7 @@
           "type": "radio",
           "options": ["Yes","No"],
           "followUps": [],
-          "whenShowFollowUps": [],
-          "restriction": ""
+          "whenShowFollowUps": []
         },
         {
           "id": 21,
@@ -196,8 +185,7 @@
           "type": "radio",
           "options": ["Yes","No"],
           "followUps": [22,23,24,25],
-          "whenShowFollowUps": ["Yes"],
-          "restriction": ""
+          "whenShowFollowUps": ["Yes"]
         },
         {
           "id": 22,
@@ -205,8 +193,7 @@
           "type": "checkbox",
           "options": ["Neck","Shoulders","Back (upper)","Back (lower)","Hips","Knees","Ankles/Feet","Wrists/Hands","Other: [text field]"],
           "followUps": [],
-          "whenShowFollowUps": [],
-          "restriction": ""
+          "whenShowFollowUps": []
         },
         {
           "id": 23,
@@ -214,8 +201,7 @@
           "type": "checkbox",
           "options": ["Arthritis","Past injury","Chronic pain","Recent surgery","Other: [text field]"],
           "followUps": [],
-          "whenShowFollowUps": [],
-          "restriction": ""
+          "whenShowFollowUps": []
         },
         {
           "id": 24,
@@ -223,8 +209,7 @@
           "type": "radio",
           "options": ["Less than 3 months","3-12 months","More than 1 year"],
           "followUps": [],
-          "whenShowFollowUps": [],
-          "restriction": ""
+          "whenShowFollowUps": []
         },
         {
           "id": 25,
@@ -232,34 +217,33 @@
           "type": "slider",
           "options": ["0","1","2","3","4","5","6","7","8","9","10"],
           "followUps": [],
-          "whenShowFollowUps": [],
-          "restriction": ""
+          "whenShowFollowUps": []
         },
         {
           "id": 26,
-          "question": "Is there any other reason a doctor has told you to limit physical activity?",
-          "type": "radio",
-          "options": ["Yes","No"],
-          "followUps": [],
-          "whenShowFollowUps": ["Yes"],
-          "restriction": ""
-        },
-        {
-          "id": 27,
-          "question": "Have you had surgery in the last 3 months, or do you have an active infection or fever?",
-          "type": "radio",
-          "options": ["Yes","No"],
-          "followUps": [],
-          "whenShowFollowUps": ["Yes"],
-          "restriction": ""
-        },
-        {
-          "id": 28,
           "question": "Are you currently pregnant?",
           "type": "radio",
           "options": ["Yes","No","Not applicable"],
-          "followUps": [],
+          "followUps": [27,28],
           "whenShowFollowUps": ["Yes"],
+          "restriction": "female"
+        },
+        {
+          "id": 27,
+          "question": "Which trimester?",
+          "type": "radio",
+          "options": ["First (weeks 1-12)","Second (weeks 13-26)","Third (weeks 27-40)"],
+          "followUps": [],
+          "whenShowFollowUps": [],
+          "restriction": "female"
+        },
+        {
+          "id": 28,
+          "question": "Do you have physician clearance for exercise?",
+          "type": "radio",
+          "options": ["Yes","No"],
+          "followUps": [],
+          "whenShowFollowUps": [],
           "restriction": "female"
         }
       ]
@@ -273,8 +257,7 @@
           "type": "radio",
           "options": ["I'm mostly sedentary (little to no planned exercise)","Light activity (1-2 days/week)","Moderately active (3-4 days/week)","Very active (5+ days/week)","Athlete-level activity"],
           "followUps": [],
-          "whenShowFollowUps": [],
-          "restriction": ""
+          "whenShowFollowUps": []
         },
         {
           "id": 30,
@@ -282,8 +265,7 @@
           "type": "radio",
           "options": ["Less than 15 minutes","15-30 minutes","30-60 minutes","More than 60 minutes"],
           "followUps": [],
-          "whenShowFollowUps": [],
-          "restriction": ""
+          "whenShowFollowUps": []
         },
         {
           "id": 31,
@@ -291,8 +273,7 @@
           "type": "radio",
           "options": ["Mostly sitting (desk work, watching TV)","Light movement (walking, household chores)","Moderate activity (standing job, regular walking)","Vigorous activity (physical labor, sports)"],
           "followUps": [],
-          "whenShowFollowUps": [],
-          "restriction": ""
+          "whenShowFollowUps": []
         },
         {
           "id": 32,
@@ -300,8 +281,7 @@
           "type": "slider",
           "options": ["4","5","6","7","8","9","10"],
           "followUps": [],
-          "whenShowFollowUps": [],
-          "restriction": ""
+          "whenShowFollowUps": []
         },
         {
           "id": 33,
@@ -309,8 +289,7 @@
           "type": "radio",
           "options": ["No, never smoked","No, but I used to","Yes, occasionally","Yes, daily"],
           "followUps": [],
-          "whenShowFollowUps": [],
-          "restriction": ""
+          "whenShowFollowUps": []
         },
         {
           "id": 34,
@@ -318,8 +297,7 @@
           "type": "radio",
           "options": ["Never","Monthly or less","2-4 times a month","2-3 times a week","4+ times a week"],
           "followUps": [],
-          "whenShowFollowUps": [],
-          "restriction": ""
+          "whenShowFollowUps": []
         },
         {
           "id": 35,
@@ -327,8 +305,7 @@
           "type": "slider",
           "options": ["Low","Moderate","High"],
           "followUps": [],
-          "whenShowFollowUps": [],
-          "restriction": ""
+          "whenShowFollowUps": []
         }
       ]
     },
@@ -341,8 +318,7 @@
           "type": "radio",
           "options": ["No difficulty at all - I'm fully independent","A little difficult - takes more effort","Quite difficult - I struggle sometimes","Very difficult - I often need help","Unable to do - I need full assistance"],
           "followUps": [],
-          "whenShowFollowUps": [],
-          "restriction": ""
+          "whenShowFollowUps": []
         },
         {
           "id": 37,
@@ -350,8 +326,7 @@
           "type": "slider",
           "options": ["0","1","2","3","4","5","6","7","8","9","10"],
           "followUps": [38,39],
-          "whenShowFollowUps": ["1","2","3","4","5","6","7","8","9","10"],
-          "restriction": ""
+          "whenShowFollowUps": ["1","2","3","4","5","6","7","8","9","10"]
         },
         {
           "id": 38,
@@ -359,8 +334,7 @@
           "type": "checkbox",
           "options": ["Head/Neck","Shoulders","Upper back","Lower back","Hips","Knees","Feet/Ankles","Hands/Wrists","All over (widespread)"],
           "followUps": [],
-          "whenShowFollowUps": [],
-          "restriction": ""
+          "whenShowFollowUps": []
         },
         {
           "id": 39,
@@ -368,8 +342,7 @@
           "type": "checkbox",
           "options": ["Sharp/stabbing","Dull/aching","Burning","Other"],
           "followUps": [],
-          "whenShowFollowUps": [],
-          "restriction": ""
+          "whenShowFollowUps": []
         },
         {
           "id": 40,
@@ -377,8 +350,7 @@
           "type": "radio",
           "options": ["I feel energetic most days","I have moderate energy - good days and tired days","I often feel tired or low energy","I'm exhausted most of the time"],
           "followUps": [],
-          "whenShowFollowUps": [],
-          "restriction": ""
+          "whenShowFollowUps": []
         },
         {
           "id": 41,
@@ -386,8 +358,7 @@
           "type": "radio",
           "options": ["Very confident - I never worry about falling","Somewhat confident - occasionally feel unsteady","Not very confident - I'm cautious about movement","Not confident at all - I worry about falling often"],
           "followUps": [],
-          "whenShowFollowUps": [],
-          "restriction": ""
+          "whenShowFollowUps": []
         },
         {
           "id": 42,
@@ -395,8 +366,7 @@
           "type": "radio",
           "options": ["No falls","Yes, 1 fall","Yes, 2 falls","Yes, 3 or more falls"],
           "followUps": [43,44],
-          "whenShowFollowUps": ["Yes, 1 fall","Yes, 2 falls","Yes, 3 or more falls"],
-          "restriction": ""
+          "whenShowFollowUps": ["Yes, 1 fall","Yes, 2 falls","Yes, 3 or more falls"]
         },
         {
           "id": 43,
@@ -404,8 +374,7 @@
           "type": "radio",
           "options": ["Yes","No"],
           "followUps": [],
-          "whenShowFollowUps": [],
-          "restriction": ""
+          "whenShowFollowUps": []
         },
         {
           "id": 44,
@@ -413,8 +382,7 @@
           "type": "date",
           "options": [],
           "followUps": [],
-          "whenShowFollowUps": [],
-          "restriction": ""
+          "whenShowFollowUps": []
         },
         {
           "id": 45,
@@ -422,8 +390,7 @@
           "type": "radio",
           "options": ["No","Yes"],
           "followUps": [46,47],
-          "whenShowFollowUps": ["Yes"],
-          "restriction": ""
+          "whenShowFollowUps": ["Yes"]
         },
         {
           "id": 46,
@@ -431,8 +398,7 @@
           "type": "checkbox",
           "options": ["Cane","Walker","Wheelchair (manual)","Wheelchair (power)","Brace or orthotic","Other: [text field]"],
           "followUps": [],
-          "whenShowFollowUps": [],
-          "restriction": ""
+          "whenShowFollowUps": []
         },
         {
           "id": 47,
@@ -440,8 +406,7 @@
           "type": "radio",
           "options": ["All the time","Most of the time","Sometimes","Rarely"],
           "followUps": [],
-          "whenShowFollowUps": [],
-          "restriction": ""
+          "whenShowFollowUps": []
         }
       ]
     },
@@ -454,8 +419,7 @@
           "type": "checkbox",
           "options": ["Build strength and endurance","Improve balance and prevent falls","Increase flexibility and mobility","Sharpen memory and mental focus","Boost energy and vitality","Manage or reduce pain","Stay socially connected","Improve overall health and wellness","Prepare for surgery/recovery","Other: [text field]"],
           "followUps": [],
-          "whenShowFollowUps": [],
-          "restriction": ""
+          "whenShowFollowUps": []
         },
         {
           "id": 49,
@@ -463,8 +427,7 @@
           "type": "textarea",
           "options": [],
           "followUps": [],
-          "whenShowFollowUps": [],
-          "restriction": ""
+          "whenShowFollowUps": []
         }
       ]
     }
