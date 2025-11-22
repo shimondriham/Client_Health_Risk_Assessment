@@ -8,7 +8,7 @@
           "question": "Has a doctor ever told you that you have a heart condition?",
           "type": "radio",
           "options": ["Yes", "No", "Prefer not to say"],
-          "followUps": [2],
+          "followUps": [2,3,4,5,6],
           "whenShowFollowUps": ["Yes"]
         },
         {
@@ -16,7 +16,7 @@
           "question": "Can you tell us more about your heart condition? This helps us keep you safe.",
           "type": "checkbox",
           "options": ["Coronary artery disease","Heart failure","Arrhythmia/irregular heartbeat","Heart valve issue","Other: [text field]"],
-          "followUps": [3,4,5,6],
+          "followUps": [],
           "whenShowFollowUps": []
         },
         {
@@ -65,7 +65,7 @@
           "question": "Do you ever feel chest pain when you're physically active?",
           "type": "radio",
           "options": ["Yes","No"],
-          "followUps": [8],
+          "followUps": [8,9],
           "whenShowFollowUps": ["Yes"]
         },
         {
@@ -73,7 +73,7 @@
           "question": "How often does chest pain happen?",
           "type": "radio",
           "options": ["Rarely - once or twice ever","Sometimes - a few times a year","Frequently - monthly or more"],
-          "followUps": [9],
+          "followUps": [],
           "whenShowFollowUps": []
         },
         {
@@ -89,7 +89,7 @@
           "question": "Do you experience unusual shortness of breath at rest or with light effort?",
           "type": "radio",
           "options": ["Yes","No"],
-          "followUps": [11],
+          "followUps": [11,12],
           "whenShowFollowUps": ["Yes"]
         },
         {
@@ -97,7 +97,7 @@
           "question": "When does shortness of breath happen? (Select all that apply)",
           "type": "checkbox",
           "options": ["At rest","With minimal exertion (walking, climbing stairs)","Only during vigorous activity"],
-          "followUps": [12],
+          "followUps": [],
           "whenShowFollowUps": []
         },
         {
@@ -184,7 +184,7 @@
           "question": "Do you have any bone, joint, or muscle problems that might be affected by exercise?",
           "type": "radio",
           "options": ["Yes","No"],
-          "followUps": [22],
+          "followUps": [22,23,24,25],
           "whenShowFollowUps": ["Yes"]
         },
         {
@@ -192,7 +192,7 @@
           "question": "Which areas are affected?",
           "type": "checkbox",
           "options": ["Neck","Shoulders","Back (upper)","Back (lower)","Hips","Knees","Ankles/Feet","Wrists/Hands","Other: [text field]"],
-          "followUps": [23,24,25],
+          "followUps": [],
           "whenShowFollowUps": []
         },
         {
@@ -298,15 +298,15 @@
           "question": "In the past 7 days, how much body pain have you experienced on average?",
           "type": "slider",
           "options": ["0","1","2","3","4","5","6","7","8","9","10"],
-          "followUps": [35],
-          "whenShowFollowUps": []
+          "followUps": [35,36],
+          "whenShowFollowUps": ["1","2","3","4","5","6","7","8","9","10"]
         },
         {
           "id": 35,
           "question": "Where do you feel pain most?",
           "type": "checkbox",
           "options": ["Head/Neck","Shoulders","Upper back","Lower back","Hips","Knees","Feet/Ankles","Hands/Wrists","All over (widespread)"],
-          "followUps": [36],
+          "followUps": [],
           "whenShowFollowUps": []
         },
         {
@@ -370,7 +370,7 @@
           "question": "If YES, check all that apply",
           "type": "checkbox",
           "options": ["Cane","Walker","Wheelchair (manual)","Wheelchair (power)","Brace or orthotic","Other: [text field]"],
-          "followUps": [44],
+          "followUps": [],
           "whenShowFollowUps": []
         },
         {
