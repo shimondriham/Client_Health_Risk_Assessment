@@ -105,9 +105,12 @@ const DashboardAdmin = () => {
                 <td>{user.role}</td>
 
                 <td>
-                  <button className="btn btn-sm" onClick={() => toAdmin2(user._id)}>
-                    <i className="bi bi-arrow-right-circle-fill">---</i>
-                  </button>
+                            <button
+            className="btn  btn-lg"
+            onClick={() => alert("Download clicked")}
+          >
+           ⟶
+          </button>
                 </td>
 
               </tr>

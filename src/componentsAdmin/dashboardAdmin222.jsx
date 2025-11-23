@@ -90,9 +90,12 @@ function DashboardAdmin222() {
                   <td>{user.a}</td>
                   <td>{user.b}</td>
                   <td>
-                  <button className="btn btn-sm" onClick={() => toOutCome(user._id)}>
-                    <i className="bi bi-arrow-right-circle-fill">---</i>
-                  </button>
+                    <button
+            className="btn  btn-lg"
+            onClick={() => alert("Download clicked")}
+          >
+           ⟶
+          </button>
                 </td>
                 </tr>
               );
