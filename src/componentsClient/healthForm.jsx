@@ -1,18 +1,23 @@
 import React, { useState } from "react";
 import confetti from "canvas-confetti";
-import surveyData from "../assets/questions.json"; 
+import surveyData from "../assets/questions.json";
 import { useNavigate } from "react-router-dom";
+import { addIdQuestions } from "../featuers/myDetailsSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { doApiMethod } from "../services/apiService";
 
 function HealthForm() {
+  const thisidQuestions = useSelector(state => state.myDetailsSlice.idQuestions);
   const [sectionIndex, setSectionIndex] = useState(0);
   const [questionIndex, setQuestionIndex] = useState(0);
-  const [answers, setAnswers] = useState({}); 
-  const [userGender, setUserGender] = useState("female"); 
+  const [answers, setAnswers] = useState({});
+  const [userGender, setUserGender] = useState("female");
+  const [id_Questions, setId_Questions] = useState(thisidQuestions);
   const nav = useNavigate();
+  const dispatch = useDispatch();
 
   const section = surveyData.sections[sectionIndex];
   const question = section.questions[questionIndex];
-
   const fireConfetti = () => {
     confetti({ particleCount: 200, spread: 80, origin: { y: 0.6 } });
   };
@@ -54,7 +59,7 @@ function HealthForm() {
     return ans === undefined || ans === "" || (Array.isArray(ans) && ans.length === 0);
   };
 
-  const next = () => {
+  const next = async () => {
     if (isAnswerEmpty()) return;
 
     let nextQ = questionIndex + 1;
@@ -66,14 +71,44 @@ function HealthForm() {
     if (nextQ < section.questions.length) {
       setQuestionIndex(nextQ);
     } else {
-      const sectionObj = {
-        section: section.section,
-        answers: section.questions
-          .filter(q => answers[q.id] !== undefined)
-          .map(q => ({ id: q.id, answer: answers[q.id] }))
-      };
+      let sectionObj = {}
+      if (section.section === "Safety First") {
+        sectionObj = {
+          section: section.section,
+          answers: section.questions
+            .filter(q => answers[q.id] !== undefined)
+            .map(q => ({ id: q.id, answer: answers[q.id] }))
+        };
+        try {
+          let resp = await doApiMethod("/questions", "POST", sectionObj);
+          if (resp.data._id) {
+            setId_Questions(resp.data._id);
+            dispatch(addIdQuestions({ idQuestions: resp.data._id }));
+            console.log("Section answers updated successfully");
+          }
+        }
+        catch (error) {
+          console.log(error);
+        }
+      } else {
+        sectionObj = {
+          idQuestions: id_Questions,
+          section: section.section,
+          answers: section.questions
+            .filter(q => answers[q.id] !== undefined)
+            .map(q => ({ id: q.id, answer: answers[q.id] }))
+        };
+        try {
+          let resp = await doApiMethod("/questions/edit", "PUT", sectionObj);
+          if (resp.data.modifiedCount == 1) {
+            console.log("Section answers updated successfully");
+          }
+        }
+        catch (error) {
+          console.log(error);
+        }
+      }
       console.log("Section completed:", sectionObj);
-
       if (sectionIndex < surveyData.sections.length - 1) {
         setSectionIndex(sectionIndex + 1);
         setQuestionIndex(0);
@@ -84,6 +119,7 @@ function HealthForm() {
       }
     }
   };
+
 
   const back = () => {
     let prevQ = questionIndex - 1;
@@ -192,39 +228,39 @@ function HealthForm() {
   }
 
   return (
-    <div style={{direction:"ltr", width:"100%", display:"flex", flexDirection:"column", alignItems:"center", fontFamily:"Arial", background:"#f9fafb", paddingBottom:50}}>
+    <div style={{ direction: "ltr", width: "100%", display: "flex", flexDirection: "column", alignItems: "center", fontFamily: "Arial", background: "#f9fafb", paddingBottom: 50 }}>
       {/* Sections Progress */}
-      <div style={{display:"flex", justifyContent:"center", alignItems:"center", gap:"45px", padding:"30px 0"}}>
-        {surveyData.sections.map((s,i)=>(
-          <div key={i} style={{display:"flex", alignItems:"center"}}>
-            {i !== 0 && (<div style={{width:40, height:3, background: i <= sectionIndex ? "#6d28d9" : "#d1d5db", marginRight:20, transition:"0.3s"}}/>)}
-            <div style={{textAlign:"center", opacity:i===sectionIndex?1:0.4}}>
-              <div style={{ width:32, height:32, borderRadius:"50%", border:"2px solid #6d28d9", background:i===sectionIndex?"#6d28d9":"white", color:i===sectionIndex?"white":"#6d28d9", display:"flex", alignItems:"center", justifyContent:"center", fontWeight:"bold", margin:"0 auto" }}>
-               {i+1}
+      <div style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: "45px", padding: "30px 0" }}>
+        {surveyData.sections.map((s, i) => (
+          <div key={i} style={{ display: "flex", alignItems: "center" }}>
+            {i !== 0 && (<div style={{ width: 40, height: 3, background: i <= sectionIndex ? "#6d28d9" : "#d1d5db", marginRight: 20, transition: "0.3s" }} />)}
+            <div style={{ textAlign: "center", opacity: i === sectionIndex ? 1 : 0.4 }}>
+              <div style={{ width: 32, height: 32, borderRadius: "50%", border: "2px solid #6d28d9", background: i === sectionIndex ? "#6d28d9" : "white", color: i === sectionIndex ? "white" : "#6d28d9", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: "bold", margin: "0 auto" }}>
+                {i + 1}
               </div>
-              <div style={{fontSize:13, marginTop:5}}>{s.section}</div>
+              <div style={{ fontSize: 13, marginTop: 5 }}>{s.section}</div>
             </div>
           </div>
         ))}
       </div>
 
       {/* Question Progress */}
-      <div style={{width:260, height:6, borderRadius:6, background:"#e5e7eb", marginTop:30, overflow:"hidden"}}>
-        <div style={{height:"100%", width:`${((questionIndex+1)/section.questions.length)*100}%`, background:"#6d28d9", transition:"0.3s"}} />
+      <div style={{ width: 260, height: 6, borderRadius: 6, background: "#e5e7eb", marginTop: 30, overflow: "hidden" }}>
+        <div style={{ height: "100%", width: `${((questionIndex + 1) / section.questions.length) * 100}%`, background: "#6d28d9", transition: "0.3s" }} />
       </div>
 
-      <h2 style={{marginTop:30}}>{section.section}</h2>
-      <h3 style={{marginTop:10}}>Question {questionIndex+1}/{section.questions.length}</h3>
+      <h2 style={{ marginTop: 30 }}>{section.section}</h2>
+      <h3 style={{ marginTop: 10 }}>Question {questionIndex + 1}/{section.questions.length}</h3>
 
       {/* Question Box */}
-      <div style={{width:300, minHeight:150, borderRadius:20, background:"white", boxShadow:"0 0 12px rgba(0,0,0,0.08)", display:"flex", flexDirection:"column", alignItems:"flex-start", justifyContent:"center", marginTop:20, padding:20, fontSize:16}}>
-        <div style={{marginBottom:10, fontWeight:"bold"}}>{question.question}</div>
+      <div style={{ width: 300, minHeight: 150, borderRadius: 20, background: "white", boxShadow: "0 0 12px rgba(0,0,0,0.08)", display: "flex", flexDirection: "column", alignItems: "flex-start", justifyContent: "center", marginTop: 20, padding: 20, fontSize: 16 }}>
+        <div style={{ marginBottom: 10, fontWeight: "bold" }}>{question.question}</div>
         {renderQuestionInput()}
       </div>
 
       {/* Navigation */}
-      <div style={{display:"flex", gap:20, marginTop:45}}>
-        <button onClick={back} style={{padding:"8px 24px", background:"white", border:"1px solid #d1d5db", borderRadius:8, cursor:"pointer"}}>Back</button>
+      <div style={{ display: "flex", gap: 20, marginTop: 45 }}>
+        <button onClick={back} style={{ padding: "8px 24px", background: "white", border: "1px solid #d1d5db", borderRadius: 8, cursor: "pointer" }}>Back</button>
         <button
           onClick={next}
           style={{

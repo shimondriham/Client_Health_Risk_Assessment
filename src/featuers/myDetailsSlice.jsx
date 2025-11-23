@@ -7,6 +7,7 @@ const initialState = {
   idOutComeAdmin: "0",
   ifShowNav: false,
   isAdmin: false,
+  idQuestions: "692371b8f71a55bb8fcff888"
 }
 
 const myDetailsSlice = createSlice({
@@ -31,6 +32,9 @@ const myDetailsSlice = createSlice({
     addIsAdmin: (start, activation) => {
       start.isAdmin = activation.payload.isAdmin;
     },
+    addIdQuestions: (start, activation) => {
+      start.idQuestions = activation.payload.idQuestions;
+    },
   }
 })
 
@@ -40,6 +44,7 @@ export const {
   addIdMorInfoAdmin,
   addIdOutComeAdmin,
   addIfShowNav,
-  addIsAdmin
+  addIsAdmin,
+  addIdQuestions
 } = myDetailsSlice.actions
 export default myDetailsSlice.reducer
