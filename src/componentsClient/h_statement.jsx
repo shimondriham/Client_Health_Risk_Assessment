@@ -10,7 +10,7 @@ export default function HStatement() {
   };
 
   return (
-    <div className=" container mt-5  p-4 d-flex flex-column text-center" style={{ width: '80%', maxWidth: '500px', backgroundColor: 'white' }}>
+    <div className=" container mt-5  p-4 d-flex flex-column text-center" style={{ width: '80%', maxWidth: '1000px', backgroundColor: 'white' }}>
       <h2 >Health Declaration</h2>
       <ol >
         <li>
