@@ -17,7 +17,6 @@ import CalibrationVideo from './componentsClient/CalibrationVideo';
 import H_statement from './componentsClient/h_statement';
 import HealthForm from './componentsClient/healthForm';
 import OutCome from './componentsClient/OutCome';
-import Reports from './componentsClient/Reports';
 import ExplanatoryV from './componentsClient/explanatoryV';
 import OutComeAdmin from './componentsAdmin/outComeAdmit';
 
@@ -45,7 +44,6 @@ function AppRoutes() {
           <Route path="/h_statement" element={<H_statement />} />
           <Route path="/healthForm" element={<HealthForm />} />
           <Route path="/outCome" element={<OutCome />} />
-          {/* <Route path="/reports" element={<Reports />} /> */}
           <Route path="/*" element={<Page404 />} />
         </Route>
       </Routes>
