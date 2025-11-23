@@ -32,7 +32,6 @@ function HeaderClient() {
     
   // ];
   const Admin = () => nav("/admin");
-
   const onWelcomeClick = () => nav("/");
   const onHomeClick = () => nav("/homeClient");
   const onSignUpClick = () => nav("/signup");
