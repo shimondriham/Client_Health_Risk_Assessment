@@ -31,6 +31,7 @@ function HeaderClient() {
   //   { label: "Admin", action: () => alert("Admin") },
     
   // ];
+  const Admin = () => nav("/admin");
 
   const onWelcomeClick = () => nav("/");
   const onHomeClick = () => nav("/homeClient");
@@ -49,7 +50,7 @@ function HeaderClient() {
 
    const menuItems = [
     { label: "Logout", action: () => onlogout() },
-    { label: "Admin", action: () => alert("Admin") },
+    { label: "Admin", action: () => Admin() },
     
   ];
   return (
