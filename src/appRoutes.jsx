@@ -45,7 +45,7 @@ function AppRoutes() {
           <Route path="/h_statement" element={<H_statement />} />
           <Route path="/healthForm" element={<HealthForm />} />
           <Route path="/outCome" element={<OutCome />} />
-          <Route path="/reports" element={<Reports />} />
+          {/* <Route path="/reports" element={<Reports />} /> */}
           <Route path="/*" element={<Page404 />} />
         </Route>
       </Routes>

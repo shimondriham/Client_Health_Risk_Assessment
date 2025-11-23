@@ -79,7 +79,7 @@ function HeaderClient() {
         {IfShowNav && <button className='btn btn-info m-1' onClick={onH_statementClick}>Health Statement</button>}
         {IfShowNav && <button className='btn btn-info m-1' onClick={onBioMClick}>Bio Assessment</button>}
         {IfShowNav && <button className='btn btn-info m-1' onClick={onOutComeClick}>Outcome</button>}
-        {IfShowNav && <button className='btn btn-info m-1' onClick={onReportsClick}>Reports</button>}
+        {/* {IfShowNav && <button className='btn btn-info m-1' onClick={onReportsClick}>Reports</button>} */}
         {/* {IfShowNav && <button className='btn btn-info m-1' onClick={onlogout}>Logout</button>} */}
 
 {IfShowNav && IsAdmin &&
