@@ -4,6 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import { doApiGet } from '../services/apiService';
 import { addIfShowNav, addIsAdmin, addName } from '../featuers/myDetailsSlice';
 import "bootstrap/dist/css/bootstrap.min.css";
+import jsPDF from "jspdf";
+
 
 const HomeClient = () => {
   const myName = useSelector(state => state.myDetailsSlice.name);
@@ -48,6 +50,22 @@ const HomeClient = () => {
     }
   };
 
+  const downloadReport = (testId) => {
+  const doc = new jsPDF();
+
+  doc.setFontSize(22);
+  doc.text("Test Report", 10, 20);
+
+  doc.setFontSize(14);
+  doc.text(`Report for test ID: ${testId}`, 10, 40);
+  doc.text("Status: Completed", 10, 55);
+  doc.text("Date: 22 Jan 2025", 10, 70);
+  doc.text("More details here...", 10, 90);
+
+  doc.save(`test_${testId}_report.pdf`);
+};
+
+
   return (
     <div className="container py-5">
 
@@ -77,7 +95,9 @@ const HomeClient = () => {
                   <td>{getStatusBadge(test.status)}</td>
                   <td>
                     {test.status === "Completed" && (
-                      <button className="btn btn-outline-success btn-sm">
+                      <button className="btn btn-outline-success btn-sm"
+                       onClick={() => downloadReport(test.id)}>
+                        
                         Download Report
                       </button>
                     )}
