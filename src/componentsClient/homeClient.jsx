@@ -96,7 +96,9 @@ const HomeClient = () => {
 
         {/* RIGHT SIDE BUTTON */}
         <div className="col-md-5 d-flex justify-content-center align-items-center">
-          <button className="btn btn-primary btn-lg px-5 py-3">
+          <button className="btn btn-primary btn-lg px-5 py-3"
+          onClick={() => navigate("/ExplanatoryV")}>
+            
             Start New Test
           </button>
         </div>
