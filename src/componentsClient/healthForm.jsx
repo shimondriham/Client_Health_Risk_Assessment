@@ -15,74 +15,48 @@ function HealthForm() {
   const [id_Questions, setId_Questions] = useState(thisidQuestions);
   const [showExitModal, setShowExitModal] = useState(false);
   const [exitReason, setExitReason] = useState(null);
-
-  // const [exitReason, setExitReason] = useState("");
   const nav = useNavigate();
   const dispatch = useDispatch();
   useEffect(() => {
-    if (id_Questions != "0") {
-      console.log(id_Questions);
-      doApiContinue();
-    }
+    if (id_Questions != "0") { doApiContinue(); }
   }, []);
 
   const doApiContinue = async () => {
-    let _dataBody = {
-      idQuestions: id_Questions,
-    }
-    let url = "/questions/thisQuestion";
+    let _dataBody = { idQuestions: id_Questions }
     try {
-      let resp = await doApiMethod(url, "PUT", _dataBody);
-      console.log(resp.data);
+      let resp = await doApiMethod("/questions/thisQuestion", "PUT", _dataBody);
       if (resp.data._id) {
-        if (resp.data.section === "Safety First") {
-          setSectionIndex(1);
-        }
-        else if (resp.data.section === "Your Active Life") {
-          setSectionIndex(2);
-        }
-        else if (resp.data.section === "How You Feel Day to Day") {
-          setSectionIndex(3);
-        }
+        if (resp.data.section === "Safety First") { setSectionIndex(1); }
+        else if (resp.data.section === "Your Active Life") { setSectionIndex(2); }
+        else if (resp.data.section === "How You Feel Day to Day") { setSectionIndex(3); }
+        setId_Questions(resp.data._id);
       }
     }
     catch (error) {
-      console.log(error.response.data.error);
     }
   }
 
   const section = surveyData.sections[sectionIndex];
   const question = section.questions[questionIndex];
-  const fireConfetti = () => {
-    confetti({ particleCount: 200, spread: 80, origin: { y: 0.6 } });
-  };
-
+  const fireConfetti = () => { confetti({ particleCount: 200, spread: 80, origin: { y: 0.6 } }); };
   const cleanInvalidAnswers = (newAnswers) => {
     const validAnswers = {};
     surveyData.sections.forEach(sec => {
       sec.questions.forEach(q => {
-        if (shouldShowQuestion(q, newAnswers)) {
-          if (newAnswers[q.id] !== undefined) validAnswers[q.id] = newAnswers[q.id];
-        }
-      });
+        if (shouldShowQuestion(q, newAnswers) && newAnswers[q.id] !== undefined)
+          validAnswers[q.id] = newAnswers[q.id];
+      }
+      );
     });
     return validAnswers;
   };
-  const onHomeClick = () => {
-    doApi()
-    console.log("exit Reason", exitReason);
 
-  };
-
-  const doApi = async () => {
+  const onHomeClick = async () => {
     let _dataBody = {
       exitrisen: exitReason,
     }
-    console.log(_dataBody);
-    let url = "/users/exitrisen";
     try {
-      let resp = await doApiMethod(url, "PUT", _dataBody);
-      console.log(resp.data);
+      let resp = await doApiMethod("/users/exitrisen", "PUT", _dataBody);
       if (resp.data.matchedCount == 1) {
         setShowExitModal(false);
         dispatch(addIdQuestions({ idQuestions: "0" }));
@@ -101,7 +75,6 @@ function HealthForm() {
 
   const shouldShowQuestion = (q, answerState = answers) => {
     if (q.restriction && q.restriction !== userGender) return false;
-
     for (let prevQ of section.questions) {
       if (prevQ.followUps.includes(q.id)) {
         const prevAnswer = answerState[prevQ.id];
@@ -121,7 +94,6 @@ function HealthForm() {
 
   const next = async () => {
     if (isAnswerEmpty()) return;
-
     let nextQ = questionIndex + 1;
     while (nextQ < section.questions.length) {
       if (shouldShowQuestion(section.questions[nextQ])) break;
@@ -144,7 +116,6 @@ function HealthForm() {
           if (resp.data._id) {
             setId_Questions(resp.data._id);
             dispatch(addIdQuestions({ idQuestions: resp.data._id }));
-            console.log("Section answers updated successfully");
           }
         }
         catch (error) {
@@ -161,14 +132,12 @@ function HealthForm() {
         try {
           let resp = await doApiMethod("/questions/edit", "PUT", sectionObj);
           if (resp.data.modifiedCount == 1) {
-            console.log("Section answers updated successfully");
           }
         }
         catch (error) {
           console.log(error);
         }
       }
-      console.log("Section completed:", sectionObj);
       if (sectionIndex < surveyData.sections.length - 1) {
         setSectionIndex(sectionIndex + 1);
         setQuestionIndex(0);
@@ -180,14 +149,12 @@ function HealthForm() {
     }
   };
 
-
   const back = () => {
     let prevQ = questionIndex - 1;
     while (prevQ >= 0) {
       if (shouldShowQuestion(section.questions[prevQ])) break;
       prevQ--;
     }
-
     if (prevQ >= 0) {
       setQuestionIndex(prevQ);
     } else if (sectionIndex > 0) {
@@ -206,7 +173,7 @@ function HealthForm() {
     switch (question.type) {
       case "radio":
         return question.options.map((opt, i) => (
-          <label key={i} style={{ display: "block", margin: "5px 0" }}>
+          <label key={i} className="d-block mb-2">
             <input
               type="radio"
               name={question.id}
@@ -219,7 +186,7 @@ function HealthForm() {
         ));
       case "checkbox":
         return question.options.map((opt, i) => (
-          <label key={i} style={{ display: "block", margin: "5px 0" }}>
+          <label key={i} className="d-block mb-2">
             <input
               type="checkbox"
               value={opt}
@@ -235,14 +202,14 @@ function HealthForm() {
         ));
       case "slider":
         return (
-          <div style={{ width: "100%", position: "relative", marginTop: "10px" }}>
+          <div style={{ position: "relative" }} className="w-100 mt-2">
             <input
               type="range"
               min={0}
               max={20}
               value={answers[question.id] || 0}
               onChange={(e) => handleAnswer(Number(e.target.value))}
-              style={{ width: "100%" }}
+              className="w-100"
             />
             <div
               style={{
@@ -263,10 +230,10 @@ function HealthForm() {
           </div>
         );
       case "date":
-        return <input type="date" value={answers[question.id] || ""} onChange={(e) => handleAnswer(e.target.value)} />;
+        return <input type="date" className="form-control" value={answers[question.id] || ""} onChange={(e) => handleAnswer(e.target.value)} />;
       case "dropdown":
         return (
-          <select value={answers[question.id] || ""} onChange={(e) => handleAnswer(e.target.value)}>
+          <select className="form-select" value={answers[question.id] || ""} onChange={(e) => handleAnswer(e.target.value)}>
             <option value="" disabled>Select an option</option>
             {question.options.map((opt, i) => (
               <option key={i} value={opt}>{opt}</option>
@@ -274,28 +241,25 @@ function HealthForm() {
           </select>
         );
       case "textarea":
-        return <textarea value={answers[question.id] || ""} onChange={(e) => handleAnswer(e.target.value)} rows={4} style={{ width: "100%" }} />;
+        return <textarea className="form-control" value={answers[question.id] || ""} onChange={(e) => handleAnswer(e.target.value)} rows={4} />;
       case "file":
-        return <input type="file" onChange={(e) => handleAnswer(e.target.files[0]?.name)} />;
+        return <input type="file" className="form-control" onChange={(e) => handleAnswer(e.target.files[0]?.name)} />;
       default:
         return null;
     }
   };
 
-  if (!shouldShowQuestion(question)) {
-    next();
-    return null;
-  }
+  if (!shouldShowQuestion(question)) { next(); return null; }
 
   return (
-    <div style={{ direction: "ltr", width: "100%", display: "flex", flexDirection: "column", alignItems: "center", fontFamily: "Arial", background: "#f9fafb", paddingBottom: 50 }}>
+    <div className="d-flex flex-column align-items-center pb-5" style={{ direction: "ltr", fontFamily: "Arial", background: "#f9fafb" }}>
       {/* Sections Progress */}
-      <div style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: "45px", padding: "30px 0" }}>
+      <div className="d-flex justify-content-center align-items-center gap-4 py-3">
         {surveyData.sections.map((s, i) => (
-          <div key={i} style={{ display: "flex", alignItems: "center" }}>
+          <div key={i} className="d-flex align-items-center">
             {i !== 0 && (<div style={{ width: 40, height: 3, background: i <= sectionIndex ? "#6d28d9" : "#d1d5db", marginRight: 20, transition: "0.3s" }} />)}
             <div style={{ textAlign: "center", opacity: i === sectionIndex ? 1 : 0.4 }}>
-              <div style={{ width: 32, height: 32, borderRadius: "50%", border: "2px solid #6d28d9", background: i === sectionIndex ? "#6d28d9" : "white", color: i === sectionIndex ? "white" : "#6d28d9", display: "flex", alignItems: "center", justifyContent: "center", fontWeight: "bold", margin: "0 auto" }}>
+              <div className="rounded-circle border d-flex align-items-center justify-content-center fw-bold" style={{ width: 32, height: 32, border: "2px solid #6d28d9", background: i === sectionIndex ? "#6d28d9" : "white", color: i === sectionIndex ? "white" : "#6d28d9", margin: "0 auto" }}>
                 {i + 1}
               </div>
               <div style={{ fontSize: 13, marginTop: 5 }}>{s.section}</div>
@@ -304,13 +268,10 @@ function HealthForm() {
         ))}
       </div>
 
-      {/* Question Progress */}
-      <div style={{ width: 260, height: 6, borderRadius: 6, background: "#e5e7eb", marginTop: 30, overflow: "hidden" }}>
-        <div style={{ height: "100%", width: `${((questionIndex + 1) / section.questions.length) * 100}%`, background: "#6d28d9", transition: "0.3s" }} />
-      </div>
 
-      <h2 style={{ marginTop: 30 }}>{section.section}</h2>
-      <h3 style={{ marginTop: 10 }}>Question {questionIndex + 1}/{section.questions.length}</h3>
+
+      {/* <h2 style={{ marginTop: 30 }}>{section.section}</h2> */}
+      <h4 style={{ marginTop: 10 }}>Question {questionIndex + 1}/{section.questions.length}</h4>
 
       {/* Question Box */}
       <div style={{ width: 300, minHeight: 150, borderRadius: 20, background: "white", boxShadow: "0 0 12px rgba(0,0,0,0.08)", display: "flex", flexDirection: "column", alignItems: "flex-start", justifyContent: "center", marginTop: 20, padding: 20, fontSize: 16 }}>
@@ -318,32 +279,16 @@ function HealthForm() {
         {renderQuestionInput()}
       </div>
 
+      {/* Question Progress */}
+      <div className="mt-4" style={{ width: 260, height: 6, borderRadius: 6, background: "#e5e7eb", overflow: "hidden" }}>
+        <div style={{ height: "100%", width: `${((questionIndex + 1) / section.questions.length) * 100}%`, background: "#6d28d9", transition: "0.3s" }} />
+      </div>
+
       {/* Navigation */}
-      <div style={{ display: "flex", gap: 20, marginTop: 45 }}>
-        <button onClick={back} style={{ padding: "8px 24px", background: "white", border: "1px solid #d1d5db", borderRadius: 8, cursor: "pointer" }}>Back</button>
-        <button
-          onClick={() => setShowExitModal(true)}
-          style={{
-            padding: "8px 24px",
-            background: "white",
-            border: "1px solid #d1d5db",
-            borderRadius: 8,
-            cursor: "pointer"
-          }}
-        >    Exit
-        </button>
-        <button
-          onClick={next}
-          style={{
-            padding: "8px 24px",
-            background: isAnswerEmpty() ? "#d1d5db" : "#7c3aed",
-            color: "white",
-            border: "none",
-            borderRadius: 8,
-            cursor: isAnswerEmpty() ? "not-allowed" : "pointer"
-          }}
-          disabled={isAnswerEmpty()}
-        >
+      <div className="d-flex gap-3 mt-4">
+        <button onClick={back} style={{ padding: "8px 24px", background: "white", border: "1px solid #d1d5db", borderRadius: 8, cursor: "pointer" }} className="me-2">Back</button>
+        <button onClick={() => setShowExitModal(true)} style={{ padding: "8px 24px", background: "white", border: "1px solid #d1d5db", borderRadius: 8, cursor: "pointer" }} className="me-2">Exit</button>
+        <button onClick={next} style={{ padding: "8px 24px", background: isAnswerEmpty() ? "#d1d5db" : "#7c3aed", color: "white", border: "none", borderRadius: 8 }} disabled={isAnswerEmpty()}>
           Next
         </button>
       </div>
@@ -357,15 +302,14 @@ function HealthForm() {
           justifyContent: "center",
           zIndex: 9999
         }}>
-          <div style={{
+          <div className="p-4" style={{
             background: "white",
-            padding: 24,
             borderRadius: 12,
             width: 340
           }}>
-            <h3 style={{ marginBottom: 16 }}>Why are you leaving the questionnaire?</h3>
+            <h3 className="mb-3">Why are you leaving the questionnaire?</h3>
 
-            <label style={{ display: "block", marginBottom: 10 }}>
+            <label className="d-block mb-2">
               <input
                 type="radio"
                 name="exitReason"
@@ -376,7 +320,7 @@ function HealthForm() {
               Not feeling well physically
             </label>
 
-            <label style={{ display: "block", marginBottom: 10 }}>
+            <label className="d-block mb-2">
               <input
                 type="radio"
                 name="exitReason"
@@ -387,7 +331,7 @@ function HealthForm() {
               I don't have time right now
             </label>
 
-            <label style={{ display: "block", marginBottom: 10 }}>
+            <label className="d-block mb-2">
               <input
                 type="radio"
                 name="exitReason"
@@ -398,13 +342,8 @@ function HealthForm() {
               The questionnaire is too long
             </label>
 
-            <div style={{
-              display: "flex",
-              gap: 10,
-              marginTop: 20,
-              justifyContent: "flex-end"
-            }}>
-              <button onClick={() => {
+            <div className="d-flex gap-2 mt-3 justify-content-end">
+              <button className="me-2" onClick={() => {
                 setShowExitModal(false);
                 setExitReason(null);
               }}>
@@ -421,10 +360,7 @@ function HealthForm() {
           </div>
         </div>
       )}
-
-
     </div>
   );
 }
-
 export default HealthForm;
