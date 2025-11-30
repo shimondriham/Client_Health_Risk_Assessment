@@ -40,7 +40,7 @@ if (data.data.role === "admin") dispatch(addIsAdmin({ isAdmin: true }));
 
 
   try {
-    let questionsResp = await doApiGet("/questions/myQuestions");
+    let questionsResp = await doApiGet("/questions/myInfo");
     if (questionsResp.data) {
       setHasTests(true);
       dispatch(addIdQuestions({ idQuestions: questionsResp.data._id }));
