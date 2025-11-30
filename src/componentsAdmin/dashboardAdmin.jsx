@@ -107,7 +107,7 @@ const DashboardAdmin = () => {
                 <td>
                             <button
             className="btn  btn-lg"
-            onClick={() => alert("Download clicked")}
+            onClick={() =>toAdmin2(user._id)}
           >
            ⟶
           </button>

@@ -92,7 +92,7 @@ function DashboardAdmin222() {
                   <td>
                     <button
             className="btn  btn-lg"
-            onClick={() => alert("Download clicked")}
+            onClick={() => toOutCome(user._id)}
           >
            ⟶
           </button>
