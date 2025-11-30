@@ -7,7 +7,7 @@ const initialState = {
   idOutComeAdmin: "0",
   ifShowNav: false,
   isAdmin: false,
-  idQuestions: "692371b8f71a55bb8fcff888"
+  idQuestions: "0"
 }
 
 const myDetailsSlice = createSlice({

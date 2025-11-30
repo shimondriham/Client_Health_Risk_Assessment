@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import confetti from "canvas-confetti";
 import surveyData from "../assets/questions.json";
 import { useNavigate } from "react-router-dom";
@@ -19,6 +19,37 @@ function HealthForm() {
   // const [exitReason, setExitReason] = useState("");
   const nav = useNavigate();
   const dispatch = useDispatch();
+  useEffect(() => {
+    if (id_Questions != "0") {
+      console.log(id_Questions);
+      doApiContinue();
+    }
+  }, []);
+
+  const doApiContinue = async () => {
+    let _dataBody = {
+      idQuestions: id_Questions,
+    }
+    let url = "/questions/thisQuestion";
+    try {
+      let resp = await doApiMethod(url, "PUT", _dataBody);
+      console.log(resp.data);
+      if (resp.data._id) {
+        if (resp.data.section === "Safety First") {
+          setSectionIndex(1);
+        }
+        else if (resp.data.section === "Your Active Life") {
+          setSectionIndex(2);
+        }
+        else if (resp.data.section === "How You Feel Day to Day") {
+          setSectionIndex(3);
+        }
+      }
+    }
+    catch (error) {
+      console.log(error.response.data.error);
+    }
+  }
 
   const section = surveyData.sections[sectionIndex];
   const question = section.questions[questionIndex];
@@ -40,7 +71,7 @@ function HealthForm() {
   const onHomeClick = () => {
     doApi()
     console.log("exit Reason", exitReason);
-     
+
   };
 
   const doApi = async () => {
@@ -54,6 +85,7 @@ function HealthForm() {
       console.log(resp.data);
       if (resp.data.matchedCount == 1) {
         setShowExitModal(false);
+        dispatch(addIdQuestions({ idQuestions: "0" }));
         nav("/homeClient");
       }
     }
