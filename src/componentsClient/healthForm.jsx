@@ -13,6 +13,8 @@ function HealthForm() {
   const [answers, setAnswers] = useState({});
   const [userGender, setUserGender] = useState("female");
   const [id_Questions, setId_Questions] = useState(thisidQuestions);
+  const [showExitModal, setShowExitModal] = useState(false);
+  const [exitReason, setExitReason] = useState("");
   const nav = useNavigate();
   const dispatch = useDispatch();
 
@@ -33,6 +35,11 @@ function HealthForm() {
     });
     return validAnswers;
   };
+const onHomeClick = () => {
+  console.log("סיבת יציאה:", exitReason); // כאן תוכל גם לשלוח לשרת
+  setShowExitModal(false);
+  nav("/homeClient");
+};
 
   const handleAnswer = (value) => {
     const newAnswers = cleanInvalidAnswers({ ...answers, [question.id]: value });
@@ -261,6 +268,17 @@ function HealthForm() {
       {/* Navigation */}
       <div style={{ display: "flex", gap: 20, marginTop: 45 }}>
         <button onClick={back} style={{ padding: "8px 24px", background: "white", border: "1px solid #d1d5db", borderRadius: 8, cursor: "pointer" }}>Back</button>
+      <button
+      onClick={() => setShowExitModal(true)}
+      style={{
+     padding: "8px 24px",
+     background: "white",
+     border: "1px solid #d1d5db",
+     borderRadius: 8,
+     cursor: "pointer"
+     }}
+>    Exit
+     </button>
         <button
           onClick={next}
           style={{
@@ -276,6 +294,53 @@ function HealthForm() {
           Next
         </button>
       </div>
+      {showExitModal && (
+  <div style={{
+    position: "fixed",
+    inset: 0,
+    background: "rgba(0,0,0,0.4)",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    zIndex: 9999
+  }}>
+    <div style={{
+      background: "white",
+      padding: 24,
+      borderRadius: 12,
+      width: 340
+    }}>
+      <h3 style={{ marginBottom: 10 }}>למה לעזוב את הדף?</h3>
+
+      <textarea
+        value={exitReason}
+        onChange={(e) => setExitReason(e.target.value)}
+        rows={3}
+        placeholder="כתוב סיבה..."
+        style={{ width: "100%", padding: 8 }}
+      />
+
+      <div style={{
+        display: "flex",
+        gap: 10,
+        marginTop: 16,
+        justifyContent: "flex-end"
+      }}>
+        <button onClick={() => setShowExitModal(false)}>
+          ביטול
+        </button>
+
+        <button
+          onClick={onHomeClick}
+          disabled={!exitReason.trim()}
+        >
+          אישור ויציאה
+        </button>
+      </div>
+    </div>
+  </div>
+)}
+
     </div>
   );
 }
