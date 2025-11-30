@@ -5,8 +5,8 @@ export default function HStatement() {
   const [confirmed, setConfirmed] = useState(false);
   let nav = useNavigate();
 
-  const toBiomechanicalAss = () => {
-    nav("/biomechanicalAss");
+  const CalibrationVideo = () => {
+    nav("/CalibrationVideo");
   };
 
   return (
@@ -43,7 +43,7 @@ export default function HStatement() {
 
       {confirmed && 
       (<div className='m-2 text-center'>
-          <button  onClick={toBiomechanicalAss} className='btn btn-primary btn-lg w-50'>Continue</button>
+          <button  onClick={CalibrationVideo} className='btn btn-primary btn-lg w-50'>Continue</button>
         </div>
       )}    
     </div>

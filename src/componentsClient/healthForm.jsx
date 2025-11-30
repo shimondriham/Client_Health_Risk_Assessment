@@ -115,7 +115,7 @@ function HealthForm() {
         fireConfetti();
       } else {
         alert("Survey complete! Check console for answers.");
-        nav("/CalibrationVideo");
+        nav("/h_statement");
       }
     }
   };
