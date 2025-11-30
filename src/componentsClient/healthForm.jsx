@@ -37,11 +37,30 @@ function HealthForm() {
     });
     return validAnswers;
   };
-const onHomeClick = () => {
-  console.log("סיבת יציאה:", exitReason); // כאן תוכל גם לשלוח לשרת
-  setShowExitModal(false);
-  nav("/homeClient");
-};
+  const onHomeClick = () => {
+    doApi()
+    console.log("exit Reason", exitReason);
+     
+  };
+
+  const doApi = async () => {
+    let _dataBody = {
+      exitrisen: exitReason,
+    }
+    console.log(_dataBody);
+    let url = "/users/exitrisen";
+    try {
+      let resp = await doApiMethod(url, "PUT", _dataBody);
+      console.log(resp.data);
+      if (resp.data.matchedCount == 1) {
+        setShowExitModal(false);
+        nav("/homeClient");
+      }
+    }
+    catch (error) {
+      console.log(error.response.data.error);
+    }
+  }
 
   const handleAnswer = (value) => {
     const newAnswers = cleanInvalidAnswers({ ...answers, [question.id]: value });
@@ -270,17 +289,17 @@ const onHomeClick = () => {
       {/* Navigation */}
       <div style={{ display: "flex", gap: 20, marginTop: 45 }}>
         <button onClick={back} style={{ padding: "8px 24px", background: "white", border: "1px solid #d1d5db", borderRadius: 8, cursor: "pointer" }}>Back</button>
-      <button
-      onClick={() => setShowExitModal(true)}
-      style={{
-     padding: "8px 24px",
-     background: "white",
-     border: "1px solid #d1d5db",
-     borderRadius: 8,
-     cursor: "pointer"
-     }}
->    Exit
-     </button>
+        <button
+          onClick={() => setShowExitModal(true)}
+          style={{
+            padding: "8px 24px",
+            background: "white",
+            border: "1px solid #d1d5db",
+            borderRadius: 8,
+            cursor: "pointer"
+          }}
+        >    Exit
+        </button>
         <button
           onClick={next}
           style={{
@@ -296,80 +315,80 @@ const onHomeClick = () => {
           Next
         </button>
       </div>
-    {showExitModal && (
-  <div style={{
-    position: "fixed",
-    inset: 0,
-    background: "rgba(0,0,0,0.4)",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    zIndex: 9999
-  }}>
-    <div style={{
-      background: "white",
-      padding: 24,
-      borderRadius: 12,
-      width: 340
-    }}>
-      <h3 style={{ marginBottom: 16 }}>Why are you leaving the questionnaire?</h3>
-
-      <label style={{ display: "block", marginBottom: 10 }}>
-        <input
-          type="radio"
-          name="exitReason"
-          value="Not feeling well physically"
-          checked={exitReason === "Not feeling well physically"}
-          onChange={(e) => setExitReason(e.target.value)}
-        />{" "}
-      Not feeling well physically
-      </label>
-
-      <label style={{ display: "block", marginBottom: 10 }}>
-        <input
-          type="radio"
-          name="exitReason"
-          value="I don't have time right now"
-          checked={exitReason === "I don't have time right now"}
-          onChange={(e) => setExitReason(e.target.value)}
-        />{" "}
-      I don't have time right now
-      </label>
-
-      <label style={{ display: "block", marginBottom: 10 }}>
-        <input
-          type="radio"
-          name="exitReason"
-          value="The questionnaire is too long or confusing"
-          checked={exitReason === "The questionnaire is too long or confusing"}
-          onChange={(e) => setExitReason(e.target.value)}
-        />{" "}
-      The questionnaire is too long
-      </label>
-
-      <div style={{
-        display: "flex",
-        gap: 10,
-        marginTop: 20,
-        justifyContent: "flex-end"
-      }}>
-        <button onClick={() => {
-          setShowExitModal(false);
-          setExitReason(null);
+      {showExitModal && (
+        <div style={{
+          position: "fixed",
+          inset: 0,
+          background: "rgba(0,0,0,0.4)",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          zIndex: 9999
         }}>
-          ביטול
-        </button>
+          <div style={{
+            background: "white",
+            padding: 24,
+            borderRadius: 12,
+            width: 340
+          }}>
+            <h3 style={{ marginBottom: 16 }}>Why are you leaving the questionnaire?</h3>
 
-        <button
-          onClick={onHomeClick}
-          disabled={!exitReason}
-        >
-          אישור ויציאה
-        </button>
-      </div>
-    </div>
-  </div>
-)}
+            <label style={{ display: "block", marginBottom: 10 }}>
+              <input
+                type="radio"
+                name="exitReason"
+                value="Not feeling well physically"
+                checked={exitReason === "Not feeling well physically"}
+                onChange={(e) => setExitReason(e.target.value)}
+              />{" "}
+              Not feeling well physically
+            </label>
+
+            <label style={{ display: "block", marginBottom: 10 }}>
+              <input
+                type="radio"
+                name="exitReason"
+                value="I don't have time right now"
+                checked={exitReason === "I don't have time right now"}
+                onChange={(e) => setExitReason(e.target.value)}
+              />{" "}
+              I don't have time right now
+            </label>
+
+            <label style={{ display: "block", marginBottom: 10 }}>
+              <input
+                type="radio"
+                name="exitReason"
+                value="The questionnaire is too long or confusing"
+                checked={exitReason === "The questionnaire is too long or confusing"}
+                onChange={(e) => setExitReason(e.target.value)}
+              />{" "}
+              The questionnaire is too long
+            </label>
+
+            <div style={{
+              display: "flex",
+              gap: 10,
+              marginTop: 20,
+              justifyContent: "flex-end"
+            }}>
+              <button onClick={() => {
+                setShowExitModal(false);
+                setExitReason(null);
+              }}>
+                Cancel
+              </button>
+
+              <button
+                onClick={onHomeClick}
+                disabled={!exitReason}
+              >
+                Exit to Home
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
 
     </div>

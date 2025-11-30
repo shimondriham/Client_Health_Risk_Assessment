@@ -45,7 +45,7 @@ const Varification = () => {
     try {
       let resp = await doApiMethod(url, "PATCH", _dataBody);
       console.log(resp);
-      if (resp.data.status == 200) {
+      if (resp.data.matchedCount == 1) {
         console.log("You are now a valid user");
         nav("/login");
       }

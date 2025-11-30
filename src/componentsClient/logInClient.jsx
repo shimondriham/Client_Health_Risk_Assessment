@@ -15,6 +15,7 @@ const loginClient = () => {
 
 
   const onSubForm = (data) => {
+    data.email = data.email.toLowerCase();
     doApi(data);
   }
 
