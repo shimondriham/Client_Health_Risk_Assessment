@@ -50,7 +50,9 @@ const HomeClient = () => {
         if (questionsResp.data) {
           console.log(questionsResp.data );
           setTests(questionsResp.data );
-          setHasTests(true);
+          if(questionsResp.data.length > 0){
+            setHasTests(true);
+          }
           dispatch(addIdQuestions({ idQuestions: questionsResp.data._id }));
 
           const sections = ["section1", "section2", "section3", "section4"];
