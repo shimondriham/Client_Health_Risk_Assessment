@@ -14,7 +14,9 @@ function HealthForm() {
   const [userGender, setUserGender] = useState("female");
   const [id_Questions, setId_Questions] = useState(thisidQuestions);
   const [showExitModal, setShowExitModal] = useState(false);
-  const [exitReason, setExitReason] = useState("");
+  const [exitReason, setExitReason] = useState(null);
+
+  // const [exitReason, setExitReason] = useState("");
   const nav = useNavigate();
   const dispatch = useDispatch();
 
@@ -294,7 +296,7 @@ const onHomeClick = () => {
           Next
         </button>
       </div>
-      {showExitModal && (
+    {showExitModal && (
   <div style={{
     position: "fixed",
     inset: 0,
@@ -310,29 +312,57 @@ const onHomeClick = () => {
       borderRadius: 12,
       width: 340
     }}>
-      <h3 style={{ marginBottom: 10 }}>למה לעזוב את הדף?</h3>
+      <h3 style={{ marginBottom: 16 }}>Why are you leaving the questionnaire?</h3>
 
-      <textarea
-        value={exitReason}
-        onChange={(e) => setExitReason(e.target.value)}
-        rows={3}
-        placeholder="כתוב סיבה..."
-        style={{ width: "100%", padding: 8 }}
-      />
+      <label style={{ display: "block", marginBottom: 10 }}>
+        <input
+          type="radio"
+          name="exitReason"
+          value="Not feeling well physically"
+          checked={exitReason === "Not feeling well physically"}
+          onChange={(e) => setExitReason(e.target.value)}
+        />{" "}
+      Not feeling well physically
+      </label>
+
+      <label style={{ display: "block", marginBottom: 10 }}>
+        <input
+          type="radio"
+          name="exitReason"
+          value="I don't have time right now"
+          checked={exitReason === "I don't have time right now"}
+          onChange={(e) => setExitReason(e.target.value)}
+        />{" "}
+      I don't have time right now
+      </label>
+
+      <label style={{ display: "block", marginBottom: 10 }}>
+        <input
+          type="radio"
+          name="exitReason"
+          value="The questionnaire is too long or confusing"
+          checked={exitReason === "The questionnaire is too long or confusing"}
+          onChange={(e) => setExitReason(e.target.value)}
+        />{" "}
+      The questionnaire is too long
+      </label>
 
       <div style={{
         display: "flex",
         gap: 10,
-        marginTop: 16,
+        marginTop: 20,
         justifyContent: "flex-end"
       }}>
-        <button onClick={() => setShowExitModal(false)}>
+        <button onClick={() => {
+          setShowExitModal(false);
+          setExitReason(null);
+        }}>
           ביטול
         </button>
 
         <button
           onClick={onHomeClick}
-          disabled={!exitReason.trim()}
+          disabled={!exitReason}
         >
           אישור ויציאה
         </button>
@@ -340,6 +370,7 @@ const onHomeClick = () => {
     </div>
   </div>
 )}
+
 
     </div>
   );
