@@ -5,14 +5,92 @@
       "questions": [
         {
           "id": 1,
+          "question": "What is your height?",
+          "type": "dropdown",
+         "options": [
+         "40","41","42","43","44","45","46","47","48","49",
+         "50","51","52","53","54","55","56","57","58","59",
+         "60","61","62","63","64","65","66","67","68","69",
+         "70","71","72","73","74","75","76","77","78","79",
+         "80","81","82","83","84","85","86","87","88","89",
+         "90","91","92","93","94","95","96","97","98","99",
+        "1.00","1.01","1.02","1.03","1.04","1.05","1.06","1.07","1.08","1.09",
+        "1.10","1.11","1.12","1.13","1.14","1.15","1.16","1.17","1.18","1.19",
+        "1.20","1.21","1.22","1.23","1.24","1.25","1.26","1.27","1.28","1.29",
+        "1.30","1.31","1.32","1.33","1.34","1.35","1.36","1.37","1.38","1.39",
+        "1.40","1.41","1.42","1.43","1.44","1.45","1.46","1.47","1.48","1.49",
+        "1.50","151","1.52","1.53","1.54","1.55","1.56","1.57","1.58","1.59",
+        "1.60","1.61","1.62","1.63","1.64","1.65","1.66","167","1.68","1.69",
+        "1.70","1.71","1.72","1.73","1.74","1.75","1.76","177","1.78","1.79",
+        "1.80","1.81","1.82","1.83","1.84","1.85","186","187","1.88","189",
+        "1.90","1.91","1.92","1.93","1.94","195","196","197","1.98","1.99",
+        "2.00","2.01","2.02","2.03","2.04","2.05","2.06","2.07","2.08","2.09",
+        "2.10","2.11","2.12","213","214","2.15","2.16","2.17","2.18","2.19",
+        "2.20","2.21","2.22","2.23","2.24","2.25","2.26","2.27","2.28","2.29",
+        "2.30","2.31","2.32","2.33","2.34","2.35","2.36","2.37","2.38","2.39",
+        "2.40","2.41","2.42","2.43","2.44","2.45","2.46","2.47","2.48","2.49",
+        "2.50","2.51","2.52","2.53","2.54","2.55","2.56","2.57","2.58","2.59",
+        "2.60","2.61","2.62","2.63","2.64","2.65","2.66","2.67","2.68","2.69",
+        "2.70","2.71","2.72","2.73","2.74","2.75","2.76","2.77","2.78","2.79",
+        "2.80"
+],
+          "followUps": [],
+          "whenShowFollowUps": []
+        },
+
+         {
+          "id": 2,
+          "question": "What is your weight?",
+          "type": "dropdown",
+         "options": [
+         "40","41","42","43","44","45","46","47","48","49",
+         "50","51","52","53","54","55","56","57","58","59",
+         "60","61","62","63","64","65","66","67","68","69",
+         "70","71","72","73","74","75","76","77","78","79",
+         "80","81","82","83","84","85","86","87","88","89",
+         "90","91","92","93","94","95","96","97","98","99",
+        "100","101","102","103","104","105","106","107","108","109",
+        "110","111","112","113","114","115","116","117","118","119",
+        "120","121","122","123","124","125","126","127","128","129",
+        "130","131","132","133","134","135","136","137","138","139",
+        "140","141","142","143","144","145","146","147","148","149",
+        "150","151","152","153","154","155","156","157","158","159",
+        "160","161","162","163","164","165","166","167","168","169",
+        "170","171","172","173","174","175","176","177","178","179",
+        "180","181","182","183","184","185","186","187","188","189",
+        "190","191","192","193","194","195","196","197","198","199",
+        "200","201","202","203","204","205","206","207","208","209",
+        "210","211","212","213","214","215","216","217","218","219",
+        "220","221","222","223","224","225","226","227","228","229",
+        "230","231","232","233","234","235","236","237","238","239",
+        "240","241","242","243","244","245","246","247","248","249",
+        "250","251","252","253","254","255","256","257","258","259",
+        "260","261","262","263","264","265","266","267","268","269",
+        "270","271","272","273","274","275","276","277","278","279",
+        "280"
+],
+          "followUps": [],
+          "whenShowFollowUps": []
+        },
+         {
+          "id": 3,
+          "question": "What is your date of birth?",
+          "type": "date",
+          "options": [],
+          "followUps": [],
+          "whenShowFollowUps": []
+        },
+         {
+          "id": 4,
           "question": "Has a doctor ever told you that you have a heart condition?",
           "type": "radio",
           "options": ["Yes", "No", "Prefer not to say"],
-          "followUps": [2,3,4,5,6],
+          "followUps": [5,6,7,8,9],
           "whenShowFollowUps": ["Yes"]
         },
+
         {
-          "id": 2,
+          "id": 5,
           "question": "Can you tell us more about your heart condition? This helps us keep you safe.",
           "type": "checkbox",
           "options": ["Coronary artery disease","Heart failure","Arrhythmia/irregular heartbeat","Heart valve issue","Other: [text field]"],
@@ -20,7 +98,7 @@
           "whenShowFollowUps": []
         },
         {
-          "id": 3,
+          "id": 6,
           "question": "Year diagnosed",
           "type": "dropdown",
           "options": [
@@ -37,7 +115,7 @@
           "whenShowFollowUps": []
         },
         {
-          "id": 4,
+          "id": 7,
           "question": "Do you have physician clearance to exercise?",
           "type": "radio",
           "options": ["Yes - my doctor approved","No clearance yet","Not sure"],
@@ -45,7 +123,7 @@
           "whenShowFollowUps": []
         },
         {
-          "id": 5,
+          "id": 8,
           "question": "Upload physician clearance letter (optional)",
           "type": "file",
           "options": ["PDF","JPG","PNG"],
@@ -53,7 +131,7 @@
           "whenShowFollowUps": []
         },
         {
-          "id": 6,
+          "id":9,
           "question": "Date of clearance",
           "type": "date",
           "options": [],
@@ -61,7 +139,7 @@
           "whenShowFollowUps": []
         },
         {
-          "id": 7,
+          "id": 10,
           "question": "Do you ever feel chest pain when you're physically active?",
           "type": "radio",
           "options": ["Yes","No"],
@@ -69,7 +147,7 @@
           "whenShowFollowUps": ["Yes"]
         },
         {
-          "id": 8,
+          "id": 11,
           "question": "How often does chest pain happen?",
           "type": "radio",
           "options": ["Rarely - once or twice ever","Sometimes - a few times a year","Frequently - monthly or more"],
@@ -77,7 +155,7 @@
           "whenShowFollowUps": []
         },
         {
-          "id": 9,
+          "id": 12,
           "question": "When did this last happen?",
           "type": "date",
           "options": [],
@@ -85,7 +163,7 @@
           "whenShowFollowUps": []
         },
         {
-          "id": 10,
+          "id": 13,
           "question": "Do you experience unusual shortness of breath at rest or with light effort?",
           "type": "radio",
           "options": ["Yes","No"],
@@ -93,7 +171,7 @@
           "whenShowFollowUps": ["Yes"]
         },
         {
-          "id": 11,
+          "id": 14,
           "question": "When does shortness of breath happen? (Select all that apply)",
           "type": "checkbox",
           "options": ["At rest","With minimal exertion (walking, climbing stairs)","Only during vigorous activity"],
@@ -101,7 +179,7 @@
           "whenShowFollowUps": []
         },
         {
-          "id": 12,
+          "id": 15,
           "question": "Recent onset (within last 3 months)?",
           "type": "radio",
           "options": ["Yes","No"],
@@ -109,7 +187,7 @@
           "whenShowFollowUps": []
         },
         {
-          "id": 13,
+          "id": 16,
           "question": "Have you experienced any of the following in the past 48 hours?",
           "type": "checkbox",
           "options": [
@@ -124,7 +202,7 @@
           "whenShowFollowUps": []
         },
         {
-          "id": 14,
+          "id": 17,
           "question": "Do you ever feel dizzy, lose your balance, or lose consciousness?",
           "type": "radio",
           "options": ["Yes","No"],
@@ -132,7 +210,7 @@
           "whenShowFollowUps": ["Yes"]
         },
         {
-          "id": 15,
+          "id": 18,
           "question": "What happens? (Select all that apply)",
           "type": "checkbox",
           "options": ["Dizziness/lightheadedness","Loss of balance","Fainting/loss of consciousness"],
@@ -140,7 +218,7 @@
           "whenShowFollowUps": []
         },
         {
-          "id": 16,
+          "id": 19,
           "question": "How often do these episodes happen?",
           "type": "radio",
           "options": ["Rarely","Sometimes","Frequently"],
@@ -148,7 +226,7 @@
           "whenShowFollowUps": []
         },
         {
-          "id": 17,
+          "id": 20,
           "question": "Most recent episode",
           "type": "date",
           "options": [],
@@ -156,7 +234,7 @@
           "whenShowFollowUps": []
         },
         {
-          "id": 18,
+          "id": 21,
           "question": "When does the dizziness typically occur?",
           "type": "checkbox",
           "options": ["When standing up from sitting or lying down","During position changes","With head movements","Randomly/unpredictably","During or after exercise"],
@@ -164,7 +242,7 @@
           "whenShowFollowUps": []
         },
         {
-          "id": 19,
+          "id": 22,
           "question": "Does it improve after a minute or two of standing?",
           "type": "radio",
           "options": ["Yes","No"],
@@ -172,7 +250,7 @@
           "whenShowFollowUps": []
         },
         {
-          "id": 20,
+          "id": 23,
           "question": "Do you have swelling in your ankles or legs?",
           "type": "radio",
           "options": ["Yes","No"],
@@ -180,7 +258,7 @@
           "whenShowFollowUps": []
         },
         {
-          "id": 21,
+          "id": 24,
           "question": "Do you have any bone, joint, or muscle problems that might be affected by exercise?",
           "type": "radio",
           "options": ["Yes","No"],
@@ -188,7 +266,7 @@
           "whenShowFollowUps": ["Yes"]
         },
         {
-          "id": 22,
+          "id": 25,
           "question": "Which areas are affected?",
           "type": "checkbox",
           "options": ["Neck","Shoulders","Back (upper)","Back (lower)","Hips","Knees","Ankles/Feet","Wrists/Hands","Other: [text field]"],
@@ -196,7 +274,7 @@
           "whenShowFollowUps": []
         },
         {
-          "id": 23,
+          "id": 26,
           "question": "Condition type for each area selected",
           "type": "checkbox",
           "options": ["Arthritis","Past injury","Chronic pain","Recent surgery","Other: [text field]"],
@@ -204,7 +282,7 @@
           "whenShowFollowUps": []
         },
         {
-          "id": 24,
+          "id": 27,
           "question": "How long have you had this?",
           "type": "radio",
           "options": ["Less than 3 months","3-12 months","More than 1 year"],
@@ -212,7 +290,7 @@
           "whenShowFollowUps": []
         },
         {
-          "id": 25,
+          "id": 28,
           "question": "Current pain level",
           "type": "slider",
           "options": ["0","1","2","3","4","5","6","7","8","9","10"],
@@ -220,31 +298,36 @@
           "whenShowFollowUps": []
         },
         {
-          "id": 26,
+          "id": 29,
+          "question": "what is your gender?",
+          "type": "radio",
+          "options": ["Male","Female","Other","Prefer not to say"],
+          "followUps": [30],
+          "whenShowFollowUps": ["Female"]
+        },
+        {
+          "id": 30,
           "question": "Are you currently pregnant?",
           "type": "radio",
           "options": ["Yes","No","Not applicable"],
-          "followUps": [27,28],
-          "whenShowFollowUps": ["Yes"],
-          "restriction": "female"
+          "followUps": [31,32],
+          "whenShowFollowUps": ["Yes"]
         },
         {
-          "id": 27,
+          "id": 31,
           "question": "Which trimester?",
           "type": "radio",
           "options": ["First (weeks 1-12)","Second (weeks 13-26)","Third (weeks 27-40)"],
           "followUps": [],
-          "whenShowFollowUps": [],
-          "restriction": "female"
+          "whenShowFollowUps": []
         },
         {
-          "id": 28,
+          "id": 32,
           "question": "Do you have physician clearance for exercise?",
           "type": "radio",
           "options": ["Yes","No"],
           "followUps": [],
-          "whenShowFollowUps": [],
-          "restriction": "female"
+          "whenShowFollowUps": []
         }
       ]
     },
@@ -252,7 +335,7 @@
       "section": "Your Active Life",
       "questions": [
         {
-          "id": 29,
+          "id": 32,
           "question": "How active are you in a typical week?",
           "type": "radio",
           "options": ["I'm mostly sedentary (little to no planned exercise)","Light activity (1-2 days/week)","Moderately active (3-4 days/week)","Very active (5+ days/week)","Athlete-level activity"],
@@ -260,7 +343,7 @@
           "whenShowFollowUps": []
         },
         {
-          "id": 30,
+          "id": 33,
           "question": "When you are active, how long does a typical session last?",
           "type": "radio",
           "options": ["Less than 15 minutes","15-30 minutes","30-60 minutes","More than 60 minutes"],
@@ -268,7 +351,7 @@
           "whenShowFollowUps": []
         },
         {
-          "id": 31,
+          "id": 34,
           "question": "How would you describe your daily routine?",
           "type": "radio",
           "options": ["Mostly sitting (desk work, watching TV)","Light movement (walking, household chores)","Moderate activity (standing job, regular walking)","Vigorous activity (physical labor, sports)"],
@@ -276,7 +359,7 @@
           "whenShowFollowUps": []
         },
         {
-          "id": 32,
+          "id": 35,
           "question": "How many hours of sleep do you typically get each night?",
           "type": "slider",
           "options": ["4","5","6","7","8","9","10"],
@@ -284,7 +367,7 @@
           "whenShowFollowUps": []
         },
         {
-          "id": 33,
+          "id": 36,
           "question": "Do you currently smoke?",
           "type": "radio",
           "options": ["No, never smoked","No, but I used to","Yes, occasionally","Yes, daily"],
@@ -292,7 +375,7 @@
           "whenShowFollowUps": []
         },
         {
-          "id": 34,
+          "id": 37,
           "question": "How often do you drink alcohol?",
           "type": "radio",
           "options": ["Never","Monthly or less","2-4 times a month","2-3 times a week","4+ times a week"],
@@ -300,7 +383,7 @@
           "whenShowFollowUps": []
         },
         {
-          "id": 35,
+          "id": 38,
           "question": "How would you rate your current stress level?",
           "type": "slider",
           "options": ["Low","Moderate","High"],
@@ -313,7 +396,7 @@
       "section": "How You Feel Day to Day",
       "questions": [
         {
-          "id": 36,
+          "id": 39,
           "question": "How easy is it for you to do daily activities like dressing, bathing, or cooking?",
           "type": "radio",
           "options": ["No difficulty at all - I'm fully independent","A little difficult - takes more effort","Quite difficult - I struggle sometimes","Very difficult - I often need help","Unable to do - I need full assistance"],
@@ -321,7 +404,7 @@
           "whenShowFollowUps": []
         },
         {
-          "id": 37,
+          "id": 40,
           "question": "In the past 7 days, how much body pain have you experienced on average?",
           "type": "slider",
           "options": ["0","1","2","3","4","5","6","7","8","9","10"],
@@ -329,7 +412,7 @@
           "whenShowFollowUps": ["1","2","3","4","5","6","7","8","9","10"]
         },
         {
-          "id": 38,
+          "id": 41,
           "question": "Where do you feel pain most?",
           "type": "checkbox",
           "options": ["Head/Neck","Shoulders","Upper back","Lower back","Hips","Knees","Feet/Ankles","Hands/Wrists","All over (widespread)"],
@@ -337,7 +420,7 @@
           "whenShowFollowUps": []
         },
         {
-          "id": 39,
+          "id": 42,
           "question": "For each selected area: Pain type",
           "type": "checkbox",
           "options": ["Sharp/stabbing","Dull/aching","Burning","Other"],
@@ -345,7 +428,7 @@
           "whenShowFollowUps": []
         },
         {
-          "id": 40,
+          "id": 43,
           "question": "How would you describe your energy levels lately?",
           "type": "radio",
           "options": ["I feel energetic most days","I have moderate energy - good days and tired days","I often feel tired or low energy","I'm exhausted most of the time"],
@@ -353,7 +436,7 @@
           "whenShowFollowUps": []
         },
         {
-          "id": 41,
+          "id": 44,
           "question": "How confident are you in your balance?",
           "type": "radio",
           "options": ["Very confident - I never worry about falling","Somewhat confident - occasionally feel unsteady","Not very confident - I'm cautious about movement","Not confident at all - I worry about falling often"],
@@ -361,7 +444,7 @@
           "whenShowFollowUps": []
         },
         {
-          "id": 42,
+          "id": 45,
           "question": "Have you had any falls in the past 12 months?",
           "type": "radio",
           "options": ["No falls","Yes, 1 fall","Yes, 2 falls","Yes, 3 or more falls"],
@@ -369,7 +452,7 @@
           "whenShowFollowUps": ["Yes, 1 fall","Yes, 2 falls","Yes, 3 or more falls"]
         },
         {
-          "id": 43,
+          "id": 46,
           "question": "Did any fall result in injury requiring medical attention?",
           "type": "radio",
           "options": ["Yes","No"],
@@ -377,7 +460,7 @@
           "whenShowFollowUps": []
         },
         {
-          "id": 44,
+          "id": 47,
           "question": "Most recent fall date",
           "type": "date",
           "options": [],
@@ -385,7 +468,7 @@
           "whenShowFollowUps": []
         },
         {
-          "id": 45,
+          "id": 48,
           "question": "Do you use any mobility aids?",
           "type": "radio",
           "options": ["No","Yes"],
@@ -393,7 +476,7 @@
           "whenShowFollowUps": ["Yes"]
         },
         {
-          "id": 46,
+          "id": 49,
           "question": "If YES, check all that apply",
           "type": "checkbox",
           "options": ["Cane","Walker","Wheelchair (manual)","Wheelchair (power)","Brace or orthotic","Other: [text field]"],
@@ -401,7 +484,7 @@
           "whenShowFollowUps": []
         },
         {
-          "id": 47,
+          "id": 50,
           "question": "How often do you use it?",
           "type": "radio",
           "options": ["All the time","Most of the time","Sometimes","Rarely"],
@@ -414,7 +497,7 @@
       "section": "Your Goals",
       "questions": [
         {
-          "id": 48,
+          "id": 51,
           "question": "What would you most like to improve with Fitwave?",
           "type": "checkbox",
           "options": ["Build strength and endurance","Improve balance and prevent falls","Increase flexibility and mobility","Sharpen memory and mental focus","Boost energy and vitality","Manage or reduce pain","Stay socially connected","Improve overall health and wellness","Prepare for surgery/recovery","Other: [text field]"],
@@ -422,7 +505,7 @@
           "whenShowFollowUps": []
         },
         {
-          "id": 49,
+          "id": 52,
           "question": "Anything else you'd like us to know?",
           "type": "textarea",
           "options": [],
