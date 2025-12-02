@@ -137,7 +137,7 @@ const HomeClient = () => {
           <div className="col-md-5 d-flex justify-content-center align-items-center">
             <button
               className="btn btn-primary btn-lg px-5 py-3"
-              onClick={() => navigate("/HealthForm")}
+              onClick={() => navigate("/explanatoryV")}
             >
               Start New Test
             </button>
@@ -153,7 +153,7 @@ const HomeClient = () => {
           </p>
           <button
             className="btn btn-primary btn-lg px-5 py-3"
-            onClick={() => navigate("/HealthForm")}
+            onClick={() => navigate("/explanatoryV")}
           >
             Start Your First Test
           </button>
