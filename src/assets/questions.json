@@ -335,7 +335,7 @@
       "section": "Your Active Life",
       "questions": [
         {
-          "id": 32,
+          "id": 33,
           "question": "How active are you in a typical week?",
           "type": "radio",
           "options": ["I'm mostly sedentary (little to no planned exercise)","Light activity (1-2 days/week)","Moderately active (3-4 days/week)","Very active (5+ days/week)","Athlete-level activity"],
@@ -343,7 +343,7 @@
           "whenShowFollowUps": []
         },
         {
-          "id": 33,
+          "id": 34,
           "question": "When you are active, how long does a typical session last?",
           "type": "radio",
           "options": ["Less than 15 minutes","15-30 minutes","30-60 minutes","More than 60 minutes"],
@@ -351,7 +351,7 @@
           "whenShowFollowUps": []
         },
         {
-          "id": 34,
+          "id": 35,
           "question": "How would you describe your daily routine?",
           "type": "radio",
           "options": ["Mostly sitting (desk work, watching TV)","Light movement (walking, household chores)","Moderate activity (standing job, regular walking)","Vigorous activity (physical labor, sports)"],
@@ -359,7 +359,7 @@
           "whenShowFollowUps": []
         },
         {
-          "id": 35,
+          "id": 36,
           "question": "How many hours of sleep do you typically get each night?",
           "type": "slider",
           "options": ["4","5","6","7","8","9","10"],
@@ -367,7 +367,7 @@
           "whenShowFollowUps": []
         },
         {
-          "id": 36,
+          "id": 37,
           "question": "Do you currently smoke?",
           "type": "radio",
           "options": ["No, never smoked","No, but I used to","Yes, occasionally","Yes, daily"],
@@ -375,7 +375,7 @@
           "whenShowFollowUps": []
         },
         {
-          "id": 37,
+          "id": 38,
           "question": "How often do you drink alcohol?",
           "type": "radio",
           "options": ["Never","Monthly or less","2-4 times a month","2-3 times a week","4+ times a week"],
@@ -383,7 +383,7 @@
           "whenShowFollowUps": []
         },
         {
-          "id": 38,
+          "id": 39,
           "question": "How would you rate your current stress level?",
           "type": "slider",
           "options": ["Low","Moderate","High"],
@@ -396,7 +396,7 @@
       "section": "How You Feel Day to Day",
       "questions": [
         {
-          "id": 39,
+          "id": 40,
           "question": "How easy is it for you to do daily activities like dressing, bathing, or cooking?",
           "type": "radio",
           "options": ["No difficulty at all - I'm fully independent","A little difficult - takes more effort","Quite difficult - I struggle sometimes","Very difficult - I often need help","Unable to do - I need full assistance"],
@@ -404,15 +404,15 @@
           "whenShowFollowUps": []
         },
         {
-          "id": 40,
+          "id": 41,
           "question": "In the past 7 days, how much body pain have you experienced on average?",
           "type": "slider",
           "options": ["0","1","2","3","4","5","6","7","8","9","10"],
-          "followUps": [38,39],
+          "followUps": [39,40],
           "whenShowFollowUps": ["1","2","3","4","5","6","7","8","9","10"]
         },
         {
-          "id": 41,
+          "id": 42,
           "question": "Where do you feel pain most?",
           "type": "checkbox",
           "options": ["Head/Neck","Shoulders","Upper back","Lower back","Hips","Knees","Feet/Ankles","Hands/Wrists","All over (widespread)"],
@@ -420,7 +420,7 @@
           "whenShowFollowUps": []
         },
         {
-          "id": 42,
+          "id": 43,
           "question": "For each selected area: Pain type",
           "type": "checkbox",
           "options": ["Sharp/stabbing","Dull/aching","Burning","Other"],
@@ -428,7 +428,7 @@
           "whenShowFollowUps": []
         },
         {
-          "id": 43,
+          "id": 44,
           "question": "How would you describe your energy levels lately?",
           "type": "radio",
           "options": ["I feel energetic most days","I have moderate energy - good days and tired days","I often feel tired or low energy","I'm exhausted most of the time"],
@@ -436,7 +436,7 @@
           "whenShowFollowUps": []
         },
         {
-          "id": 44,
+          "id": 45,
           "question": "How confident are you in your balance?",
           "type": "radio",
           "options": ["Very confident - I never worry about falling","Somewhat confident - occasionally feel unsteady","Not very confident - I'm cautious about movement","Not confident at all - I worry about falling often"],
@@ -444,15 +444,15 @@
           "whenShowFollowUps": []
         },
         {
-          "id": 45,
+          "id": 46,
           "question": "Have you had any falls in the past 12 months?",
           "type": "radio",
           "options": ["No falls","Yes, 1 fall","Yes, 2 falls","Yes, 3 or more falls"],
-          "followUps": [43,44],
+          "followUps": [44,45],
           "whenShowFollowUps": ["Yes, 1 fall","Yes, 2 falls","Yes, 3 or more falls"]
         },
         {
-          "id": 46,
+          "id": 47,
           "question": "Did any fall result in injury requiring medical attention?",
           "type": "radio",
           "options": ["Yes","No"],
@@ -460,7 +460,7 @@
           "whenShowFollowUps": []
         },
         {
-          "id": 47,
+          "id": 48,
           "question": "Most recent fall date",
           "type": "date",
           "options": [],
@@ -468,15 +468,15 @@
           "whenShowFollowUps": []
         },
         {
-          "id": 48,
+          "id": 49,
           "question": "Do you use any mobility aids?",
           "type": "radio",
           "options": ["No","Yes"],
-          "followUps": [46,47],
+          "followUps": [47,48],
           "whenShowFollowUps": ["Yes"]
         },
         {
-          "id": 49,
+          "id": 50,
           "question": "If YES, check all that apply",
           "type": "checkbox",
           "options": ["Cane","Walker","Wheelchair (manual)","Wheelchair (power)","Brace or orthotic","Other: [text field]"],
@@ -484,7 +484,7 @@
           "whenShowFollowUps": []
         },
         {
-          "id": 50,
+          "id": 51,
           "question": "How often do you use it?",
           "type": "radio",
           "options": ["All the time","Most of the time","Sometimes","Rarely"],
@@ -497,7 +497,7 @@
       "section": "Your Goals",
       "questions": [
         {
-          "id": 51,
+          "id": 52,
           "question": "What would you most like to improve with Fitwave?",
           "type": "checkbox",
           "options": ["Build strength and endurance","Improve balance and prevent falls","Increase flexibility and mobility","Sharpen memory and mental focus","Boost energy and vitality","Manage or reduce pain","Stay socially connected","Improve overall health and wellness","Prepare for surgery/recovery","Other: [text field]"],
@@ -505,7 +505,7 @@
           "whenShowFollowUps": []
         },
         {
-          "id": 52,
+          "id": 53,
           "question": "Anything else you'd like us to know?",
           "type": "textarea",
           "options": [],
