@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import confetti from "canvas-confetti";
 import surveyData from "../assets/questions.json";
 import { useNavigate } from "react-router-dom";
@@ -11,13 +11,17 @@ function HealthForm() {
   const [sectionIndex, setSectionIndex] = useState(0);
   const [questionIndex, setQuestionIndex] = useState(0);
   const [answers, setAnswers] = useState({});
-  const [userGender, setUserGender] = useState("female");
   const [id_Questions, setId_Questions] = useState(thisidQuestions);
   const [showExitModal, setShowExitModal] = useState(false);
   const [exitReason, setExitReason] = useState(null);
   const nav = useNavigate();
   const dispatch = useDispatch();
+  const didRunRef = useRef(false);
+  const isAdvancingRef = useRef(false);
+
   useEffect(() => {
+     if (didRunRef.current) return;
+    didRunRef.current = true;
     if (id_Questions != "0") { doApiContinue(); }
   }, []);
 
@@ -30,7 +34,10 @@ function HealthForm() {
         else if (resp.data.section === "Your Active Life") { setSectionIndex(2); }
         else if (resp.data.section === "How You Feel Day to Day") { setSectionIndex(3); }
         setId_Questions(resp.data._id);
-      }
+      } 
+      // else {
+      //   setId_Questions("0");
+      // }
     }
     catch (error) {
     }
@@ -43,18 +50,16 @@ function HealthForm() {
     const validAnswers = {};
     surveyData.sections.forEach(sec => {
       sec.questions.forEach(q => {
-        if (shouldShowQuestion(q, newAnswers) && newAnswers[q.id] !== undefined)
-          validAnswers[q.id] = newAnswers[q.id];
-      }
-      );
+        if (shouldShowQuestion(q, newAnswers)) {
+          if (newAnswers[q.id] !== undefined) validAnswers[q.id] = newAnswers[q.id];
+        }
+      });
     });
     return validAnswers;
   };
 
   const onHomeClick = async () => {
-    let _dataBody = {
-      exitrisen: exitReason,
-    }
+    let _dataBody = { exitrisen: exitReason };
     try {
       let resp = await doApiMethod("/users/exitrisen", "PUT", _dataBody);
       if (resp.data.matchedCount == 1) {
@@ -62,11 +67,10 @@ function HealthForm() {
         dispatch(addIdQuestions({ idQuestions: "0" }));
         nav("/homeClient");
       }
+    } catch (error) {
+      console.log(error.response?.data?.error || error);
     }
-    catch (error) {
-      console.log(error.response.data.error);
-    }
-  }
+  };
 
   const handleAnswer = (value) => {
     const newAnswers = cleanInvalidAnswers({ ...answers, [question.id]: value });
@@ -74,17 +78,25 @@ function HealthForm() {
   };
 
   const shouldShowQuestion = (q, answerState = answers) => {
-    if (q.restriction && q.restriction !== userGender) return false;
-    for (let prevQ of section.questions) {
+    if (q.restriction && q.restriction !== (answerState.userGender || undefined)) return false;
+
+    const secIndexOfQ = surveyData.sections.findIndex(sec => sec.questions.some(qq => qq.id === q.id));
+    const questionsInSection = secIndexOfQ !== -1 ? surveyData.sections[secIndexOfQ].questions : [];
+    const qIndexInSection = questionsInSection.findIndex(qq => qq.id === q.id);
+    for (let i = 0; i < qIndexInSection; i++) {
+      const prevQ = questionsInSection[i];
       if (prevQ.followUps.includes(q.id)) {
         const prevAnswer = answerState[prevQ.id];
-        if (!prevAnswer) return false;
-        if (prevQ.whenShowFollowUps.length > 0 && !prevQ.whenShowFollowUps.includes(prevAnswer)) {
+        if (!prevAnswer) {
+          return false;
+        }
+        if (prevQ.whenShowFollowUps.length > 0 && !prevQ.whenShowFollowUps.map(String).includes(String(prevAnswer))) {
           return false;
         }
       }
     }
-    return true;
+    const res = true;
+    return res;
   };
 
   const isAnswerEmpty = () => {
@@ -93,59 +105,52 @@ function HealthForm() {
   };
 
   const next = async () => {
-    if (isAnswerEmpty()) return;
-    let nextQ = questionIndex + 1;
-    while (nextQ < section.questions.length) {
-      if (shouldShowQuestion(section.questions[nextQ])) break;
-      nextQ++;
-    }
+    if (isAdvancingRef.current) return;
+    isAdvancingRef.current = true;
+    try {
+      if (isAnswerEmpty()) return;
 
-    if (nextQ < section.questions.length) {
-      setQuestionIndex(nextQ);
-    } else {
-      let sectionObj = {}
-      if (section.section === "Safety First") {
-        sectionObj = {
-          section: section.section,
-          answers: section.questions
-            .filter(q => answers[q.id] !== undefined)
-            .map(q => ({ id: q.id, answer: answers[q.id] }))
-        };
+      const currentSection = surveyData.sections[sectionIndex];
+      let nextQ = questionIndex + 1;
+      while (nextQ < currentSection.questions.length) {
+        if (shouldShowQuestion(currentSection.questions[nextQ])) break;
+        nextQ++;
+      }
+
+      if (nextQ < currentSection.questions.length) {
+        setQuestionIndex(nextQ);
+        return;
+      }
+
+      const answersForSection = currentSection.questions
+        .filter(q => answers[q.id] !== undefined)
+        .map(q => ({ id: q.id, answer: answers[q.id] }));
+
+      if (currentSection.section === "Safety First") {
         try {
-          let resp = await doApiMethod("/questions", "POST", sectionObj);
+          let resp = await doApiMethod("/questions", "POST", { section: currentSection.section, answers: answersForSection });
           if (resp.data._id) {
             setId_Questions(resp.data._id);
             dispatch(addIdQuestions({ idQuestions: resp.data._id }));
           }
-        }
-        catch (error) {
-          console.log(error);
-        }
+        } catch (error) { console.log(error); }
       } else {
-        sectionObj = {
-          idQuestions: id_Questions,
-          section: section.section,
-          answers: section.questions
-            .filter(q => answers[q.id] !== undefined)
-            .map(q => ({ id: q.id, answer: answers[q.id] }))
-        };
         try {
-          let resp = await doApiMethod("/questions/edit", "PUT", sectionObj);
-          if (resp.data.modifiedCount == 1) {
-          }
-        }
-        catch (error) {
-          console.log(error);
-        }
+          let resp = await doApiMethod("/questions/edit", "PUT", { idQuestions: id_Questions, section: currentSection.section, answers: answersForSection });
+          if (resp.data.modifiedCount == 1) console.log("Section answers saved");
+        } catch (error) { console.log(error); }
       }
+
       if (sectionIndex < surveyData.sections.length - 1) {
-        setSectionIndex(sectionIndex + 1);
+        setSectionIndex(prev => prev + 1);
         setQuestionIndex(0);
         fireConfetti();
       } else {
         alert("Survey complete! Check console for answers.");
         nav("/h_statement");
       }
+    } finally {
+      isAdvancingRef.current = false;
     }
   };
 
@@ -249,7 +254,21 @@ function HealthForm() {
     }
   };
 
-  if (!shouldShowQuestion(question)) { next(); return null; }
+  useEffect(() => {
+    const checkAndAdvance = async () => {
+      if (!shouldShowQuestion(question) && !isAdvancingRef.current) {
+        isAdvancingRef.current = true;
+        try {
+          await next();
+        } catch (err) {
+          console.error(err);
+        } finally {
+          isAdvancingRef.current = false;
+        }
+      }
+    };
+    checkAndAdvance();
+  }, [sectionIndex, questionIndex]);
 
   return (
     <div className="d-flex flex-column align-items-center pb-5" style={{ direction: "ltr", fontFamily: "Arial", background: "#f9fafb" }}>
