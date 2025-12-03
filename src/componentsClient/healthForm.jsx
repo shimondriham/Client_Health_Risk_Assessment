@@ -43,6 +43,7 @@ function HealthForm() {
     }
   }
 
+  
   const section = surveyData.sections[sectionIndex];
   const question = section.questions[questionIndex];
   const fireConfetti = () => { confetti({ particleCount: 200, spread: 80, origin: { y: 0.6 } }); };
