@@ -32,14 +32,14 @@ export default function HStatement() {
         </li>
       </ol>
 
-      <div style={{  display: "flex",alignItems: "center", gap: "10px", marginBottom: "20px",}}>
+      <label style={{  display: "flex",alignItems: "center", gap: "10px", marginBottom: "20px",}}>
         <input
           type="checkbox"
           checked={confirmed}
           onChange={(e) => setConfirmed(e.target.checked)}
         />
         <span>I confirm the health declaration and wish to continue</span>
-      </div>
+      </label>
 
       {confirmed && 
       (<div className='m-2 text-center'>
