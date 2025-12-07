@@ -20,7 +20,7 @@ function HealthForm() {
   const isAdvancingRef = useRef(false);
 
   useEffect(() => {
-     if (didRunRef.current) return;
+    if (didRunRef.current) return;
     didRunRef.current = true;
     if (id_Questions != "0") { doApiContinue(); }
   }, []);
@@ -34,7 +34,7 @@ function HealthForm() {
         else if (resp.data.section === "Your Active Life") { setSectionIndex(2); }
         else if (resp.data.section === "How You Feel Day to Day") { setSectionIndex(3); }
         setId_Questions(resp.data._id);
-      } 
+      }
       // else {
       //   setId_Questions("0");
       // }
@@ -271,7 +271,7 @@ function HealthForm() {
   }, [sectionIndex, questionIndex]);
 
   return (
-    <div className="d-flex flex-column align-items-center pb-5" style={{ direction: "ltr", fontFamily: "Arial", background: "#f9fafb" }}>
+    <div className="d-flex flex-column align-items-center pb-5" style={{ direction: "ltr", fontFamily: "Arial" }}>
       {/* Sections Progress */}
       <div className="d-flex justify-content-center align-items-center gap-4 py-3">
         {surveyData.sections.map((s, i) => (
@@ -308,23 +308,24 @@ function HealthForm() {
         <button onClick={back} style={{ padding: "8px 24px", background: "white", border: "1px solid #d1d5db", borderRadius: 8, cursor: "pointer" }} className="me-2">Back</button>
         {/* <button onClick={() => setShowExitModal(true)} style={{ padding: "8px 24px", background: "white", border: "1px solid #d1d5db", borderRadius: 8, cursor: "pointer" }} className="me-2">Exit</button> */}
 
-   <button
-  onClick={() => { const confirmExit = window.confirm("You are about to leave the test page. Current test will be lost. Are you sure you want to continue?");
-    if (confirmExit) {
-      nav("/homeClient");
-    }
-  }}
-  style={{
-    padding: "8px 24px",
-    background: "white",
-    border: "1px solid #d1d5db",
-    borderRadius: 8,
-    cursor: "pointer"
-  }}
-  className="me-2"
->
-  Exit
-</button>
+        <button
+          onClick={() => {
+            const confirmExit = window.confirm("You are about to leave the test page. Current test will be lost. Are you sure you want to continue?");
+            if (confirmExit) {
+              nav("/homeClient");
+            }
+          }}
+          style={{
+            padding: "8px 24px",
+            background: "white",
+            border: "1px solid #d1d5db",
+            borderRadius: 8,
+            cursor: "pointer"
+          }}
+          className="me-2"
+        >
+          Exit
+        </button>
         <button onClick={next} style={{ padding: "8px 24px", background: isAnswerEmpty() ? "#d1d5db" : "#7c3aed", color: "white", border: "none", borderRadius: 8 }} disabled={isAnswerEmpty()}>
           Next
         </button>

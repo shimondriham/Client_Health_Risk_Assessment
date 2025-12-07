@@ -71,17 +71,7 @@ const HomeClient = () => {
 
   };
 
-  const downloadReport = (testId) => {
-    const doc = new jsPDF();
-    doc.setFontSize(22);
-    doc.text("Test Report", 10, 20);
-    doc.setFontSize(14);
-    doc.text(`Report for test ID: ${testId}`, 10, 40);
-    doc.text("Status: Completed", 10, 55);
-    doc.text("Date: 22 Jan 2025", 10, 70);
-    doc.text("More details here...", 10, 90);
-    doc.save(`test_${testId}_report.pdf`);
-  };
+
 
   return (<div className="container py-5"> <h2 className="text-center mb-5">
     Welcome {hasTests ? "Back " : ""}{myName || "User"}! </h2>
@@ -112,9 +102,12 @@ const HomeClient = () => {
                         {test.finished && (
                           <button
                             className="btn btn-outline-success btn-sm"
-                            onClick={() => downloadReport(test._id)}
+                            onClick={() => {
+                              dispatch(addIdQuestions({ idQuestions: test._id }));
+                              navigate(`/outCome`);
+                            }}
                           >
-                            Download Report
+                            To Report
                           </button>
                         )}
                         {!test.finished && (

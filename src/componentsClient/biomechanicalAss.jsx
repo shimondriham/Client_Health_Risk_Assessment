@@ -2,21 +2,33 @@ import React, { useRef, useEffect, useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { FilesetResolver, PoseLandmarker } from '@mediapipe/tasks-vision';
 
-function BiomechanicalAss() {
-  const nav = useNavigate();
+const assessments = [
+  { name: "First assessment" },
+  { name: "Second assessment" },
+  { name: "Third assessment" },
+  { name: "Fourth assessment" },
+  { name: "Fifth assessment" },
+  { name: "Sixth assessment" },
+  { name: "Seventh assessment" }
+];
 
+function BiomechanicalAss() {
+  const [assessmentIndex, setassessmentIndex] = useState(0);
+  const nav = useNavigate();
   const p11Y = useRef(null);
   const p13Y = useRef(null);
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
   const isValid = useRef(false);
   const [feedback, setFeedback] = useState('');
+  // const feedbackRef = useRef('');
 
   const poseLandmarkerRef = useRef(null);
 
   const toOutCome = () => {
     nav("/OutCome");
   };
+
   useEffect(() => {
     let animationId;
 
@@ -86,13 +98,13 @@ function BiomechanicalAss() {
             connections.forEach(([start, end]) => {
               const p1 = landmarks[start];
               const p2 = landmarks[end];
-            
+
               if (start === 11 && end === 13) {
                 p11Y.current = p1.y;
                 p13Y.current = p2.y;
               }
             });
-          
+
             const xs = landmarks.map(p => p.x);
             const ys = landmarks.map(p => p.y);
             const minX = Math.min(...xs);
@@ -109,7 +121,7 @@ function BiomechanicalAss() {
 
             const isAboveShoulder =
               p13Y.current < p11Y.current;
-            
+
             if (!isValid.current) {
               isValid.current = isAboveShoulder;
             }
@@ -148,25 +160,46 @@ function BiomechanicalAss() {
       console.warn('Error stopping camera:', err);
     }
   };
+  const Back = () => {
+    assessmentIndex > 0 ? setassessmentIndex(assessmentIndex - 1) : null
+  };
+  const Next = () => {
+    assessmentIndex < assessments.length-1 ? setassessmentIndex(assessmentIndex + 1) :null
+  };
+  const name = () => {
+    return assessments[assessmentIndex].name
+  };
+
+
 
 
 
   return (
-    <div>
-      <div
-        className="container mt-5 shadow-lg p-4 d-flex flex-column text-center"
-        style={{ width: '95%', maxWidth: '900px', height: '90vh', backgroundColor: 'white' }}
-      >
+    <div className="d-flex flex-column align-items-center my-4">
+      <div className="d-flex justify-content-center align-items-center gap-4 py-3">
+        {assessments.map((s, i) => (
+          <div key={i} className="d-flex align-items-center">
+            {i !== 0 && (<div style={{ width: 40, height: 3, background: i <= assessmentIndex ? "#6d28d9" : "#d1d5db", marginRight: 20, transition: "0.3s" }} />)}
+            <div style={{ textAlign: "center", opacity: i === assessmentIndex ? 1 : 0.4 }}>
+              <div className="rounded-circle border d-flex align-items-center justify-content-center fw-bold" style={{ width: 32, height: 32, border: "2px solid #6d28d9", background: i === assessmentIndex ? "#6d28d9" : "white", color: i === assessmentIndex ? "white" : "#6d28d9", margin: "0 auto" }}>
+                {i + 1}
+              </div>
+              <div style={{ fontSize: 13, marginTop: 5 }}>{s.name}</div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <div className="m-1 shadow-lg p-2 d-flex flex-column text-center" style={{ width: '95%', maxWidth: '50%', height: '80vh', backgroundColor: 'white' }}>
         <div className="row justify-content-center">
-         
-          <h4 className="m-2">Camera Calibration</h4>
+          <h4 className="m-1">{name()}</h4>
           <div style={{ position: 'relative', width: '100%' }}>
             <video
               ref={videoRef}
               autoPlay
               playsInline
               style={{
-                width: '100%',
+                width: '90%',
                 border: '1px solid #ccc',
                 borderRadius: '8px',
                 transform: 'scaleX(-1)'
@@ -174,31 +207,37 @@ function BiomechanicalAss() {
             />
             <canvas
               ref={canvasRef}
-              style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
+              style={{ position: 'absolute', top: 0, left: 0, width: '90%', height: '100%' }}
             />
           </div>
           <p style={{ marginTop: '10px', fontWeight: 'bold', color: 'blue' }}>{feedback}</p>
         </div>
       </div>
-      <div>
+      <div className="d-flex gap-3 mt-4">
+        <button onClick={Back} style={{ padding: "8px 24px", background: "white", border: "1px solid #d1d5db", borderRadius: 8, cursor: "pointer" }} className="me-2">Back</button>
         <button
-          onClick={() => { stopCamera(); toOutCome(); }}
-          style={{
-            width: '6%',
-            maxWidth: '500px',
-            backgroundColor: 'rgb(54, 227, 215)',
-            bottom: '20px',
-            right: '20px',
-            position: 'fixed',
-            borderColor: 'rgb(54, 227, 215)',
-            borderRadius: '5px',
-            padding: '10px',
-            color: 'white',
-            fontWeight: 'bold'
+          onClick={() => {
+            const confirmExit = window.confirm("You are about to leave the test page. Current test will be lost. Are you sure you want to continue?");
+            if (confirmExit) {
+              stopCamera();
+              nav("/homeClient");
+            }
           }}
-          disabled={!isValid.current}
+          style={{
+            padding: "8px 24px",
+            background: "white",
+            border: "1px solid #d1d5db",
+            borderRadius: 8,
+            cursor: "pointer"
+          }}
+          className="me-2"
         >
-          Continue
+          Exit
+        </button>
+        <button
+          onClick={Next}
+          style={{ padding: "8px 24px", background: "#7c3aed", color: "white", border: "none", borderRadius: 8 }}>
+          Next
         </button>
       </div>
     </div>
@@ -206,5 +245,6 @@ function BiomechanicalAss() {
 }
 
 export default BiomechanicalAss;
+
 
 
