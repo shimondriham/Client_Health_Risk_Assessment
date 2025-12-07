@@ -9,9 +9,8 @@ function BiomechanicalAss() {
   const p13Y = useRef(null);
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
-
+  const isValid = useRef(false);
   const [feedback, setFeedback] = useState('');
-  const [isValid, setIsValid] = useState(false);
 
   const poseLandmarkerRef = useRef(null);
 
@@ -65,61 +64,35 @@ function BiomechanicalAss() {
         if (poseLandmarkerRef.current && videoRef.current) {
           const now = performance.now();
           const results = poseLandmarkerRef.current.detectForVideo(videoRef.current, now);
-          // console.log(results);
-          // const ctx = canvasRef.current.getContext('2d');
           const videoWidth = videoRef.current.videoWidth;
           const videoHeight = videoRef.current.videoHeight;
 
-          // Ensure canvas matches video size
           canvasRef.current.width = videoWidth;
           canvasRef.current.height = videoHeight;
 
-          // ctx.clearRect(0, 0, videoWidth, videoHeight);
-          // ctx.save(); // Save current state
-          // ctx.scale(-1, 1); // Flip horizontally
-          // ctx.translate(-videoWidth, 0); // Shift back after flip
           if (!results.landmarks || results.landmarks.length === 0) {
             setFeedback('No person detected');
-            setIsValid(false);
           } else {
             const landmarks = results.landmarks[0];
-            // ctx.fillStyle = 'orange';
             landmarks.forEach(point => {
               const x = point.x * videoWidth;
               const y = point.y * videoHeight;
-              // ctx.beginPath();
-              // ctx.arc(x, y, 5, 0, 2 * Math.PI);
-              // ctx.fill();
             });
-            // console.log(ctx.arc);
-            // ctx.strokeStyle = 'white';
-            // ctx.lineWidth = 2;
             const connections = [
               [11, 12], [12, 14], [14, 16], [11, 13], [13, 15], // arms
               [12, 24], [11, 23], [23, 24], // torso
               [24, 26], [26, 28], [28, 32], [23, 25], [25, 27], [27, 31] // legs
             ];
             connections.forEach(([start, end]) => {
-              // console.log("connection: ", start, end);
               const p1 = landmarks[start];
               const p2 = landmarks[end];
-              // console.log("start: ", start, " end: ", end, " p1: ", p1, " p2: ", p2);
-              // ctx.beginPath();
-              // ctx.moveTo(p1.x * videoWidth, p1.y * videoHeight);
-              // ctx.lineTo(p2.x * videoWidth, p2.y * videoHeight);
-              // ctx.stroke();
-
+            
               if (start === 11 && end === 13) {
-                // console.log("start: ", start, " end: ", end, " p1: ", p1, " p2: ", p2);
                 p11Y.current = p1.y;
                 p13Y.current = p2.y;
-                // console.log("start: ", start, " end: ", end, " p1: ", p1Y.current, " p2: ", p2Y.current);
               }
             });
-            // console.log("connections: ", connections);
-            // ctx.restore();
-
-            // Validation logic
+          
             const xs = landmarks.map(p => p.x);
             const ys = landmarks.map(p => p.y);
             const minX = Math.min(...xs);
@@ -136,16 +109,12 @@ function BiomechanicalAss() {
 
             const isAboveShoulder =
               p13Y.current < p11Y.current;
-            // console.log("p2Y.current ", p2Y.current, " > p1Y.current ", p1Y.current, " isAboveShoulder: ", isAboveShoulder);
-            // const isVisible = boxHeight > videoHeight * 0.6 && boxHeight < videoHeight * 0.95;
-
-            // const valid = isAboveShoulder && isVisible;
-            if (isAboveShoulder && !isValid) {
-            setIsValid(isAboveShoulder);
+            
+            if (!isValid.current) {
+              isValid.current = isAboveShoulder;
             }
 
             if (!isAboveShoulder) setFeedback('Raise your left hand higher');
-            // else if (!isVisible) setFeedback('Adjust distance');
             else setFeedback('Perfect!');
           }
         }
@@ -227,7 +196,7 @@ function BiomechanicalAss() {
             color: 'white',
             fontWeight: 'bold'
           }}
-          disabled={!isValid}
+          disabled={!isValid.current}
         >
           Continue
         </button>
@@ -239,44 +208,3 @@ function BiomechanicalAss() {
 export default BiomechanicalAss;
 
 
-// // import React from 'react';
-// import { useNavigate } from 'react-router-dom';
-// import reactIcon from '../assets/react.svg';
-// import React, { useRef, useEffect, useState } from 'react';
-
-
-// function Game() {
-//   let nav = useNavigate();
-//   const videoRef = useRef(null);
-//   const [showButton, setShowButton] = useState(true);
-
-//   const getVideo = () => {
-//     navigator.mediaDevices
-//       .getUserMedia({ video: {width: 1280, height: 720} })
-//       .then(stream => {
-//         let video = videoRef.current;
-//         video.srcObject = stream;
-//         video.play();
-//     })
-//     .catch(err => {
-//       console.error(err);
-//     })
-//   }
-
-//   useEffect(() => {
-//     getVideo();
-//   }, [videoRef]);
-
-//   return (
-//     <div>
-//       <video ref={videoRef} style={{width: '100%', height: '100%', objectFit: 'cover', position: 'fixed', top: 0, left: 0, zIndex: -1}} >
-//       </video>
-//       {showButton && (
-//         <button onClick={() => { setShowButton(false); setIsRunning(true); }} style={{ padding: '10px 20px', fontSize: '16px', borderRadius: '5px', border: 'none', backgroundColor: '#36e3d7',
-//                                                                   color: 'white', fontWeight: 'bold', top: '50%', left: '50%', position: 'absolute', transform: 'translate(-50%, -50%)'}}>Play</button>
-//           )}
-//     </div>
-//   );
-// };
-
-// export default Game;
