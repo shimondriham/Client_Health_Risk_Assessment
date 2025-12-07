@@ -7,10 +7,8 @@ function CameraComponent() {
 
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
-
+  const isValid=useRef(false);
   const [feedback, setFeedback] = useState('');
-  const [isValid, setIsValid] = useState(false);
-
   const poseLandmarkerRef = useRef(null);
 
   const toBiomechanicalAss = () => {
@@ -78,7 +76,6 @@ function CameraComponent() {
           ctx.translate(-videoWidth, 0); // Shift back after flip
           if (!results.landmarks || results.landmarks.length === 0) {
             setFeedback('No person detected');
-            setIsValid(false);
           } else {
             const landmarks = results.landmarks[0];
             ctx.fillStyle = 'orange';
@@ -127,7 +124,9 @@ function CameraComponent() {
             const isVisible = boxHeight > videoHeight * 0.6 && boxHeight < videoHeight * 0.95;
 
             const valid = isCentered && isVisible;
-            setIsValid(valid);
+            if (!isValid.current) {
+              isValid.current = valid;
+            }
 
             if (!isCentered) setFeedback('Move to center');
             else if (!isVisible) setFeedback('Adjust distance');
@@ -145,27 +144,6 @@ function CameraComponent() {
       if (animationId) cancelAnimationFrame(animationId);
     };
   }, []);
-
-
-
-  const stopCamera = () => {
-    try {
-      if (videoRef.current && videoRef.current.srcObject) {
-        const stream = videoRef.current.srcObject;
-        const tracks = stream.getTracks();
-        tracks.forEach(track => track.stop());
-        videoRef.current.srcObject = null;
-      }
-
-      if (videoRef.current) {
-        videoRef.current.pause();
-      }
-    } catch (err) {
-      console.warn('Error stopping camera:', err);
-    }
-  };
-
-
 
   return (
     <div>
@@ -197,7 +175,6 @@ function CameraComponent() {
       </div>
       <div>
         <button
-          // onClick={() => { stopCamera(); toBiomechanicalAss(); }}
           onClick={() => { toBiomechanicalAss(); }}
           style={{
             width: '6%',
@@ -212,7 +189,7 @@ function CameraComponent() {
             color: 'white',
             fontWeight: 'bold'
           }}
-          disabled={!isValid}
+          disabled={!isValid.current}
         >
           Continue
         </button>
