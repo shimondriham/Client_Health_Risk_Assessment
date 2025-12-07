@@ -12,8 +12,8 @@ function HealthForm() {
   const [questionIndex, setQuestionIndex] = useState(0);
   const [answers, setAnswers] = useState({});
   const [id_Questions, setId_Questions] = useState(thisidQuestions);
-  const [showExitModal, setShowExitModal] = useState(false);
-  const [exitReason, setExitReason] = useState(null);
+  // const [showExitModal, setShowExitModal] = useState(false);
+  // const [exitReason, setExitReason] = useState(null);
   const nav = useNavigate();
   const dispatch = useDispatch();
   const didRunRef = useRef(false);
@@ -58,19 +58,19 @@ function HealthForm() {
     return validAnswers;
   };
 
-  const onHomeClick = async () => {
-    let _dataBody = { exitrisen: exitReason };
-    try {
-      let resp = await doApiMethod("/users/exitrisen", "PUT", _dataBody);
-      if (resp.data.matchedCount == 1) {
-        setShowExitModal(false);
-        dispatch(addIdQuestions({ idQuestions: "0" }));
-        nav("/homeClient");
-      }
-    } catch (error) {
-      console.log(error.response?.data?.error || error);
-    }
-  };
+  // const onHomeClick = async () => {
+  //   let _dataBody = { exitrisen: exitReason };
+  //   try {
+  //     let resp = await doApiMethod("/users/exitrisen", "PUT", _dataBody);
+  //     if (resp.data.matchedCount == 1) {
+  //       setShowExitModal(false);
+  //       dispatch(addIdQuestions({ idQuestions: "0" }));
+  //       nav("/homeClient");
+  //     }
+  //   } catch (error) {
+  //     console.log(error.response?.data?.error || error);
+  //   }
+  // };
 
   const handleAnswer = (value) => {
     const newAnswers = cleanInvalidAnswers({ ...answers, [question.id]: value });
@@ -306,12 +306,30 @@ function HealthForm() {
       {/* Navigation */}
       <div className="d-flex gap-3 mt-4">
         <button onClick={back} style={{ padding: "8px 24px", background: "white", border: "1px solid #d1d5db", borderRadius: 8, cursor: "pointer" }} className="me-2">Back</button>
-        <button onClick={() => setShowExitModal(true)} style={{ padding: "8px 24px", background: "white", border: "1px solid #d1d5db", borderRadius: 8, cursor: "pointer" }} className="me-2">Exit</button>
+        {/* <button onClick={() => setShowExitModal(true)} style={{ padding: "8px 24px", background: "white", border: "1px solid #d1d5db", borderRadius: 8, cursor: "pointer" }} className="me-2">Exit</button> */}
+
+   <button
+  onClick={() => { const confirmExit = window.confirm("You are about to leave the test page. Current test will be lost. Are you sure you want to continue?");
+    if (confirmExit) {
+      nav("/homeClient");
+    }
+  }}
+  style={{
+    padding: "8px 24px",
+    background: "white",
+    border: "1px solid #d1d5db",
+    borderRadius: 8,
+    cursor: "pointer"
+  }}
+  className="me-2"
+>
+  Exit
+</button>
         <button onClick={next} style={{ padding: "8px 24px", background: isAnswerEmpty() ? "#d1d5db" : "#7c3aed", color: "white", border: "none", borderRadius: 8 }} disabled={isAnswerEmpty()}>
           Next
         </button>
       </div>
-      {showExitModal && (
+      {/* {showExitModal && (
         <div style={{
           position: "fixed",
           inset: 0,
@@ -378,7 +396,7 @@ function HealthForm() {
             </div>
           </div>
         </div>
-      )}
+      )} */}
     </div>
   );
 }
