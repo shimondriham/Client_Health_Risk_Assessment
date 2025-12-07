@@ -53,9 +53,9 @@ function OutComeAdmin() {
             <table className="table table-striped table-bordered rounded">
               <thead className="table-secondary">
                 <tr>
-                  <th scope="col">Domain</th>
-                  <th scope="col">Score</th>
-                  <th scope="col">Description</th>
+                  <th scope="col">Question</th>
+                  <th scope="col">Answer</th>
+              
                 </tr>
               </thead>
               <tbody>
