@@ -8,8 +8,9 @@ import jsPDF from "jspdf";
 
 const HomeClient = () => {
   const _tests = [
-    { _id: 1, date_created: "22 Jan 2025" ,finished: true},
-    { _id: 2, date_created: "20 Jan 2025" ,finished: false},
+    { _id: 1, date_created: "22 Jan 2025", finished: true ,finishedT1:true},
+    { _id: 2, date_created: "20 Jan 2025", finished: false ,finishedT1:false},
+    { _id: 3, date_created: "20 Jan 2025", finished: false ,finishedT1:true},
   ];
   const myName = useSelector(state => state.myDetailsSlice.name);
   const idQuestions = useSelector(state => state.myDetailsSlice.idQuestions);
@@ -48,9 +49,9 @@ const HomeClient = () => {
       try {
         let questionsResp = await doApiGet("/questions/myInfo");
         if (questionsResp.data) {
-          console.log(questionsResp.data );
-          setTests(questionsResp.data );
-          if(questionsResp.data.length > 0){
+          console.log(questionsResp.data);
+          setTests(questionsResp.data);
+          if (questionsResp.data.length > 0) {
             setHasTests(true);
           }
           dispatch(addIdQuestions({ idQuestions: questionsResp.data._id }));
@@ -116,13 +117,17 @@ const HomeClient = () => {
                             Download Report
                           </button>
                         )}
-                        {!test.finished && nextSection !== null && (
+                        {!test.finished && (
                           <button
                             className="btn btn-outline-primary btn-sm"
                             onClick={() => {
                               dispatch(addIdQuestions({ idQuestions: test._id }));
-                              navigate(`/HealthForm`)
-                            } }
+                              if (test.finishedT1) {
+                                navigate(`/calibration`)
+                              } else {
+                                navigate(`/HealthForm`)
+                              }
+                            }}
                           >
                             Continue Test
                           </button>
