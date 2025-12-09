@@ -5,7 +5,7 @@ function CalibrationVideo() {
   const nav = useNavigate();
 
   const NextPage = () => {
-    nav("/biomechanicalAss");
+    nav("/Calibration");
   };
 
   return (
