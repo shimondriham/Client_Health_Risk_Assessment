@@ -215,9 +215,18 @@ function BiomechanicalAss() {
     assessmentIndex > 0 ? setassessmentIndex(assessmentIndex - 1) : null
   };
   const Next = () => {
-    assessmentIndex < assessments.length - 1 ? setassessmentIndex(assessmentIndex + 1) : toOutCome();
+    if(assessmentIndex < assessments.length - 1){
+     setassessmentIndex(assessmentIndex + 1)
+      setIsValid(false);
+      return;
+    } 
+    const finishMsg = "You have completed the test — you are being redirected to the report page.";
     setIsValid(false);
+    window.alert(finishMsg);
+    stopCamera();
+    toOutCome();
   };
+ 
   const name = () => {
     return assessments[assessmentIndex].name
   };
