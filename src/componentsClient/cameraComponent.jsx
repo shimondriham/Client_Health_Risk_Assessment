@@ -90,6 +90,7 @@ function CameraComponent() {
             ctx.strokeStyle = 'white';
             ctx.lineWidth = 2;
             const connections = [
+              [15,21], [16,22], 
               [11, 12], [12, 14], [14, 16], [11, 13], [13, 15], // arms
               [12, 24], [11, 23], [23, 24], // torso
               [24, 26], [26, 28], [28, 32], [23, 25], [25, 27], [27, 31] // legs
