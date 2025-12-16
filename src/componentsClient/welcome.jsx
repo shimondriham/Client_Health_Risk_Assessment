@@ -30,7 +30,7 @@ const Welcome = () => {
                 <div className="px-4" style={{ height: '100%', width: "60%" }}>
                     <div className="bg-white p-4 shadow-lg text-center" style={{ height: '100%', width: "80%", borderRadius: '16px' }}>
                         <h3 className="py-2">About Us</h3>
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quis deleniti dolore tenetur laboriosam numquam aliquam voluptas sint! Culpa iste mollitia nesciunt minus amet, labore eveniet beatae, rem quasi laboriosam tempora.</p>
+                        <p>FITWAVE transforms your home camera into an advanced diagnostic tool. Our system conducts smart biomechanical assessments, analyzes your movement in real-time, and generates a precise, personalized medical report. We are here to help you identify movement limitations, prevent injuries, and enhance quality of life for those aged 40 and up.</p>
                     </div>
                 </div>
             </div>
