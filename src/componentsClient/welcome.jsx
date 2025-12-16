@@ -10,30 +10,56 @@ const Welcome = () => {
     useEffect(() => {
         dispatch(addIfShowNav({ ifShowNav: false }));
     }, []);
-    
-    const toSignIn = () => {
-        nav("/login");
-    };
-    const toSignUp = () => {
-        nav("/SignUp");
+
+    const toSignIn = () => nav("/login");
+    const toSignUp = () => nav("/SignUp");
+
+
+    const gradientStyle = {
+        background: "linear-gradient(90deg, #4f46e5 0%, #ec4899 100%)",
+        border: "none",
+        color: "white"
     };
 
     return (
-        <div className="container-fluid mt-5">
-               <div className="d-flex justify-content-around p-5 m-3" style={{ height: '350px' }}>
-                <div className="text-center p-3" style={{ height: '100%', width: "40%"}}>
-                    <div className="m-3"> <img style={{ height: '10%', width: "10%", borderRadius:"50px"}} src="src/assets/react.svg" alt="logo" /></div>
-                    <button onClick={toSignIn} className="btn btn-outline-primary m-3 w-50">Sign In</button>
-                    <button onClick={toSignUp} className="btn btn-outline-primary m-3 w-50">Sign Up</button>
+        <div className="min-vh-100 bg-white d-flex flex-column font-sans">
+            
+            <nav className="d-flex justify-content-between align-items-center px-4 py-3">
+                <div className="d-flex align-items-center gap-2">
+                    <img src="src/assets/react.svg" alt="FITWAVE Logo" style={{ width: "35px" }} />
+                    <span className="fw-bold fs-4 text-dark">FITWAVE</span>
                 </div>
+                <button onClick={toSignIn} className="btn btn-light fw-bold px-4 rounded-3 text-secondary">
+                    Log In
+                </button>
+            </nav>
 
-                <div className="px-4" style={{ height: '100%', width: "60%" }}>
-                    <div className="bg-white p-4 shadow-lg text-center" style={{ height: '100%', width: "80%", borderRadius: '16px' }}>
-                        <h3 className="py-2">About Us</h3>
-                        <p>FITWAVE transforms your home camera into an advanced diagnostic tool. Our system conducts smart biomechanical assessments, analyzes your movement in real-time, and generates a precise, personalized medical report. We are here to help you identify movement limitations, prevent injuries, and enhance quality of life for those aged 40 and up.</p>
-                    </div>
+            <main className="flex-grow-1 d-flex flex-column align-items-center justify-content-center text-center px-3">
+                <div style={{ maxWidth: "850px" }}>
+                    
+                    <h1 className="display-3 fw-bolder mb-3 text-dark lh-sm">
+                        The smart health app,<br />
+                        for <span className="text-primary">your well-being.</span>
+                    </h1>
+
+                    <p className="lead text-muted mb-5 mx-auto" style={{ maxWidth: "700px", fontSize: "1.25rem" }}>
+                        FITWAVE transforms your home camera into an advanced diagnostic tool. 
+                        We conduct smart biomechanical assessments to identify limitations, 
+                        prevent injuries, and enhance quality of life for those aged 40+.
+                    </p>
+
+                    <button 
+                        onClick={toSignUp} 
+                        className="btn btn-lg px-5 py-3 fw-bold shadow-sm rounded-3" 
+                        style={gradientStyle}
+                    >
+                        Get Started. It's FREE &rarr;
+                    </button>
+
+                    <p className="text-muted mt-3 small">No credit card required.</p>
                 </div>
-            </div>
+            </main>
+
         </div>
     );
 }
