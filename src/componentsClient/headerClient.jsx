@@ -6,7 +6,7 @@ import { FaBars } from "react-icons/fa";
 
 function HeaderClient() {
   const nav = useNavigate();
-  
+
   const dispatch = useDispatch();
   const IfShowNav = useSelector(state => state.myDetailsSlice.ifShowNav);
   const IsAdmin = useSelector(state => state.myDetailsSlice.isAdmin);
@@ -29,7 +29,7 @@ function HeaderClient() {
   // const menuItems = [
   //   { label: "Logout", action: () => onClick={onlogout} },
   //   { label: "Admin", action: () => alert("Admin") },
-    
+
   // ];
   const Admin = () => nav("/admin");
   const onWelcomeClick = () => nav("/");
@@ -47,10 +47,10 @@ function HeaderClient() {
   const onReportsClick = () => nav("/Reports");
   const onlogout = () => { dispatch(addIfShowNav({ ifShowNav: false })); nav("/logout"); }
 
-   const menuItems = [
+  const menuItems = [
     { label: "Logout", action: () => onlogout() },
     { label: "Admin", action: () => Admin() },
-    
+
   ];
   return (
     <div className='p-2'>
@@ -64,7 +64,7 @@ function HeaderClient() {
 
         {/* after login */}
         {IfShowNav &&
-          <img 
+          <img
             src="src/assets/react.svg"
             alt="icon"
             className="m-1"
@@ -82,53 +82,53 @@ function HeaderClient() {
         {/* {IfShowNav && <button className='btn btn-info m-1' onClick={onReportsClick}>Reports</button>} */}
         {/* {IfShowNav && <button className='btn btn-info m-1' onClick={onlogout}>Logout</button>} */}
 
-{IfShowNav && IsAdmin &&
-  <div style={{ position: "relative" }} ref={menuRef}>
-    <FaBars size={32} className="m-1" style={{ cursor: "pointer" }} onClick={toggleMenu} />
+        {IfShowNav && IsAdmin &&
+          <div style={{ position: "relative" }} ref={menuRef}>
+            <FaBars size={32} className="m-1" style={{ cursor: "pointer" }} onClick={toggleMenu} />
 
-    <div
-      style={{
-        position: "absolute",
-        top: "40px",
-        right: 0,
-        width: "90px",
-        overflow: "hidden",
-        borderRadius: "4px",
-        zIndex: 100,
-        padding: "10px",
-        backgroundColor: "transparent", 
-      }}
-    >
-      {menuItems.map((item, index) => (
-        <div
-          key={index}
-          onClick={item.action}
-          style={{
-            padding: "8px 0",
-            cursor: "pointer",
-            transform: menuOpen ? "translateX(0) scale(1)" : "translateX(50px) scale(0.9)",
-            opacity: menuOpen ? 1 : 0,
-            transition: `all 0.3s ease ${(index + 1) * 0.1}s`,
-            borderRadius: "4px",
-            paddingLeft: "10px",
-            paddingRight: "10px",
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.backgroundColor = "#d0eaff"; 
-            e.currentTarget.style.color = "#007bff";
-            e.currentTarget.style.transform = "translateX(0) scale(1.05)";
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.backgroundColor = "transparent";
-            e.currentTarget.style.color = "black";
-            e.currentTarget.style.transform = "translateX(0) scale(1)";
-          }}
-        >
-          {item.label}
-        </div>
-      ))}
-    </div>
-  </div>
+            <div
+              style={{
+                position: "absolute",
+                top: "40px",
+                right: 0,
+                width: "90px",
+                overflow: "hidden",
+                borderRadius: "4px",
+                zIndex: 100,
+                padding: "10px",
+                backgroundColor: "transparent",
+              }}
+            >
+              {menuItems.map((item, index) => (
+                <div
+                  key={index}
+                  onClick={item.action}
+                  style={{
+                    padding: "8px 0",
+                    cursor: "pointer",
+                    transform: menuOpen ? "translateX(0) scale(1)" : "translateX(50px) scale(0.9)",
+                    opacity: menuOpen ? 1 : 0,
+                    transition: `all 0.3s ease ${(index + 1) * 0.1}s`,
+                    borderRadius: "4px",
+                    paddingLeft: "10px",
+                    paddingRight: "10px",
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.backgroundColor = "#d0eaff";
+                    e.currentTarget.style.color = "#007bff";
+                    e.currentTarget.style.transform = "translateX(0) scale(1.05)";
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.backgroundColor = "transparent";
+                    e.currentTarget.style.color = "black";
+                    e.currentTarget.style.transform = "translateX(0) scale(1)";
+                  }}
+                >
+                  {item.label}
+                </div>
+              ))}
+            </div>
+          </div>
         }
 
       </div>
