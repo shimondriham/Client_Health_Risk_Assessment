@@ -87,7 +87,7 @@ const LoginClient = () => {
               {...emailRef} 
               type="email" 
               className="form-control bg-light border-0 py-2" 
-              placeholder="name@example.com" 
+              // placeholder="name@example.com" 
             />
             {errors.email && <small className='text-danger d-block mt-1'>* Email is invalid</small>}
           </div>
@@ -102,7 +102,7 @@ const LoginClient = () => {
               {...passwordRef} 
               type="password" 
               className="form-control bg-light border-0 py-2" 
-              placeholder="••••••••" 
+              // placeholder="••••••••" 
             />
             {errors.password && <small className='text-danger d-block mt-1'>* Min 3 chars required</small>}
           </div>
