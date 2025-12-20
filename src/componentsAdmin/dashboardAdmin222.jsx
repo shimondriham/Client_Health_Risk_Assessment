@@ -8,56 +8,52 @@ function DashboardAdmin222() {
   let nav = useNavigate();
   const initialUsers = [
     {
-      id: 1,
       date_created: "10/10/2025111",
-      a: "a",
-      b: "a",
-      _id: "645f2b5e8888888888888888"
+      finishedT1: false,
+      finished: false,
+      _id: "69419b7817f974354d45bcaa"
     },
     {
-      id: 2,
-      date_created: "10/11/2025111",
-      a: "b",
-      b: "b",
+      date_created: "11/10/2025111",
+      finishedT1: true,
+      finished: false,
       _id: "645f2b5e8f1b2c001f6e4c3d"
     },
   ];
 
   let [ar, setAr] = useState(initialUsers);
   const ThisID = useSelector((state) => state.myDetailsSlice.idMorInfoAdmin);
-  const [thisUser, setThisUser] = useState([]); 
-   const dispatch = useDispatch();
-  
+  const [thisUser, setThisUser] = useState([]);
+  const dispatch = useDispatch();
+
 
 
   useEffect(() => {
-    doApi();
+    doApiUsers();
+    doApiQuestions();
   }, []);
 
-  const doApi = async () => {
+  const doApiUsers = async () => {
     let url = "/users/single/" + ThisID;
     try {
       let data = await doApiGet(url);
-      // console.log(data.data);
       setThisUser(data.data);
-      // doApiAllDetails();
     } catch (error) {
       console.log(error);
     }
   };
 
-  // const doApiAllDetails = async () => {
-
-  //   let url = "/" + ThisID;
-  //   try {
-  //     let data = await doApiGet(url);
-  //     console.log(data.data);
-  //     setAr(data.data);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
-   const toOutCome = (id) => {
+  const doApiQuestions = async () => {
+    let url = "/questions/selectedUser/" + ThisID;
+    try {
+      let data = await doApiGet(url);
+      console.log(data.data);
+      setAr(data.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const toOutCome = (id) => {
     dispatch(addIdOutComeAdmin({ idOutComeAdmin: id }));
     nav("/admin/outcomeadmin");
   };
@@ -76,9 +72,9 @@ function DashboardAdmin222() {
             <tr>
               <th>*</th>
               <th>date</th>
-              <th>?</th>
-              <th>?</th>
-              <th>?</th>
+              <th>First assessment</th>
+              <th>Second assessment</th>
+              <th> Outcome</th>
             </tr>
           </thead>
           <tbody>
@@ -87,16 +83,16 @@ function DashboardAdmin222() {
                 <tr key={index}>
                   <td>{index + 1}</td>
                   <td>{user.date_created ? user.date_created.substring(10, length - 1) : ""}</td>
-                  <td>{user.a}</td>
-                  <td>{user.b}</td>
+                  <td>{user.finishedT1 ? "finished" : "not finished"}</td>
+                  <td>{user.finished ? "finished" : "not finished"}</td>
                   <td>
                     <button
-            className="btn  btn-lg"
-            onClick={() => toOutCome(user._id)}
-          >
-           ⟶
-          </button>
-                </td>
+                      className="btn  btn-lg"
+                      onClick={() => toOutCome(user._id)}
+                    >
+                      ⟶
+                    </button>
+                  </td>
                 </tr>
               );
             })}
