@@ -172,7 +172,7 @@ const HomeClient = () => {
         <div className="d-flex justify-content-between align-items-end mb-4 flex-shrink-0">
             <div>
                 <h1 className="font-outfit mb-2" style={{ fontSize: '2.2rem', fontWeight: '700', color: '#111' }}>Dashboard</h1>
-                <p className="text-muted m-0 font-inter" style={{ fontSize: '1rem', color: '#6B7280' }}>Welcome back, {myName.split(' ')[0]}.</p>
+                <p className="text-muted m-0 font-inter" style={{ fontSize: '1rem', color: '#6B7280' }}>Welcome back, {myName?.split(' ')[0] || "Guest"}.</p>
             </div>
             {hasTests && (
                 <button onClick={() => navigate("/explanatoryV")} style={styles.primaryBtn} className="hover-card">
