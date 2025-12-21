@@ -4,161 +4,165 @@ import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { addEmail, addName } from '../featuers/myDetailsSlice';
 import { doApiMethod } from '../services/apiService';
-import reactIcon from '../assets/react.svg'; 
+import logo from '../assets/react.svg'; 
 
 function SignUpClient() {
-  let nav = useNavigate();
+  const nav = useNavigate();
   const dispatch = useDispatch();
+  const { register, handleSubmit, formState: { errors } } = useForm();
   
-  const { 
-    register, 
-    handleSubmit, 
-    formState: { errors }, 
-    watch, 
-    setError, 
-    clearErrors 
-  } = useForm();
+  const ORANGE = "#F96424"; 
 
   const onSubForm = (data) => {
+    if(data.password !== data.ConfirmPassword) return alert("Passwords do not match");
     data.email = data.email.toLowerCase();
     const { ConfirmPassword, ...body } = data;
     doApi(body);
   };
 
   const doApi = async (_dataBody) => {
-    let url = "/users";
     try {
-      let resp = await doApiMethod(url, "POST", _dataBody);
+      let resp = await doApiMethod("/users", "POST", _dataBody);
       if (resp.data._id) {
         dispatch(addName({ name: _dataBody.fullName }));
         dispatch(addEmail({ email: _dataBody.email }));
         nav("/varification");
       }
-    }
-    catch (error) {
-      console.log(error);
-      alert("There was a problem signing up.");
+    } catch (error) {
+      alert("Error signing up.");
     }
   }
 
-  const password = watch('password');
-  const confirmPassword = watch('ConfirmPassword');
-
-  React.useEffect(() => {
-    if (confirmPassword && password !== confirmPassword) {
-      setError('ConfirmPassword', { type: 'manual', message: 'Passwords do not match' });
-    } else {
-      clearErrors('ConfirmPassword');
+  // --- סגנונות עדינים ודקים ---
+  const styles = {
+    input: {
+      backgroundColor: "#F3F4F6", // אפור בהיר מאוד ועדין
+      fontSize: "0.9rem",         // פונט קטן יותר בשדה
+      fontWeight: "400",          // פונט דק (רגיל)
+      padding: "10px 15px",       // פחות גובה (יותר דק)
+      borderRadius: "8px"         // פינות מעוגלות בעדינות
+    },
+    label: {
+      fontSize: "0.85rem",
+      fontWeight: "500",          // לא מודגש מידי
+      color: "#4B5563",           // אפור כהה (לא שחור)
+      marginBottom: "4px"
+    },
+    button: {
+      backgroundColor: ORANGE,
+      padding: "10px",            // כפתור דק יותר
+      fontSize: "0.95rem",
+      fontWeight: "600",          // מודגש עדין
+      borderRadius: "50px",       // עגול מלא
+      letterSpacing: "0.3px"      // ריווח אותיות קליל למראה יוקרתי
     }
-  }, [password, confirmPassword, setError, clearErrors]);
-
-  const toLogin = () => nav("/login");
-
-  // --- Styles ---
-  const pageStyle = {
-    background: "#f8f9fa",
-    height: "100vh",        // גובה קבוע
-    overflow: "hidden",     // מניעת גלילה
-    position: "relative"
-  };
-
-  const waveStyle = {
-    position: "absolute",
-    bottom: "-20%",
-    right: "-10%",
-    width: "120%",
-    height: "70%",
-    background: "linear-gradient(135deg, #7b68ee 0%, #ec4899 100%)",
-    borderRadius: "100% 0 0 0 / 80% 0 0 0",
-    zIndex: 0
   };
 
   return (
-    <div className="d-flex align-items-center justify-content-center" style={pageStyle}>
+    <div className="vh-100 bg-white d-flex flex-column font-sans text-dark overflow-hidden position-relative">
       
-      {/* Background Graphic */}
-      <div style={waveStyle}></div>
-
-      {/* Card Container - Compact Version */}
-      <div className="card shadow-lg border-0 p-4" style={{ width: '100%', maxWidth: '450px', borderRadius: '16px', zIndex: 1, backgroundColor: 'white' }}>
-        
-        {/* Header Compact */}
-        <div className="text-center mb-3">
-            <img src={reactIcon} alt="Logo" style={{ width: '40px', marginBottom: '5px' }} />
-            <h3 className="fw-bold mb-0" style={{ color: '#333' }}>Get Started</h3>
-            <p className="text-muted small m-0">Free for ever. No credit card needed.</p>
+      {/* 1. לוגו עדין בצד */}
+      <div className="position-absolute top-0 start-0 p-4">
+        <div className="d-flex align-items-center">
+             <img src={logo} alt="Logo" width="22" className="me-2 opacity-75"/>
+             <span className="fw-semibold fst-italic" style={{fontSize:'1rem', color:'#333'}}>Fitwave.ai</span>
         </div>
-
-        <form onSubmit={handleSubmit(onSubForm)}>
-
-          {/* Full Name */}
-          <div className="mb-2">
-            <input 
-              {...register("fullName", { required: true, minLength: 2, maxLength: 20 })} 
-              type="text" 
-              className="form-control form-control-sm bg-light border-0 py-2" 
-              placeholder="Full Name" 
-            />
-            {errors.fullName && <small className='text-danger d-block' style={{fontSize:'0.75rem'}}>* Name must be 2-20 chars</small>}
-          </div>
-
-          {/* Email */}
-          <div className="mb-2">
-            <input 
-              {...register("email", {
-                required: true,
-                pattern: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i
-              })} 
-              type="email" 
-              className="form-control form-control-sm bg-light border-0 py-2" 
-              placeholder="Work Email" 
-            />
-            {errors.email && <small className='text-danger d-block' style={{fontSize:'0.75rem'}}>* Invalid email address</small>}
-          </div>
-
-          {/* Password */}
-          <div className="mb-2">
-            <input 
-              {...register("password", { required: true, minLength: 4, maxLength: 20 })} 
-              type="password" 
-              className="form-control form-control-sm bg-light border-0 py-2" 
-              placeholder="Password" 
-            />
-            {errors.password && <small className='text-danger d-block' style={{fontSize:'0.75rem'}}>* Min 4 chars required</small>}
-          </div>
-
-          {/* Confirm Password */}
-          <div className="mb-3">
-            <input 
-              {...register("ConfirmPassword", { required: true })} 
-              type="password" 
-              className="form-control form-control-sm bg-light border-0 py-2" 
-              placeholder="Confirm Password" 
-            />
-            {errors.ConfirmPassword && <small className='text-danger d-block' style={{fontSize:'0.75rem'}}>* {errors.ConfirmPassword.message}</small>}
-          </div>
-
-          {/* Submit Button */}
-          <button 
-            className="btn btn-primary w-100 py-2 fw-bold shadow-sm" 
-            type="submit" 
-            disabled={!!errors.ConfirmPassword || !password || !confirmPassword}
-            style={{ background: '#7b68ee', border: 'none' }}
-          >
-            Sign Up
-          </button>
-
-        </form>
-
-        {/* Footer Link */}
-        <div className="text-center mt-3">
-          <span className="text-muted small">Already have an account? </span>
-          <span onClick={toLogin} className="text-primary fw-bold small" style={{ cursor: 'pointer' }}>
-            Sign In
-          </span>
-        </div>
-
       </div>
+
+      {/* 2. תוכן מרכזי */}
+      <div className="d-flex justify-content-center align-items-center h-100 w-100">
+        <div style={{ width: '100%', maxWidth: '380px', padding: '20px' }}>
+          
+          <div className="text-center mb-4">
+            <h2 className="fw-bold mb-1" style={{ fontSize: '1.75rem', letterSpacing: '-0.5px' }}>
+                Create account
+            </h2>
+            <p className="text-muted small" style={{fontWeight: '400'}}>Start your journey to vitality</p>
+          </div>
+
+          <form onSubmit={handleSubmit(onSubForm)}>
+            
+            {/* Full Name */}
+            <div className="mb-3">
+              <label style={styles.label}>Full Name</label>
+              <input 
+                {...register("fullName", { required: true, minLength: 2 })}
+                className="form-control border-0 shadow-none"
+                style={styles.input}
+                placeholder="Name"
+              />
+              {errors.fullName && <small className="text-danger ps-1" style={{fontSize:'0.7rem'}}>Name required</small>}
+            </div>
+
+            {/* Email */}
+            <div className="mb-3">
+              <label style={styles.label}>Email</label>
+              <input 
+                {...register("email", { required: true, pattern: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i })}
+                className="form-control border-0 shadow-none"
+                style={styles.input}
+                placeholder="Email address"
+              />
+              {errors.email && <small className="text-danger ps-1" style={{fontSize:'0.7rem'}}>Invalid email</small>}
+            </div>
+
+            {/* Password */}
+            <div className="mb-3">
+              <label style={styles.label}>Password</label>
+              <input 
+                {...register("password", { required: true, minLength: 4 })}
+                type="password"
+                className="form-control border-0 shadow-none"
+                style={styles.input}
+                placeholder="Password"
+              />
+              {errors.password && <small className="text-danger ps-1" style={{fontSize:'0.7rem'}}>Min 4 chars</small>}
+            </div>
+
+            {/* Confirm Password */}
+            <div className="mb-4">
+              <label style={styles.label}>Confirm Password</label>
+              <input 
+                {...register("ConfirmPassword", { required: true })}
+                type="password"
+                className="form-control border-0 shadow-none"
+                style={styles.input}
+                placeholder="Confirm password"
+              />
+            </div>
+
+            {/* Submit Button - דק ונקי */}
+            <button 
+              className="btn w-100 text-white border-0 shadow-none mb-3"
+              style={styles.button}
+              onMouseOver={(e) => e.currentTarget.style.opacity = '0.9'}
+              onMouseOut={(e) => e.currentTarget.style.opacity = '1'}
+            >
+              Create account
+            </button>
+          </form>
+
+          {/* Footer Link */}
+          <div className="text-center" style={{fontSize: '0.85rem', color: '#666'}}>
+            Already have an account? 
+            <span 
+              onClick={() => nav("/login")} 
+              className="fw-semibold ms-1" 
+              style={{ color: ORANGE, cursor: 'pointer' }}
+            >
+              Log in
+            </span>
+          </div>
+
+        </div>
+      </div>
+
+      {/* 3. פוטר דק וקטן */}
+      <div className="position-absolute bottom-0 w-100 px-4 py-3 d-flex justify-content-between align-items-center text-muted" style={{fontSize: '0.75rem'}}>
+          <div>© Fitwave.ai 2026</div>
+          <div>support@fitwave.ai</div>
+      </div>
+
     </div>
   );
 };
