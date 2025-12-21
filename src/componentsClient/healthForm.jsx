@@ -7,11 +7,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { doApiMethod } from "../services/apiService";
 import logo from '../assets/react.svg'; 
 
-// --- Icons (בגודל נורמלי) ---
-const ChevronRight = () => <svg width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 18l6-6-6-6"/></svg>;
-const ChevronLeft = () => <svg width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M15 18l-6-6 6-6"/></svg>;
+// --- Icons ---
+const ChevronRight = () => <svg width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M9 18l6-6-6-6"/></svg>;
+const ChevronLeft = () => <svg width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M15 18l-6-6 6-6"/></svg>;
 const CheckIcon = () => <svg width="14" height="14" fill="none" stroke="white" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>;
-const XIcon = () => <svg width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>;
+const XIcon = () => <svg width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>;
 
 function HealthForm() {
     const thisidQuestions = useSelector(state => state.myDetailsSlice.idQuestions);
@@ -27,7 +27,7 @@ function HealthForm() {
     
     const ORANGE = "#F96424"; 
 
-    // --- Logic ---
+    // --- Logic (אותו לוגיקה בדיוק) ---
     useEffect(() => {
         if (didRunRef.current) return;
         didRunRef.current = true;
@@ -168,21 +168,14 @@ function HealthForm() {
         }
     };
 
-    // --- Styles Proportional ---
+    // --- Styles ---
     const styles = {
-        // שורת בחירה גדולה ומרווחת
         optionRow: (selected) => ({
-            display: "flex", 
-            alignItems: "center", 
-            padding: "16px 24px", // ריווח נדיב
-            marginBottom: "12px", 
+            display: "flex", alignItems: "center", padding: "16px 24px", marginBottom: "12px", 
             borderRadius: "14px", 
             border: selected ? `1px solid ${ORANGE}` : "1px solid transparent",
-            backgroundColor: "#F8F9FA", // רקע אפור בהיר מאוד
-            cursor: "pointer", 
-            fontSize: "1.05rem", // פונט קריא
-            color: "#333",
-            fontWeight: selected ? "500" : "400",
+            backgroundColor: "#F8F9FA", // רקע אפור בהיר לאפשרויות
+            cursor: "pointer", fontSize: "1rem", color: "#333", fontWeight: selected ? "500" : "400",
             transition: "all 0.2s ease"
         }),
         radioCircle: (selected) => ({
@@ -204,16 +197,11 @@ function HealthForm() {
             color: (active || completed) ? "white" : "#9CA3AF",
             marginBottom: "6px"
         }),
-        // כפתור Next גדול
         gradientBtn: (disabled) => ({
             backgroundColor: disabled ? "#E5E7EB" : ORANGE,
             color: disabled ? "#9CA3AF" : "white", 
-            border: "none", 
-            padding: "12px 40px", 
-            fontSize: "1rem", 
-            borderRadius: "50px", 
-            fontWeight: "500", 
-            cursor: disabled ? "not-allowed" : "pointer",
+            border: "none", padding: "12px 40px", fontSize: "1rem", borderRadius: "50px", 
+            fontWeight: "500", cursor: disabled ? "not-allowed" : "pointer",
             display: "flex", alignItems: "center", gap: "10px",
             boxShadow: disabled ? "none" : "0 4px 15px rgba(249, 100, 36, 0.2)"
         })
@@ -225,7 +213,7 @@ function HealthForm() {
                 return question.options.map((opt, i) => (
                     <div key={i} onClick={() => handleAnswer(opt)} style={styles.optionRow(answers[question.id] === opt)}>
                         <div style={styles.radioCircle(answers[question.id] === opt)}></div>
-                        <span>{opt}</span>
+                        <span className="font-inter">{opt}</span>
                     </div>
                 ));
             case "checkbox":
@@ -237,7 +225,7 @@ function HealthForm() {
                             handleAnswer(isChecked ? prev.filter(x => x !== opt) : [...prev, opt]);
                         }} style={styles.optionRow(isChecked)}>
                             <div style={styles.checkboxSquare(isChecked)}>{isChecked && <CheckIcon />}</div>
-                            <span>{opt}</span>
+                            <span className="font-inter">{opt}</span>
                         </div>
                     );
                 });
@@ -245,47 +233,57 @@ function HealthForm() {
                 return (
                     <div className="py-5 px-4 rounded-4 text-center" style={{backgroundColor: '#F9FAFB'}}>
                         <div className="mb-3 d-flex align-items-baseline justify-content-center gap-2">
-                            <span className="display-4 fw-light" style={{ color: ORANGE }}>{answers[question.id] || 0}</span>
-                            <span className="text-muted fw-normal" style={{fontSize: '0.85rem'}}>SCORE (0-20)</span>
+                            <span className="display-4 fw-light font-outfit" style={{ color: ORANGE }}>{answers[question.id] || 0}</span>
+                            <span className="text-muted fw-normal font-inter" style={{fontSize: '0.85rem'}}>SCORE (0-20)</span>
                         </div>
                         <input type="range" className="form-range w-100 mx-auto" min={0} max={20} value={answers[question.id] || 0}
                             onChange={(e) => handleAnswer(Number(e.target.value))}
                             style={{ height: '6px', accentColor: ORANGE, cursor: 'pointer' }} />
                     </div>
                 );
-            case "date": return <input type="date" className="form-control border-0 p-3" style={{backgroundColor: '#F8F9FA', fontSize:'1rem', borderRadius:'12px'}} value={answers[question.id] || ""} onChange={(e) => handleAnswer(e.target.value)} />;
+            case "date": return <input type="date" className="form-control border-0 p-3 font-inter" style={{backgroundColor: '#F8F9FA', fontSize:'1rem', borderRadius:'12px'}} value={answers[question.id] || ""} onChange={(e) => handleAnswer(e.target.value)} />;
             case "dropdown": return (
-                <select className="form-select border-0 p-3" style={{backgroundColor: '#F8F9FA', fontSize:'1rem', borderRadius:'12px'}} value={answers[question.id] || ""} onChange={(e) => handleAnswer(e.target.value)}>
+                <select className="form-select border-0 p-3 font-inter" style={{backgroundColor: '#F8F9FA', fontSize:'1rem', borderRadius:'12px'}} value={answers[question.id] || ""} onChange={(e) => handleAnswer(e.target.value)}>
                     <option value="" disabled>Select an option...</option>
                     {question.options.map((opt, i) => <option key={i} value={opt}>{opt}</option>)}
                 </select>
             );
-            case "textarea": return <textarea className="form-control border-0 p-3" style={{backgroundColor: '#F8F9FA', fontSize:'1rem', borderRadius:'12px'}} rows={5} placeholder="Type your answer here..." value={answers[question.id] || ""} onChange={(e) => handleAnswer(e.target.value)} />;
-            case "file": return <input type="file" className="form-control form-control-lg" onChange={(e) => handleAnswer(e.target.files[0]?.name)} />;
+            case "textarea": return <textarea className="form-control border-0 p-3 font-inter" style={{backgroundColor: '#F8F9FA', fontSize:'1rem', borderRadius:'12px'}} rows={5} placeholder="Type your answer here..." value={answers[question.id] || ""} onChange={(e) => handleAnswer(e.target.value)} />;
+            case "file": return <input type="file" className="form-control form-control-lg font-inter" onChange={(e) => handleAnswer(e.target.files[0]?.name)} />;
             default: return null;
         }
     };
 
     return (
-        <div className="vh-100 bg-white d-flex flex-column font-sans text-dark overflow-hidden">
+        <>
+        {/* הטמעת הפונטים */}
+        <style>
+            {`
+            @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Outfit:wght@300;400;500;600&display=swap');
+            .font-outfit { font-family: 'Outfit', sans-serif; }
+            .font-inter { font-family: 'Inter', sans-serif; }
+            `}
+        </style>
+
+        <div className="vh-100 bg-white d-flex flex-column font-inter text-dark overflow-hidden">
             
             {/* Navbar */}
             <nav className="d-flex align-items-center px-4 py-3" style={{ height: '70px', flexShrink: 0 }}>
-                <img src={logo} alt="Logo" width="26" className="opacity-75" />
-                <span className="ms-2 fw-normal fst-italic" style={{fontSize: '1.1rem'}}>Fitwave.ai</span>
+                <img src={logo} alt="Logo" width="24" className="opacity-75" />
+                <span className="ms-2 font-outfit fw-bold" style={{fontSize: '1.1rem', color: '#333'}}>Fitwave.ai</span>
                 
                 <button 
                     onClick={handleExit} 
-                    className="ms-auto btn btn-light border-0 text-muted d-flex align-items-center gap-2 px-3 rounded-pill" 
-                    style={{fontSize: '0.9rem'}}
+                    className="ms-auto btn btn-light border-0 text-muted d-flex align-items-center gap-2 px-3 rounded-pill font-outfit" 
+                    style={{fontSize: '0.85rem', fontWeight: '500'}}
                 >
                     <XIcon /> Exit
                 </button>
             </nav>
 
-            {/* Main Content - Centered */}
+            {/* Main Content */}
             <div className="flex-grow-1 d-flex justify-content-center align-items-center p-3" style={{ overflow: 'hidden' }}>
-                <div className="w-100 d-flex flex-column h-100" style={{ maxWidth: '700px' }}> {/* רוחב מוגדל */}
+                <div className="w-100 d-flex flex-column h-100" style={{ maxWidth: '750px' }}>
                     
                     {/* Stepper */}
                     <div className="d-flex justify-content-center gap-4 mb-3">
@@ -297,7 +295,7 @@ function HealthForm() {
                                     <div style={styles.stepCircle(isActive, isCompleted)}>
                                         {isCompleted ? <CheckIcon /> : i + 1}
                                     </div>
-                                    <div className="text-truncate w-100 text-center text-muted" style={{fontSize: '0.75rem', marginTop:'4px'}}>
+                                    <div className="text-truncate w-100 text-center text-muted font-outfit" style={{fontSize: '0.7rem', marginTop:'4px', fontWeight: '500'}}>
                                         {s.section}
                                     </div>
                                 </div>
@@ -309,11 +307,11 @@ function HealthForm() {
                     <div className="w-100 bg-light rounded-pill mb-2" style={{height: '6px'}}>
                         <div className="h-100 rounded-pill" style={{width: `${((questionIndex + 1) / section.questions.length) * 100}%`, backgroundColor: ORANGE, transition: 'width 0.3s ease'}}></div>
                     </div>
-                    <div className="text-center text-muted mb-4" style={{fontSize: '0.8rem'}}>Question {questionIndex + 1} of {section.questions.length}</div>
+                    <div className="text-center text-muted mb-4 font-inter" style={{fontSize: '0.8rem'}}>Question {questionIndex + 1} of {section.questions.length}</div>
 
-                    {/* Question Area (Scrollable) */}
+                    {/* Question Area */}
                     <div className="flex-grow-1 d-flex flex-column" style={{ overflowY: 'auto', minHeight: '0', paddingRight: '5px' }}>
-                        <h2 className="text-center mb-4 fw-light" style={{ fontSize: '2rem', lineHeight: '1.3', color: '#111' }}>
+                        <h2 className="text-center mb-4 font-outfit" style={{ fontSize: '1.8rem', fontWeight: '600', lineHeight: '1.3', color: '#111' }}>
                             {question.question}
                         </h2>
                         
@@ -326,11 +324,11 @@ function HealthForm() {
                     <div className="d-flex justify-content-between align-items-center pt-3 pb-2 mt-auto">
                         <button
                             onClick={back}
-                            className="btn btn-lg text-secondary border-0 px-3"
+                            className="btn btn-lg text-secondary border-0 px-3 font-outfit"
                             style={{ 
                                 opacity: (sectionIndex === 0 && questionIndex === 0) ? 0 : 1, 
                                 pointerEvents: (sectionIndex === 0 && questionIndex === 0) ? 'none' : 'auto', 
-                                fontSize: '1rem',
+                                fontSize: '1rem', fontWeight: '500',
                                 display: 'flex', alignItems: 'center', gap: '8px'
                             }}
                         >
@@ -340,6 +338,7 @@ function HealthForm() {
                         <button 
                             onClick={next} 
                             disabled={isAnswerEmpty()}
+                            className="font-outfit"
                             style={styles.gradientBtn(isAnswerEmpty())}
                         >
                             {sectionIndex === surveyData.sections.length - 1 && questionIndex === section.questions.length - 1 ? 'Finish Assessment' : 'Next Question'} 
@@ -350,6 +349,7 @@ function HealthForm() {
                 </div>
             </div>
         </div>
+        </>
     );
 }
 
