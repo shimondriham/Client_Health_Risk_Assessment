@@ -5,18 +5,19 @@ import autoTable from "jspdf-autotable";
 import myQuestions from "../assets/questions.json";
 import { useSelector } from "react-redux";
 import { doApiMethod } from "../services/apiService";
+import logo from '../assets/react.svg'; 
 
 // --- Icons ---
-const DownloadIcon = () => <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>;
-const HomeIcon = () => <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>;
-const CheckCircleIcon = () => <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#10b981" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>;
-
+const DownloadIcon = () => <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>;
+const HomeIcon = () => <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>;
 
 function OutCome() {
     const thisidQuestions = useSelector(state => state.myDetailsSlice.idQuestions);
     const userName = useSelector(state => state.myDetailsSlice.name) || "User";
     let [ar, setAr] = useState([]);
     const nav = useNavigate();
+    
+    const ORANGE = "#F96424"; 
 
     const HomeP = () => nav("/HomeClient");
 
@@ -25,13 +26,10 @@ function OutCome() {
     }, [])
 
     const doApi = async () => {
-        let idBody = {
-            "idQuestions": thisidQuestions
-        }
+        let idBody = { "idQuestions": thisidQuestions }
         let tempAr = [];
         try {
             let resData = await doApiMethod("/questions/thisQuestion", "PUT", idBody);
-
             let data = resData.data;
             if (!data) return;
 
@@ -54,39 +52,37 @@ function OutCome() {
                 }
             }
             setAr(tempAr);
-        } catch (error) {
-            console.log(error);
-        }
+        } catch (error) { console.log(error); }
     }
 
     const handleDownload = () => {
         const pdf = new jsPDF("p", "mm", "a4");
         const pageWidth = pdf.internal.pageSize.getWidth();
 
+        // כותרת PDF
         pdf.setFontSize(22);
-        pdf.setTextColor(50, 50, 93);
+        pdf.setTextColor(249, 100, 36); // צבע כתום
         pdf.setFont("helvetica", "bold");
         pdf.text("Medical Assessment Report", pageWidth / 2, 20, { align: "center" });
 
+        // פרטים
         pdf.setFontSize(12);
-        pdf.setTextColor(100);
+        pdf.setTextColor(60, 60, 60);
         pdf.setFont("helvetica", "normal");
         pdf.text(`Client Name: ${userName}`, 20, 35);
         pdf.text(`Date: ${new Date().toLocaleDateString()}`, 20, 42);
 
-        pdf.setDrawColor(200, 200, 200);
+        pdf.setDrawColor(220, 220, 220);
         pdf.line(20, 48, pageWidth - 20, 48);
 
-        pdf.setFontSize(11);
-        pdf.text("Thank you for completing the assessment. Below is a summary of your responses:", 20, 58);
-
+        // טבלה
         autoTable(pdf, {
-            startY: 65,
+            startY: 55,
             head: [["Question", "Response"]],
             body: ar.map(q => [q.question, q.answer || "-"]),
             theme: "grid",
-            headStyles: { fillColor: [123, 104, 238], textColor: 255, fontStyle: 'bold' },
-            alternateRowStyles: { fillColor: [249, 250, 251] },
+            headStyles: { fillColor: [249, 100, 36], textColor: 255, fontStyle: 'bold' }, // כותרות בכתום
+            alternateRowStyles: { fillColor: [250, 250, 250] },
             styles: { font: "helvetica", fontSize: 10, cellPadding: 6 },
             margin: { left: 20, right: 20 },
         });
@@ -94,146 +90,124 @@ function OutCome() {
         pdf.save("Assessment_Report.pdf");
     };
 
-    // --- STYLES ---
+    // --- Styles ---
     const styles = {
-        page: {
-            height: "100vh", width: "100vw", position: "fixed", top: 0, left: 0,
-            backgroundColor: "#f8f9fa", display: "flex", alignItems: "center", justifyContent: "center",
-            overflow: "hidden"
-        },
-        wave: {
-            position: "absolute", bottom: "-20%", right: "-10%", width: "120%", height: "70%",
-            background: "linear-gradient(135deg, #7b68ee 0%, #ec4899 100%)",
-            borderRadius: "100% 0 0 0 / 80% 0 0 0", zIndex: 0
-        },
-        card: {
-            zIndex: 2, backgroundColor: "white", borderRadius: "24px",
-            width: "90%", maxWidth: "900px", height: "85vh",
-            boxShadow: "0 25px 50px -12px rgba(0, 0, 0, 0.15)",
-            display: "flex", flexDirection: "column", position: "relative", overflow: "hidden"
-        },
-        header: {
-            padding: "30px 40px", backgroundColor: "white",
-            borderBottom: "1px solid #f3f4f6", flexShrink: 0,
-            textAlign: "center"
-        },
-        title: { fontSize: "1.8rem", fontWeight: "800", color: "#1f2937", marginBottom: "0.5rem" },
-        subtitle: { color: "#6b7280", fontSize: "1rem" },
-
-        infoBar: {
-            backgroundColor: "#f9fafb", padding: "15px 40px",
-            display: "flex", justifyContent: "space-between", alignItems: "center",
-            borderBottom: "1px solid #f3f4f6", fontSize: "0.9rem", color: "#374151", fontWeight: "500"
-        },
-
-        contentScroll: {
-            padding: "0", overflowY: "auto", flexGrow: 1, backgroundColor: "white"
-        },
-        table: { width: "100%", borderCollapse: "collapse" },
         th: {
-            position: "sticky", top: 0, backgroundColor: "#f3f4f6",
-            color: "#4b5563", fontWeight: "700", textTransform: "uppercase", fontSize: "0.75rem", letterSpacing: "0.05em",
-            padding: "16px 24px", textAlign: "left", borderBottom: "1px solid #e5e7eb", zIndex: 10
+            position: "sticky", top: 0, 
+            backgroundColor: "#F9FAFB",
+            color: "#374151", 
+            fontWeight: "600", // פונט עבה יותר לכותרות
+            textTransform: "uppercase", 
+            fontSize: "0.8rem", 
+            letterSpacing: "0.05em",
+            padding: "16px 24px", 
+            textAlign: "left", 
+            borderBottom: "2px solid #E5E7EB", 
+            zIndex: 10
         },
         td: {
-            padding: "16px 24px", borderBottom: "1px solid #f3f4f6", color: "#1f2937", fontSize: "0.95rem", lineHeight: "1.5"
+            padding: "16px 24px", 
+            borderBottom: "1px solid #F3F4F6", 
+            color: "#1F2937", 
+            fontSize: "1rem", // פונט קריא
+            fontWeight: "500", // פונט טיפה עבה
+            lineHeight: "1.5"
         },
-        rowStriped: { backgroundColor: "#f9fafb" },
-
-        footer: {
-            padding: "20px 40px", backgroundColor: "white", borderTop: "1px solid #f3f4f6",
-            display: "flex", justifyContent: "space-between", alignItems: "center", flexShrink: 0
-        },
-        gradientBtn: {
-            background: "linear-gradient(90deg, #7b68ee 0%, #ec4899 100%)",
-            color: "white", border: "none", padding: "12px 32px",
-            borderRadius: "50px", fontWeight: "700", cursor: "pointer",
-            display: "flex", alignItems: "center", gap: "10px",
-            boxShadow: "0 4px 15px rgba(123, 104, 238, 0.3)",
-            transition: "transform 0.2s"
-        },
-        outlineBtn: {
-            background: "white", border: "2px solid #e5e7eb", color: "#6b7280",
-            padding: "10px 24px", borderRadius: "50px", fontWeight: "700", cursor: "pointer",
-            display: "flex", alignItems: "center", gap: "8px", transition: "all 0.2s"
-        }
+        rowStriped: { backgroundColor: "#F9FAFB" }
     };
 
     return (
-        <div style={styles.page}>
-            <div style={styles.wave}></div>
+        <div className="vh-100 bg-white d-flex flex-column font-sans text-dark overflow-hidden">
+            
+            {/* 1. Navbar */}
+            <nav className="d-flex align-items-center px-4 py-3" style={{ height: '60px', flexShrink: 0, borderBottom: '1px solid #f3f4f6' }}>
+                <img src={logo} alt="Logo" width="22" className="opacity-75" />
+                <span className="ms-2 fw-medium fst-italic" style={{fontSize: '1rem', color: '#333'}}>Fitwave.ai</span>
+                
+                <span 
+                    onClick={HomeP} 
+                    className="ms-auto text-muted small" 
+                    style={{cursor: 'pointer', fontWeight: '500'}}
+                >
+                    Back to Home
+                </span>
+            </nav>
 
-            <div style={styles.card}>
+            {/* 2. Main Content */}
+            <div className="flex-grow-1 d-flex flex-column align-items-center p-0" style={{ overflow: 'hidden' }}>
+                
+                <div className="w-100 d-flex flex-column h-100" style={{ maxWidth: '900px' }}>
+                    
+                    {/* Header Info */}
+                    <div className="px-4 py-4 text-center">
+                        <h2 className="mb-2" style={{ fontWeight: '700', fontSize: '1.75rem', color: '#111' }}>
+                            Assessment Completed
+                        </h2>
+                        <p className="text-muted mb-3" style={{ fontSize: '1rem', fontWeight: '400' }}>
+                            Great job, <strong>{userName}</strong>. Here is your summary.
+                        </p>
+                        
+                        <div className="d-flex justify-content-center gap-4 text-sm text-secondary" style={{fontSize: '0.9rem'}}>
+                            <span style={{backgroundColor: '#F3F4F6', padding: '4px 12px', borderRadius: '20px'}}>
+                                Date: <strong>{new Date().toLocaleDateString()}</strong>
+                            </span>
+                        </div>
+                    </div>
 
-                <div style={styles.header}>
-                    {/* <div >
-                        <CheckCircleIcon />
-                    </div> */}
-                    <h2 style={styles.title}>Assessment Completed!</h2>
-                    <p style={styles.subtitle}>
-                        Great job, {userName}. Here is a summary of your responses.
-                    </p>
-                </div>
-
-                <div style={styles.infoBar}>
-                    <span>Name: <strong>{userName}</strong></span>
-                    <span>Date: <strong>{new Date().toLocaleDateString()}</strong></span>
-                </div>
-
-                <div style={styles.contentScroll}>
-                    <table style={styles.table}>
-                        <thead>
-                            <tr>
-                                <th style={{ ...styles.th, width: '60%' }}>Question</th>
-                                <th style={styles.th}>Answer</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {ar.length > 0 ? (
-                                ar.map((q, index) => (
-                                    <tr key={index} style={index % 2 === 0 ? {} : styles.rowStriped}>
-                                        <td style={styles.td}>
-                                            {/* הורדתי את המספור כאן */}
-                                            {q.question}
-                                        </td>
-                                        <td style={{ ...styles.td, fontWeight: '500', color: '#7b68ee' }}>
-                                            {q.answer || <span style={{ color: '#d1d5db', fontStyle: 'italic' }}>No Answer</span>}
+                    {/* Table Area (Scrollable) */}
+                    <div className="flex-grow-1 bg-white border-top shadow-sm" style={{ overflowY: 'auto', borderTopLeftRadius: '20px', borderTopRightRadius: '20px' }}>
+                        <table style={{ width: "100%", borderCollapse: "collapse" }}>
+                            <thead>
+                                <tr>
+                                    <th style={{ ...styles.th, width: '65%' }}>Question</th>
+                                    <th style={styles.th}>Answer</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {ar.length > 0 ? (
+                                    ar.map((q, index) => (
+                                        <tr key={index} style={index % 2 === 0 ? {} : styles.rowStriped}>
+                                            <td style={styles.td}>
+                                                {q.question}
+                                            </td>
+                                            <td style={{ ...styles.td, color: ORANGE, fontWeight: '600' }}> {/* תשובה מודגשת בכתום */}
+                                                {q.answer || <span className="text-muted fw-normal fst-italic">No Answer</span>}
+                                            </td>
+                                        </tr>
+                                    ))
+                                ) : (
+                                    <tr>
+                                        <td colSpan="2" className="text-center py-5 text-muted">
+                                            Generating report...
                                         </td>
                                     </tr>
-                                ))
-                            ) : (
-                                <tr>
-                                    <td colSpan="2" style={{ textAlign: 'center', padding: '40px', color: '#9ca3af' }}>
-                                        Loading report data...
-                                    </td>
-                                </tr>
-                            )}
-                        </tbody>
-                    </table>
+                                )}
+                            </tbody>
+                        </table>
+                    </div>
+
+                    {/* Footer Actions */}
+                    <div className="d-flex justify-content-between align-items-center px-4 py-3 bg-white" style={{ borderTop: '1px solid #E5E7EB' }}>
+                         <button
+                            onClick={HomeP}
+                            className="btn text-secondary d-flex align-items-center gap-2"
+                            style={{ fontWeight: '600', fontSize: '0.95rem' }}
+                        >
+                            <HomeIcon /> Home
+                        </button>
+
+                        <button
+                            onClick={handleDownload}
+                            className="btn text-white px-4 py-2 rounded-pill shadow-none d-flex align-items-center gap-2"
+                            style={{ backgroundColor: ORANGE, fontWeight: '600', fontSize: '0.95rem' }}
+                            onMouseOver={(e) => e.currentTarget.style.opacity = '0.9'}
+                            onMouseOut={(e) => e.currentTarget.style.opacity = '1'}
+                        >
+                            Download PDF <DownloadIcon />
+                        </button>
+                    </div>
+
                 </div>
-
-                <div style={styles.footer}>
-                    <button
-                        className="hover-scale"
-                        onClick={HomeP}
-                        style={styles.outlineBtn}
-                        onMouseOver={(e) => { e.currentTarget.style.borderColor = '#d1d5db'; e.currentTarget.style.color = '#374151' }}
-                        onMouseOut={(e) => { e.currentTarget.style.borderColor = '#e5e7eb'; e.currentTarget.style.color = '#6b7280' }}
-                    >
-                        <HomeIcon /> Back to Home
-                    </button>
-
-                    <button
-                        className="hover-scale"
-                        onClick={handleDownload}
-                        style={styles.gradientBtn}
-                        onMouseOver={(e) => e.currentTarget.style.transform = 'translateY(-2px)'}
-                        onMouseOut={(e) => e.currentTarget.style.transform = 'translateY(0)'}
-                    >
-                        Download Report <DownloadIcon />
-                    </button>
-                </div>
-
             </div>
         </div>
     );

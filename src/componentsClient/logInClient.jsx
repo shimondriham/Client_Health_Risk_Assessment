@@ -12,116 +12,95 @@ const LoginClient = () => {
   let { register, handleSubmit, formState: { errors } } = useForm();
   const dispatch = useDispatch();
 
+  const ORANGE = "#F96424";
+
   const onSubForm = (data) => {
     data.email = data.email.toLowerCase();
     doApi(data);
   }
 
   const doApi = async (_dataBody) => {
-    let url = "/users/login";
     try {
-      let resp = await doApiMethod(url, "POST", _dataBody);
+      let resp = await doApiMethod("/users/login", "POST", _dataBody);
       if (resp.data.token) {
         saveTokenLocal(resp.data.token);
-        dispatch(addName({ name: _dataBody.fullName }));
+        dispatch(addName({ name: _dataBody.fullName })); // וודא שהשרת מחזיר fullName
         dispatch(addEmail({ email: _dataBody.email }));
         dispatch(addIfShowNav({ ifShowNav: true }));
         nav("/homeClient");
       }
-    }
-    catch (error) {
-      console.log(error.response?.data?.error);
-      alert("Something went wrong, please try again.");
+    } catch (error) {
+      alert("Login failed, please try again.");
     }
   }
 
-  let emailRef = register("email", {
-    required: true,
-    pattern: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i
-  });
-
-  let passwordRef = register("password", { required: true, minLength: 3 });
-
-  const toSignUp = () => nav("/SignUp");
-
-  // --- Styles to mimic ClickUp Background ---
-  const pageStyle = {
-    background: "#f8f9fa", // Light gray background
-    minHeight: "100vh",
-    position: "relative",
-    overflow: "hidden"
-  };
-
-  const waveStyle = {
-    position: "absolute",
-    bottom: "-20%",
-    right: "-10%",
-    width: "120%",
-    height: "70%",
-    background: "linear-gradient(135deg, #7b68ee 0%, #ec4899 100%)", // Purple to Pink gradient
-    borderRadius: "100% 0 0 0 / 80% 0 0 0", // Creates the wave curve
-    zIndex: 0
-  };
-
   return (
-    <div className="d-flex align-items-center justify-content-center" style={pageStyle}>
+    <div className="vh-100 bg-white d-flex flex-column font-sans text-dark overflow-hidden">
       
-      {/* Background Graphic */}
-      <div style={waveStyle}></div>
+      {/* Navbar Minimal */}
+      <nav className="d-flex align-items-center px-4 py-3" style={{ height: '60px' }}>
+        <img src={reactIcon} alt="Logo" width="24" />
+        <span className="ms-2 fw-bold fst-italic" style={{fontSize: '1.1rem'}}>Fitwave.ai</span>
+      </nav>
 
-      {/* Login Card */}
-      <div className="card shadow-lg border-0 p-4 p-md-5" style={{ width: '100%', maxWidth: '450px', borderRadius: '20px', zIndex: 1, backgroundColor: 'white' }}>
-        
-        <div className="text-center mb-4">
-            <img src={reactIcon} alt="Logo" style={{ width: '50px', marginBottom: '15px' }} />
-            <h2 className="fw-bold" style={{ color: '#333' }}>Welcome back!</h2>
-            <p className="text-muted small">Please enter your details to sign in.</p>
-        </div>
-
-        <form onSubmit={handleSubmit(onSubForm)}>
+      {/* Main Content Centered */}
+      <div className="flex-grow-1 d-flex justify-content-center align-items-center">
+        <div className="w-100 px-3" style={{ maxWidth: '400px' }}>
           
-          {/* Email Input */}
-          <div className="mb-3">
-            <label className="form-label small fw-bold text-secondary">Email</label>
-            <input 
-              {...emailRef} 
-              type="email" 
-              className="form-control bg-light border-0 py-2" 
-              // placeholder="name@example.com" 
-            />
-            {errors.email && <small className='text-danger d-block mt-1'>* Email is invalid</small>}
+          <div className="text-center mb-4">
+            <h2 className="fw-bold mb-1 fs-2">Welcome back</h2>
+            <p className="text-muted small m-0">Please enter your details to sign in</p>
           </div>
 
-          {/* Password Input */}
-          <div className="mb-4">
-            <div className="d-flex justify-content-between">
-                <label className="form-label small fw-bold text-secondary">Password</label>
-                <span className="small text-primary" style={{cursor:'pointer'}}>Forgot?</span>
+          <form onSubmit={handleSubmit(onSubForm)}>
+            
+            {/* Email Input */}
+            <div className="mb-3">
+              <label className="form-label fw-bold small m-0 text-secondary">Email</label>
+              <input 
+                {...register("email", { required: true, pattern: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i })} 
+                type="email" 
+                className="form-control bg-light border-0 py-2 rounded-3 shadow-none"
+                placeholder="Enter your email" 
+              />
+              {errors.email && <small className='text-danger ps-1' style={{fontSize: '0.75rem'}}>Invalid email</small>}
             </div>
-            <input 
-              {...passwordRef} 
-              type="password" 
-              className="form-control bg-light border-0 py-2" 
-              // placeholder="••••••••" 
-            />
-            {errors.password && <small className='text-danger d-block mt-1'>* Min 3 chars required</small>}
+
+            {/* Password Input */}
+            <div className="mb-4">
+              <div className="d-flex justify-content-between align-items-center mb-1">
+                 <label className="form-label fw-bold small m-0 text-secondary">Password</label>
+                 <span className="small fw-bold" style={{cursor:'pointer', color: ORANGE, fontSize: '0.75rem'}}>Forgot password?</span>
+              </div>
+              <input 
+                {...register("password", { required: true, minLength: 3 })} 
+                type="password" 
+                className="form-control bg-light border-0 py-2 rounded-3 shadow-none"
+                placeholder="Enter your password" 
+              />
+              {errors.password && <small className='text-danger ps-1' style={{fontSize: '0.75rem'}}>Min 3 chars required</small>}
+            </div>
+
+            {/* Submit Button */}
+            <button className="btn w-100 py-2 fw-bold text-white rounded-pill mb-3 shadow-none" style={{ backgroundColor: ORANGE }}>
+              Sign in
+            </button>
+
+          </form>
+
+          {/* Footer Link */}
+          <div className="text-center small text-muted">
+            Don't have an account? 
+            <span 
+                onClick={() => nav("/SignUp")} 
+                className="fw-bold ms-1" 
+                style={{ cursor: 'pointer', color: ORANGE }}
+            >
+              Sign up
+            </span>
           </div>
 
-          {/* Submit Button */}
-          <button className="btn btn-primary w-100 py-2 fw-bold shadow-sm" style={{ background: '#7b68ee', border: 'none' }}>
-            Sign In
-          </button>
-
-        </form>
-
-        {/* Footer Link */}
-        <div className="text-center mt-4">
-          <span className="text-muted small">Don't have an account? </span>
-          <span onClick={toSignUp} className="text-primary fw-bold small" style={{ cursor: 'pointer' }}>
-            Sign up
-          </span>
         </div>
-
       </div>
     </div>
   );

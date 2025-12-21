@@ -1,8 +1,10 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import logo from '../assets/react.svg'; 
 
 function ExplanatoryV() {
   const nav = useNavigate();
+  const ORANGE = "#F96424"; 
 
   const NextPage = () => {
     nav("/healthForm");
@@ -12,143 +14,96 @@ function ExplanatoryV() {
     nav("/homeClient");
   };
 
-  // --- Inline Icons ---
-  const HomeIcon = () => (
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{marginBottom:'2px'}}>
-      <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-      <polyline points="9 22 9 12 15 12 15 22"></polyline>
-    </svg>
-  );
-
-  // --- Styles ---
-  const styles = {
-    page: {
-      height: "100vh",
-      width: "100vw",
-      position: "fixed", // מונע גלילה לחלוטין
-      top: 0,
-      left: 0,
-      backgroundColor: "#f8f9fa", // רקע אפור בהיר מאוד
-      display: "flex",
-      flexDirection: "column",
-      alignItems: "center",
-      justifyContent: "center",
-      overflow: "hidden"
-    },
-    wave: {
-      position: "absolute",
-      bottom: "-20%",
-      right: "-10%",
-      width: "120%",
-      height: "70%",
-      background: "linear-gradient(135deg, #7b68ee 0%, #ec4899 100%)",
-      borderRadius: "100% 0 0 0 / 80% 0 0 0",
-      zIndex: 0 // מאחורי הכל
-    },
-    backButton: {
-      position: "absolute",
-      top: "20px",
-      right: "20px",
-      zIndex: 10,
-      background: "white",
-      border: "1px solid #e9ecef",
-      padding: "8px 16px",
-      borderRadius: "50px",
-      fontWeight: "600",
-      fontSize: "0.8rem",
-      color: "#495057",
-      cursor: "pointer",
-      boxShadow: "0 2px 5px rgba(0,0,0,0.05)",
-      display: "flex",
-      alignItems: "center",
-      gap: "8px"
-    },
-    contentContainer: {
-      zIndex: 2, // מעל הגל
-      width: '100%', 
-      maxWidth: '960px', 
-      padding: '20px',
-      textAlign: 'center',
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-      justifyContent: 'center',
-      height: '100%' // תופס את הגובה כדי למרכז
-    },
-    title: {
-      fontWeight: 'bold',
-      color: '#32325d',
-      marginBottom: '20px',
-      fontSize: '2rem',
-      textShadow: '0 2px 4px rgba(255,255,255,0.8)' // קריאות מעל הגל אם צריך
-    },
-    videoWrapper: {
-      width: '100%',
-      maxHeight: '60vh', // מגביל את גובה הסרטון כדי שלא תהיה גלילה
-      boxShadow: '0 20px 50px rgba(0,0,0,0.2)', // צל חזק כדי להבליט מעל הרקע
-      borderRadius: '16px',
-      overflow: 'hidden',
-      backgroundColor: '#000',
-      display: 'flex',
-      justifyContent: 'center'
-    },
-    video: {
-      width: '100%',
-      height: '100%',
-      objectFit: 'contain', // שומר יחס תמונה בתוך המסגרת
-      maxHeight: '60vh'
-    },
-    gradientBtn: {
-      background: "linear-gradient(90deg, #7b68ee 0%, #ec4899 100%)",
-      border: "none",
-      color: "white",
-      padding: "12px 60px",
-      fontSize: "1.2rem",
-      fontWeight: "bold",
-      borderRadius: "50px",
-      marginTop: "30px",
-      cursor: "pointer",
-      boxShadow: "0 4px 15px rgba(123, 104, 238, 0.4)"
-    }
-  };
-
   return (
-    <div style={styles.page}>
+    // מיכל ראשי - ללא גלילה, רקע לבן, פונט דק
+    <div className="vh-100 bg-white d-flex flex-column font-sans text-dark overflow-hidden">
       
-      {/* 1. הוספת הגל לרקע */}
-      <div style={styles.wave}></div>
-
-      {/* 2. כפתור חזרה לדף הבית */}
-      <button style={styles.backButton} onClick={goBackHome}>
-        <HomeIcon /> BACK TO HOME
-      </button>
-
-      {/* 3. התוכן המרכזי */}
-      <div style={styles.contentContainer}>
+      {/* 1. Navbar נקי ודק */}
+      <nav className="d-flex align-items-center px-4 py-3" style={{ height: '60px', flexShrink: 0 }}>
+        <img src={logo} alt="Logo" width="22" className="opacity-75" />
+        <span className="ms-2 fw-normal fst-italic" style={{fontSize: '1rem', color: '#333'}}>Fitwave.ai</span>
         
-        <h2 style={styles.title}>Explanatory Video</h2>
-
-        {/* עטיפה לוידאו כדי לתת לו עיצוב יפה וצל */}
-        <div style={styles.videoWrapper}>
-          <video
-            controls
-            style={styles.video}
-            id="explanatoryVideo"
-          >
-            <source src="/videos/121212.mp4" type="video/mp4" />
-            הדפדפן שלך לא תומך בווידאו.
-          </video>
-        </div>
-
-        <button 
-          id="nextButton" 
-          style={styles.gradientBtn} 
-          onClick={NextPage}
+        {/* כפתור יציאה דק */}
+        <span 
+            onClick={goBackHome} 
+            className="ms-auto text-muted small" 
+            style={{cursor: 'pointer', fontSize: '0.85rem', fontWeight: '300'}}
         >
-          Next
-        </button>
+            Exit to Home
+        </span>
+      </nav>
 
+      {/* 2. תוכן מרכזי */}
+      <div className="flex-grow-1 d-flex flex-column justify-content-center align-items-center p-3">
+        <div className="w-100 d-flex flex-column align-items-center" style={{ maxWidth: '900px' }}>
+            
+            {/* כותרת דקה ונקייה */}
+            <div className="text-center mb-4">
+                <h2 className="mb-1" style={{ fontSize: '2rem', fontWeight: '300', letterSpacing: '-0.5px' }}>
+                    Explanatory Video
+                </h2>
+                <p className="text-muted small m-0" style={{fontWeight: '300'}}>
+                    Please watch the instructions carefully
+                </p>
+            </div>
+
+            {/* נגן וידאו "מלא" ללא שוליים שחורים:
+               1. הסרתי את הרקע השחור (bg-black).
+               2. השתמשתי ב-object-fit: cover כדי למלא את כל המקום.
+               3. aspect-ratio: 16/9 שומר על פרופורציה רחבה קבועה.
+            */}
+            <div 
+                className="w-100 rounded-4 overflow-hidden shadow-sm position-relative mb-5" 
+                style={{ 
+                    maxWidth: '100%',
+                    aspectRatio: '16/9', // שומר על יחס רוחב-גובה קולנועי
+                    maxHeight: '60vh',   // לא גבוה מידי
+                }}
+            >
+                <video
+                    controls
+                    className="w-100 h-100"
+                    style={{ 
+                        objectFit: 'cover', // זה הסוד - ממלא את כל המסגרת בלי פסים שחורים
+                        display: 'block'
+                    }} 
+                    id="explanatoryVideo"
+                >
+                    <source src="/videos/121212.mp4" type="video/mp4" />
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+
+            {/* כפתור פעולה דק */}
+            <div className="text-center">
+                <button 
+                    id="nextButton" 
+                    onClick={NextPage}
+                    className="btn text-white px-5 rounded-pill shadow-none"
+                    style={{ 
+                        backgroundColor: ORANGE, 
+                        minWidth: '180px',
+                        paddingTop: '10px',
+                        paddingBottom: '10px',
+                        fontSize: '0.95rem',
+                        fontWeight: '500', // משקל בינוני-דק
+                        letterSpacing: '0.5px'
+                    }}
+                    onMouseOver={(e) => e.currentTarget.style.opacity = '0.9'}
+                    onMouseOut={(e) => e.currentTarget.style.opacity = '1'}
+                >
+                    Start Assessment
+                </button>
+            </div>
+
+        </div>
       </div>
+      
+      {/* פוטר */}
+      <div className="text-center py-3 text-muted" style={{fontSize: '0.7rem', fontWeight: '300'}}>
+        © Fitwave.ai 2026
+      </div>
+
     </div>
   );
 }
