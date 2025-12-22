@@ -7,6 +7,7 @@ import { doApiMethod } from '../services/apiService';
 import { saveTokenLocal } from '../services/localService';
 import reactIcon from '../assets/react.svg';
 
+
 const LoginClient = () => {
   let nav = useNavigate();
   let { register, handleSubmit, formState: { errors } } = useForm();
@@ -36,48 +37,48 @@ const LoginClient = () => {
 
   return (
     <div className="vh-100 bg-white d-flex flex-column font-sans text-dark overflow-hidden">
-      
+
       {/* Navbar Minimal */}
       <nav className="d-flex align-items-center px-4 py-3" style={{ height: '60px' }}>
         <img src={reactIcon} alt="Logo" width="24" />
-        <span className="ms-2 fw-bold fst-italic" style={{fontSize: '1.1rem'}}>Fitwave.ai</span>
+        <span className="ms-2 fw-bold fst-italic" style={{ fontSize: '1.1rem' }}>Fitwave.ai</span>
       </nav>
 
       {/* Main Content Centered */}
       <div className="flex-grow-1 d-flex justify-content-center align-items-center">
         <div className="w-100 px-3" style={{ maxWidth: '400px' }}>
-          
+
           <div className="text-center mb-4">
             <h2 className="fw-bold mb-1 fs-2">Welcome back</h2>
             <p className="text-muted small m-0">Please enter your details to sign in</p>
           </div>
 
           <form onSubmit={handleSubmit(onSubForm)}>
-            
+
             {/* Email Input */}
             <div className="mb-3">
               <label className="form-label fw-bold small m-0 text-secondary">Email</label>
-              <input 
-                {...register("email", { required: true, pattern: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i })} 
-                type="email" 
+              <input
+                {...register("email", { required: true, pattern: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i })}
+                type="email"
                 className="form-control bg-light border-0 py-2 rounded-3 shadow-none"
-                placeholder="Enter your email" 
+                placeholder="Enter your email"
               />
-              {errors.email && <small className='text-danger ps-1' style={{fontSize: '0.75rem'}}>Invalid email</small>}
+              {errors.email && <small className='text-danger ps-1' style={{ fontSize: '0.75rem' }}>Invalid email</small>}
             </div>
 
             {/* Password Input */}
             <div className="mb-4">
               <div className="d-flex justify-content-between align-items-center mb-1">
-                 <label className="form-label fw-bold small m-0 text-secondary">Password</label>
+                <label className="form-label fw-bold small m-0 text-secondary">Password</label>
               </div>
-              <input 
-                {...register("password", { required: true, minLength: 3 })} 
-                type="password" 
+              <input
+                {...register("password", { required: true, minLength: 3 })}
+                type="password"
                 className="form-control bg-light border-0 py-2 rounded-3 shadow-none"
-                placeholder="Enter your password" 
+                placeholder="Enter your password"
               />
-              {errors.password && <small className='text-danger ps-1' style={{fontSize: '0.75rem'}}>Min 3 chars required</small>}
+              {errors.password && <small className='text-danger ps-1' style={{ fontSize: '0.75rem' }}>Min 3 chars required</small>}
             </div>
 
             {/* Submit Button */}
@@ -89,11 +90,11 @@ const LoginClient = () => {
 
           {/* Footer Link */}
           <div className="text-center small text-muted">
-            Don't have an account? 
-            <span 
-                onClick={() => nav("/SignUp")} 
-                className="fw-bold ms-1" 
-                style={{ cursor: 'pointer', color: ORANGE }}
+            Don't have an account?
+            <span
+              onClick={() => nav("/SignUp")}
+              className="fw-bold ms-1"
+              style={{ cursor: 'pointer', color: ORANGE }}
             >
               Sign up
             </span>
