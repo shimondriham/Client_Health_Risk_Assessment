@@ -70,7 +70,6 @@ const LoginClient = () => {
             <div className="mb-4">
               <div className="d-flex justify-content-between align-items-center mb-1">
                  <label className="form-label fw-bold small m-0 text-secondary">Password</label>
-                 <span className="small fw-bold" style={{cursor:'pointer', color: ORANGE, fontSize: '0.75rem'}}>Forgot password?</span>
               </div>
               <input 
                 {...register("password", { required: true, minLength: 3 })} 
