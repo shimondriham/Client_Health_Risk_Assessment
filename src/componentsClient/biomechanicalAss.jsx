@@ -224,7 +224,7 @@ function BiomechanicalAss() {
           <img src={logo} alt="Logo" width="24" />
           <span className="fw-bold fs-5 text-dark">Fitwave</span>
         </div>
-        <button  className="btn btn-link text-decoration-none text-secondary fw-bold" style={{ fontSize: '0.95rem' }}>
+        <button  onClick={() => nav("/HomeClient")} className="btn btn-link text-decoration-none text-secondary fw-bold" style={{ fontSize: '0.95rem' }}>
           Exit Test
         </button>
       </nav>
