@@ -8,32 +8,32 @@ const ChevronLeft = () => <svg width="20" height="20" fill="none" stroke="curren
 
 const assessments = [
   { name: "First assessment" },
-  { name: "Second assessment" },
-  { name: "Third assessment" },
-  { name: "Fourth assessment" },
-  { name: "Fifth assessment" },
-  { name: "Sixth assessment" },
-  { name: "Seventh assessment" }
+  { name: "Chair Stand" },
+  { name: "Comfortable Stand" },
+  { name: "Weight Shift" },
+  { name: "Forward Reach" },
+  { name: "Arm Raise" },
+  { name: "Seated Trunk Turn" }
 ];
 
 const feedbackAssessments = [
   'Raise your left hand higher',
-  'Good job on assessment 2',
-  'Good job on assessment 3',
-  'Good job on assessment 4',
-  'Good job on assessment 5',
-  'Good job on assessment 6',
-  'Good job on assessment 7'
+  'Chair Stand - Stand up from the chair and sit back down twice at a comfortable pace.',
+  'Comfortable Stand - Stand comfortably in front of the chair for about 15 seconds.',
+  'Weight Shift - Gently shift your weight from side to side while standing',
+  'Forward Reach - Raise one arm and gently reach forward, then return.',
+  'Arm Raise - Slowly raise both arms up and lower them back down while seated.',
+  'Seated Trunk Turn - Turn your upper body gently to each side while seated.'
 ];
 
 const resultsData = {
   assessment1: false,
-  assessment2: false,
-  assessment3: false,
-  assessment4: false,
-  assessment5: false,
-  assessment6: false,
-  assessment7: {
+  Chair_Stand: false,
+  Comfortable_Stand: false,
+  Weight_Shift: false,
+  Forward_Reach: false,
+  Arm_Raise: false,
+  Seated_Trunk_Turn: {
     right: false,
     left: false
   }
@@ -125,38 +125,38 @@ function BiomechanicalAss() {
                 return resultsData.assessment1;
               },
               () => {
-                if (!resultsData.assessment2)
-                  resultsData.assessment2 = true;
-                return resultsData.assessment2;
+                if (!resultsData.Chair_Stand)                  
+                  resultsData.Chair_Stand = landmarks[23].y >landmarks[25].y ;
+                return resultsData.Chair_Stand;
               },
               () => {
-                if (!resultsData.assessment3)
-                  resultsData.assessment3 = true;
-                return resultsData.assessment3;
+                if (!resultsData.Comfortable_Stand)
+                  resultsData.Comfortable_Stand = true;
+                return resultsData.Comfortable_Stand;
               },
               () => {
-                if (!resultsData.assessment4)
-                  resultsData.assessment4 = true;
-                return resultsData.assessment4;
+                if (!resultsData.Weight_Shift)
+                  resultsData.Weight_Shift = true;
+                return resultsData.Weight_Shift;
               },
               () => {
-                if (!resultsData.assessment5)
-                  resultsData.assessment5 = true;
-                return resultsData.assessment5;
+                if (!resultsData.Forward_Reach)
+                  resultsData.Forward_Reach = true;
+                return resultsData.Forward_Reach;
               },
               () => {
-                if (!resultsData.assessment6)
-                  resultsData.assessment6 = true;
-                return resultsData.assessment6;
+                if (!resultsData.Arm_Raise)
+                  resultsData.Arm_Raise = true;
+                return resultsData.Arm_Raise;
               },
               () => {
-                if (!resultsData.assessment7.right) {
-                  resultsData.assessment7.right = landmarks[12].x >= landmarks[0].x;
+                if (!resultsData.Seated_Trunk_Turn.right) {
+                  resultsData.Seated_Trunk_Turn.right = landmarks[12].x >= landmarks[0].x;
                 }
-                if (!resultsData.assessment7.left) {
-                  resultsData.assessment7.left = landmarks[11].x <= landmarks[0].x;
+                if (!resultsData.Seated_Trunk_Turn.left) {
+                  resultsData.Seated_Trunk_Turn.left = landmarks[11].x <= landmarks[0].x;
                 }
-                return resultsData.assessment7.right && resultsData.assessment7.left;
+                return resultsData.Seated_Trunk_Turn.right && resultsData.Seated_Trunk_Turn.left;
               }
             ];
 
