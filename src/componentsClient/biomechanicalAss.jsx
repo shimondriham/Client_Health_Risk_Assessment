@@ -47,7 +47,7 @@ function BiomechanicalAss() {
   const [feedback, setFeedback] = useState('');
   const poseLandmarkerRef = useRef(null);
   const assessmentIndexRef = useRef(assessmentIndex);
-
+  let isDone = false;
   useEffect(() => {
     assessmentIndexRef.current = assessmentIndex;
   }, [assessmentIndex]);
@@ -160,7 +160,7 @@ function BiomechanicalAss() {
               }
             ];
 
-            const isDone = ifAssessmentDone[assessmentIndexRef.current]();
+            isDone = ifAssessmentDone[assessmentIndexRef.current]();
 
             const newFeedback = !isDone ? feedbackAssessments[assessmentIndexRef.current] : 'Perfect!';
             setFeedback(prev => (prev !== newFeedback ? newFeedback : prev));
@@ -205,7 +205,6 @@ function BiomechanicalAss() {
     const finishMsg = "You have completed the test — you are being redirected to the report page.";
     window.alert(finishMsg);
     console.log(resultsData);
-
     stopCamera();
     toOutCome();
   };
@@ -214,6 +213,7 @@ function BiomechanicalAss() {
     return assessments[assessmentIndex].name
   };
 
+  const ORANGE = '#FF5722';
   return (
     // מבנה קשיח: גובה 100% מהמסך, ללא גלילה (overflow-hidden)
     <div className="vh-100 d-flex flex-column bg-light text-dark overflow-hidden" style={{ fontFamily: 'system-ui, -apple-system, sans-serif' }}>
@@ -224,7 +224,7 @@ function BiomechanicalAss() {
           <img src={logo} alt="Logo" width="24" />
           <span className="fw-bold fs-5 text-dark">Fitwave</span>
         </div>
-        <button onClick={handleExit} className="btn btn-link text-decoration-none text-secondary fw-bold" style={{ fontSize: '0.95rem' }}>
+        <button  className="btn btn-link text-decoration-none text-secondary fw-bold" style={{ fontSize: '0.95rem' }}>
           Exit Test
         </button>
       </nav>
@@ -265,7 +265,7 @@ function BiomechanicalAss() {
 
           {/* פידבק ברור למטה */}
           <div className="position-absolute bottom-0 w-100 py-2 text-center bg-white border-top">
-            <span className="fw-bold fs-5" style={{ color: isValid ? '#10B981' : ORANGE }}>
+            <span className="fw-bold fs-5" style={{ color: isDone ? '#10B981' : ORANGE }}>
               {feedback || "Adjusting..."}
             </span>
           </div>
@@ -300,9 +300,8 @@ function BiomechanicalAss() {
 
         <button
           onClick={Next}
-          disabled={!isValid}
           className="btn text-white px-5 fw-bold d-flex align-items-center gap-2"
-          style={{ backgroundColor: isValid ? ORANGE : '#ccc', border: 'none', fontSize: '1.1rem' }}
+          style={{ backgroundColor: isDone ? ORANGE : '#ccc', border: 'none', fontSize: '1.1rem' }}
         >
           {assessmentIndex === assessments.length - 1 ? 'Finish' : 'Next Step'} <ChevronRight />
         </button>
