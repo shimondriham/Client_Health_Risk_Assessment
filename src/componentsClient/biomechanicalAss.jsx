@@ -125,8 +125,8 @@ function BiomechanicalAss() {
                 return resultsData.assessment1;
               },
               () => {
-                if (!resultsData.Chair_Stand)                  
-                  resultsData.Chair_Stand = landmarks[23].y >landmarks[25].y ;
+                if (!resultsData.Chair_Stand)
+                  resultsData.Chair_Stand = landmarks[23].y > landmarks[25].y;
                 return resultsData.Chair_Stand;
               },
               () => {
@@ -224,7 +224,7 @@ function BiomechanicalAss() {
           <img src={logo} alt="Logo" width="24" />
           <span className="fw-bold fs-5 text-dark">Fitwave</span>
         </div>
-        <button  onClick={() => nav("/HomeClient")} className="btn btn-link text-decoration-none text-secondary fw-bold" style={{ fontSize: '0.95rem' }}>
+        <button onClick={() => nav("/HomeClient")} className="btn btn-link text-decoration-none text-secondary fw-bold" style={{ fontSize: '0.95rem' }}>
           Exit Test
         </button>
       </nav>
@@ -308,7 +308,6 @@ function BiomechanicalAss() {
       </div>
 
     </div>
-    </>
   );
 }
 
