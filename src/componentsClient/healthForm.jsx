@@ -5,13 +5,14 @@ import { useNavigate } from "react-router-dom";
 import { addIdQuestions } from "../featuers/myDetailsSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { doApiMethod } from "../services/apiService";
-import logo from '../assets/react.svg'; 
+import reactIcon from '../assets/react.svg'; 
 
-// --- Icons ---
+// --- אייקונים ---
 const ChevronRight = () => <svg width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M9 18l6-6-6-6"/></svg>;
 const ChevronLeft = () => <svg width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M15 18l-6-6 6-6"/></svg>;
-const CheckIcon = () => <svg width="14" height="14" fill="none" stroke="white" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>;
-const XIcon = () => <svg width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>;
+const CheckIcon = () => <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>;
+const XIcon = () => <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>;
+const Spinner = () => <svg className="animate-spin" width="20" height="20" viewBox="0 0 24 24" fill="none" style={{animation: 'spin 1s linear infinite'}}><circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" className="opacity-25"></circle><path fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" className="opacity-75"></path></svg>;
 
 function HealthForm() {
     const thisidQuestions = useSelector(state => state.myDetailsSlice.idQuestions);
@@ -19,15 +20,15 @@ function HealthForm() {
     const [questionIndex, setQuestionIndex] = useState(0);
     const [answers, setAnswers] = useState({});
     const [id_Questions, setId_Questions] = useState(thisidQuestions);
+    const [isLoading, setIsLoading] = useState(false);
 
     const nav = useNavigate();
     const dispatch = useDispatch();
     const didRunRef = useRef(false);
-    const isAdvancingRef = useRef(false);
     
     const ORANGE = "#F96424"; 
 
-    // --- Logic (אותו לוגיקה בדיוק) ---
+    // --- לוגיקה ---
     useEffect(() => {
         if (didRunRef.current) return;
         didRunRef.current = true;
@@ -52,54 +53,39 @@ function HealthForm() {
 
     const fireConfetti = () => { confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } }); };
 
-    const cleanInvalidAnswers = (newAnswers) => {
-        const validAnswers = {};
-        surveyData.sections.forEach(sec => {
-            sec.questions.forEach(q => {
-                if (shouldShowQuestion(q, newAnswers)) {
-                    if (newAnswers[q.id] !== undefined) validAnswers[q.id] = newAnswers[q.id];
-                }
-            });
-        });
-        return validAnswers;
-    };
-
     const handleAnswer = (value) => {
-        const newAnswers = cleanInvalidAnswers({ ...answers, [question.id]: value });
-        setAnswers(newAnswers);
+        setAnswers(prev => ({ ...prev, [question.id]: value }));
     };
 
-    const shouldShowQuestion = (q, answerState = answers) => {
-        if (q.restriction && q.restriction !== (answerState.userGender || undefined)) return false;
-        const secIndexOfQ = surveyData.sections.findIndex(sec => sec.questions.some(qq => qq.id === q.id));
-        const questionsInSection = secIndexOfQ !== -1 ? surveyData.sections[secIndexOfQ].questions : [];
-        const qIndexInSection = questionsInSection.findIndex(qq => qq.id === q.id);
-        for (let i = 0; i < qIndexInSection; i++) {
-            const prevQ = questionsInSection[i];
-            if (prevQ.followUps.includes(q.id)) {
-                const prevAnswer = answerState[prevQ.id];
-                if (!prevAnswer) return false;
-                if (prevQ.whenShowFollowUps.length > 0 && !prevQ.whenShowFollowUps.map(String).includes(String(prevAnswer))) return false;
-            }
-        }
-        return true;
+    const getCurrentAnswer = () => {
+        let ans = answers[question.id];
+        if (question.type === 'slider' && ans === undefined) return 0;
+        return ans;
     };
 
     const isAnswerEmpty = () => {
-        const ans = answers[question.id];
+        const ans = getCurrentAnswer();
+        if (question.type === 'file') return false; 
+        if (question.type === 'slider') return false; 
         return ans === undefined || ans === "" || (Array.isArray(ans) && ans.length === 0);
     };
 
     const next = async () => {
-        if (isAdvancingRef.current) return;
-        isAdvancingRef.current = true;
+        if (isLoading) return;
+        setIsLoading(true);
+
         try {
             if (isAnswerEmpty()) return;
 
+            const ansValue = getCurrentAnswer();
+            setAnswers(prev => ({...prev, [question.id]: ansValue}));
+
             const currentSection = surveyData.sections[sectionIndex];
+            const allAnswers = { ...answers, [question.id]: ansValue };
+            
             const answersForSection = currentSection.questions
-                .filter(q => answers[q.id] !== undefined)
-                .map(q => ({ id: q.id, answer: answers[q.id] }));
+                .filter(q => allAnswers[q.id] !== undefined && allAnswers[q.id] !== "")
+                .map(q => ({ id: q.id, answer: allAnswers[q.id] }));
             
             if (currentSection.section === "Safety First" && (!id_Questions || id_Questions === "0")) {
                 try {
@@ -120,216 +106,254 @@ function HealthForm() {
             }
 
             let nextQ = questionIndex + 1;
-            while (nextQ < currentSection.questions.length) {
-                if (shouldShowQuestion(currentSection.questions[nextQ])) break;
-                nextQ++;
-            }
             if (nextQ < currentSection.questions.length) {
                 setQuestionIndex(nextQ);
-                return;
-            }
-
-            if (sectionIndex < surveyData.sections.length - 1) {
-                setSectionIndex(prev => prev + 1);
-                setQuestionIndex(0);
-                fireConfetti();
             } else {
-                nav("/h_statement");
+                if (sectionIndex < surveyData.sections.length - 1) {
+                    setSectionIndex(prev => prev + 1);
+                    setQuestionIndex(0);
+                    fireConfetti();
+                } else {
+                    nav("/h_statement");
+                }
             }
+        } catch(err) {
+            console.error(err);
         } finally {
-            isAdvancingRef.current = false;
+            setIsLoading(false);
         }
     };
 
     const back = () => {
-        let prevQ = questionIndex - 1;
-        while (prevQ >= 0) {
-            if (shouldShowQuestion(section.questions[prevQ])) break;
-            prevQ--;
-        }
-        if (prevQ >= 0) {
-            setQuestionIndex(prevQ);
+        if (questionIndex > 0) {
+            setQuestionIndex(questionIndex - 1);
         } else if (sectionIndex > 0) {
-            const prevSection = surveyData.sections[sectionIndex - 1];
-            let lastQ = prevSection.questions.length - 1;
-            while (lastQ >= 0) {
-                if (shouldShowQuestion(prevSection.questions[lastQ])) break;
-                lastQ--;
-            }
             setSectionIndex(sectionIndex - 1);
-            setQuestionIndex(lastQ >= 0 ? lastQ : 0);
+            setQuestionIndex(surveyData.sections[sectionIndex - 1].questions.length - 1);
         }
     };
 
     const handleExit = () => {
-        if (window.confirm("Exit assessment? Progress is saved locally.")) {
-            if (id_Questions && id_Questions !== "0") dispatch(addIdQuestions({ idQuestions: id_Questions }));
-            nav("/homeClient");
+        if (window.confirm("Exit assessment? Progress is saved.")) {
+             nav("/homeClient");
         }
     };
 
-    // --- Styles ---
+    
+    const isLongList = question.options && question.options.length > 4;
+
+    // --- CSS פנימי ---
     const styles = {
-        optionRow: (selected) => ({
-            display: "flex", alignItems: "center", padding: "16px 24px", marginBottom: "12px", 
-            borderRadius: "14px", 
-            border: selected ? `1px solid ${ORANGE}` : "1px solid transparent",
-            backgroundColor: "#F8F9FA", // רקע אפור בהיר לאפשרויות
-            cursor: "pointer", fontSize: "1rem", color: "#333", fontWeight: selected ? "500" : "400",
-            transition: "all 0.2s ease"
+        optionCard: (selected) => ({
+            display: "flex", alignItems: "center", padding: "16px 20px", marginBottom: "12px", 
+            borderRadius: "16px", 
+            border: selected ? `2px solid ${ORANGE}` : "2px solid #F3F4F6",
+            backgroundColor: selected ? "#FFFBF9" : "#fff",
+            cursor: "pointer", fontSize: "1rem", color: "#1a1a1a", fontWeight: selected ? "500" : "400",
+            transition: "all 0.2s ease",
+            boxShadow: selected ? "0 4px 12px rgba(249, 100, 36, 0.15)" : "none"
         }),
         radioCircle: (selected) => ({
             width: '22px', height: '22px', borderRadius: '50%', 
-            border: selected ? `6px solid ${ORANGE}` : '2px solid #D1D5DB', 
-            marginRight: '16px', flexShrink: 0, backgroundColor: "white"
+            border: selected ? `6px solid ${ORANGE}` : '2px solid #E5E7EB', 
+            marginRight: '16px', flexShrink: 0, backgroundColor: "white",
+            transition: "all 0.2s ease"
         }),
-        checkboxSquare: (selected) => ({
-             width: '22px', height: '22px', borderRadius: '6px', 
-             backgroundColor: selected ? ORANGE : 'white', 
-             border: selected ? 'none' : '2px solid #D1D5DB', 
-             marginRight: '16px', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0
-        }),
-        stepCircle: (active, completed) => ({
+        stepperCircle: (active, completed) => ({
             width: "36px", height: "36px", borderRadius: "50%",
             display: "flex", alignItems: "center", justifyContent: "center",
             fontWeight: "600", fontSize: "14px", 
             backgroundColor: (active || completed) ? ORANGE : "#F3F4F6",
             color: (active || completed) ? "white" : "#9CA3AF",
-            marginBottom: "6px"
+            marginBottom: "8px", 
+            transition: "all 0.3s ease",
+            boxShadow: active ? `0 4px 10px ${ORANGE}60` : "none",
+            flexShrink: 0 
         }),
-        gradientBtn: (disabled) => ({
+        orangeButton: (disabled) => ({
             backgroundColor: disabled ? "#E5E7EB" : ORANGE,
-            color: disabled ? "#9CA3AF" : "white", 
-            border: "none", padding: "12px 40px", fontSize: "1rem", borderRadius: "50px", 
-            fontWeight: "500", cursor: disabled ? "not-allowed" : "pointer",
+            color: disabled ? "#9CA3AF" : "white",
+            border: "none",
+            borderRadius: "50px", 
+            padding: "14px 40px",
+            fontSize: "1.1rem",
+            fontWeight: "600",
+            cursor: disabled ? "not-allowed" : "pointer",
+            boxShadow: disabled ? "none" : "0 4px 14px rgba(249, 100, 36, 0.4)",
             display: "flex", alignItems: "center", gap: "10px",
-            boxShadow: disabled ? "none" : "0 4px 15px rgba(249, 100, 36, 0.2)"
-        })
+            transition: "all 0.3s ease"
+        }),
+        exitButton: {
+            backgroundColor: "white",
+            border: "1px solid #E5E7EB",
+            borderRadius: "50px",
+            padding: "8px 20px",
+            color: "#6B7280",
+            fontWeight: "600",
+            fontSize: "0.9rem",
+            display: "flex", alignItems: "center", gap: "8px",
+            cursor: "pointer",
+            transition: "all 0.2s ease",
+            boxShadow: "0 2px 5px rgba(0,0,0,0.03)"
+        }
     };
 
     const renderInput = () => {
+        const val = getCurrentAnswer();
+        
         switch (question.type) {
             case "radio":
                 return question.options.map((opt, i) => (
-                    <div key={i} onClick={() => handleAnswer(opt)} style={styles.optionRow(answers[question.id] === opt)}>
-                        <div style={styles.radioCircle(answers[question.id] === opt)}></div>
-                        <span className="font-inter">{opt}</span>
+                    <div key={i} onClick={() => handleAnswer(opt)} style={styles.optionCard(val === opt)}>
+                        <div style={styles.radioCircle(val === opt)}></div>
+                        <span>{opt}</span>
                     </div>
                 ));
             case "checkbox":
                 return question.options.map((opt, i) => {
-                    const isChecked = answers[question.id]?.includes(opt) || false;
+                    const isChecked = val?.includes(opt) || false;
                     return (
                         <div key={i} onClick={() => {
-                            const prev = answers[question.id] || [];
+                            const prev = val || [];
                             handleAnswer(isChecked ? prev.filter(x => x !== opt) : [...prev, opt]);
-                        }} style={styles.optionRow(isChecked)}>
-                            <div style={styles.checkboxSquare(isChecked)}>{isChecked && <CheckIcon />}</div>
-                            <span className="font-inter">{opt}</span>
+                        }} style={styles.optionCard(isChecked)}>
+                            <div style={{
+                                width:'22px', height:'22px', borderRadius:'6px', border: isChecked ? 'none' : '2px solid #E5E7EB',
+                                backgroundColor: isChecked ? ORANGE : 'white', 
+                                display:'flex', alignItems:'center', justifyContent:'center', 
+                                marginRight:'16px', flexShrink: 0
+                            }}>
+                                {isChecked && <CheckIcon />}
+                            </div>
+                            <span>{opt}</span>
                         </div>
                     );
                 });
             case "slider":
                 return (
-                    <div className="py-5 px-4 rounded-4 text-center" style={{backgroundColor: '#F9FAFB'}}>
-                        <div className="mb-3 d-flex align-items-baseline justify-content-center gap-2">
-                            <span className="display-4 fw-light font-outfit" style={{ color: ORANGE }}>{answers[question.id] || 0}</span>
-                            <span className="text-muted fw-normal font-inter" style={{fontSize: '0.85rem'}}>SCORE (0-20)</span>
+                    <div className="py-5 px-3">
+                        <div className="text-center mb-4">
+                            <span className="display-3 fw-bold font-outfit" style={{color: ORANGE}}>{val}</span>
                         </div>
-                        <input type="range" className="form-range w-100 mx-auto" min={0} max={20} value={answers[question.id] || 0}
+                        <input type="range" className="form-range w-100" min={0} max={20} value={val}
                             onChange={(e) => handleAnswer(Number(e.target.value))}
-                            style={{ height: '6px', accentColor: ORANGE, cursor: 'pointer' }} />
+                            style={{accentColor: ORANGE, cursor: 'pointer', height: '8px'}} 
+                        />
+                        <div className="d-flex justify-content-between text-muted small fw-bold mt-2">
+                            <span>0</span><span>20</span>
+                        </div>
                     </div>
                 );
-            case "date": return <input type="date" className="form-control border-0 p-3 font-inter" style={{backgroundColor: '#F8F9FA', fontSize:'1rem', borderRadius:'12px'}} value={answers[question.id] || ""} onChange={(e) => handleAnswer(e.target.value)} />;
+            case "date": return <input type="date" className="form-control border bg-light p-3 rounded-3" value={val || ""} onChange={(e) => handleAnswer(e.target.value)} />;
             case "dropdown": return (
-                <select className="form-select border-0 p-3 font-inter" style={{backgroundColor: '#F8F9FA', fontSize:'1rem', borderRadius:'12px'}} value={answers[question.id] || ""} onChange={(e) => handleAnswer(e.target.value)}>
-                    <option value="" disabled>Select an option...</option>
+                <select className="form-select border bg-light p-3 rounded-3" value={val || ""} onChange={(e) => handleAnswer(e.target.value)}>
+                    <option value="" disabled>Select...</option>
                     {question.options.map((opt, i) => <option key={i} value={opt}>{opt}</option>)}
                 </select>
             );
-            case "textarea": return <textarea className="form-control border-0 p-3 font-inter" style={{backgroundColor: '#F8F9FA', fontSize:'1rem', borderRadius:'12px'}} rows={5} placeholder="Type your answer here..." value={answers[question.id] || ""} onChange={(e) => handleAnswer(e.target.value)} />;
-            case "file": return <input type="file" className="form-control form-control-lg font-inter" onChange={(e) => handleAnswer(e.target.files[0]?.name)} />;
+            case "textarea": return <textarea className="form-control border bg-light p-3 rounded-3" rows={4} value={val || ""} onChange={(e) => handleAnswer(e.target.value)} />;
+            case "file": return <input type="file" className="form-control" onChange={(e) => handleAnswer(e.target.files[0]?.name)} />;
             default: return null;
         }
     };
 
     return (
-        <>
-        {/* הטמעת הפונטים */}
-        <style>
-            {`
-            @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Outfit:wght@300;400;500;600&display=swap');
-            .font-outfit { font-family: 'Outfit', sans-serif; }
-            .font-inter { font-family: 'Inter', sans-serif; }
-            `}
-        </style>
-
-        <div className="vh-100 bg-white d-flex flex-column font-inter text-dark overflow-hidden">
+        <div className="vh-100 bg-white d-flex flex-column page-wrapper overflow-hidden">
             
+            <style>{`
+                .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+                .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+                .custom-scrollbar::-webkit-scrollbar-thumb { background-color: #e0e0e0; border-radius: 20px; }
+                .custom-scrollbar::-webkit-scrollbar-thumb:hover { background-color: #bdbdbd; }
+            `}</style>
+
             {/* Navbar */}
-            <nav className="d-flex align-items-center px-4 py-3" style={{ height: '70px', flexShrink: 0 }}>
-                <img src={logo} alt="Logo" width="24" className="opacity-75" />
-                <span className="ms-2 font-outfit fw-bold" style={{fontSize: '1.1rem', color: '#333'}}>Fitwave.ai</span>
-                
+            <nav className="d-flex align-items-center justify-content-between px-4 py-3 flex-shrink-0">
+                    <div className="d-flex align-items-center gap-2">
+                        <img src={reactIcon} alt="Logo" width="22" className="opacity-75" />
+                        <span className="logo-text" style={{ fontSize: '2rem' }}>Fitwave.ai</span>
+                    </div>
+                {/* יציאה ימין */}
                 <button 
                     onClick={handleExit} 
-                    className="ms-auto btn btn-light border-0 text-muted d-flex align-items-center gap-2 px-3 rounded-pill font-outfit" 
-                    style={{fontSize: '0.85rem', fontWeight: '500'}}
+                    style={styles.exitButton}
+                    onMouseOver={(e) => { e.currentTarget.style.backgroundColor = '#f9fafb'; }}
+                    onMouseOut={(e) => { e.currentTarget.style.backgroundColor = 'white'; }}
                 >
                     <XIcon /> Exit
                 </button>
             </nav>
 
             {/* Main Content */}
-            <div className="flex-grow-1 d-flex justify-content-center align-items-center p-3" style={{ overflow: 'hidden' }}>
-                <div className="w-100 d-flex flex-column h-100" style={{ maxWidth: '750px' }}>
+            <div className="flex-grow-1 d-flex flex-column justify-content-center align-items-center p-3 overflow-hidden">
+                <div className="w-100 h-100 d-flex flex-column" style={{ maxWidth: '750px' }}>
                     
-                    {/* Stepper */}
-                    <div className="d-flex justify-content-center gap-4 mb-3">
-                        {surveyData.sections.map((s, i) => {
-                            const isActive = i === sectionIndex;
-                            const isCompleted = i < sectionIndex;
-                            return (
-                                <div key={i} className="d-flex flex-column align-items-center" style={{width: '90px'}}>
-                                    <div style={styles.stepCircle(isActive, isCompleted)}>
-                                        {isCompleted ? <CheckIcon /> : i + 1}
+                    {/* Stepper & Header - נשאר קבוע */}
+                    <div className="flex-shrink-0 mb-3 mt-2">
+                        <div className="d-flex justify-content-center gap-3 mb-2">
+                            {surveyData.sections.map((s, i) => {
+                                const isActive = i === sectionIndex;
+                                const isCompleted = i < sectionIndex;
+                                return (
+                                    <div key={i} className="d-flex flex-column align-items-center" style={{width: '120px'}}>
+                                        <div style={styles.stepperCircle(isActive, isCompleted)}>
+                                            {isCompleted ? <CheckIcon /> : i + 1}
+                                        </div>
+                                        <div className="text-center w-100" style={{
+                                            fontSize: '0.75rem', 
+                                            fontWeight: isActive ? '700' : '500',
+                                            color: isActive ? '#1a1a1a' : '#9ca3af',
+                                            lineHeight: '1.2', 
+                                            whiteSpace: 'normal'
+                                        }}>
+                                            {s.section}
+                                        </div>
                                     </div>
-                                    <div className="text-truncate w-100 text-center text-muted font-outfit" style={{fontSize: '0.7rem', marginTop:'4px', fontWeight: '500'}}>
-                                        {s.section}
-                                    </div>
-                                </div>
-                            );
-                        })}
-                    </div>
-
-                    {/* Progress Bar */}
-                    <div className="w-100 bg-light rounded-pill mb-2" style={{height: '6px'}}>
-                        <div className="h-100 rounded-pill" style={{width: `${((questionIndex + 1) / section.questions.length) * 100}%`, backgroundColor: ORANGE, transition: 'width 0.3s ease'}}></div>
-                    </div>
-                    <div className="text-center text-muted mb-4 font-inter" style={{fontSize: '0.8rem'}}>Question {questionIndex + 1} of {section.questions.length}</div>
-
-                    {/* Question Area */}
-                    <div className="flex-grow-1 d-flex flex-column" style={{ overflowY: 'auto', minHeight: '0', paddingRight: '5px' }}>
-                        <h2 className="text-center mb-4 font-outfit" style={{ fontSize: '1.8rem', fontWeight: '600', lineHeight: '1.3', color: '#111' }}>
-                            {question.question}
-                        </h2>
+                                );
+                            })}
+                        </div>
                         
-                        <div className="px-1 pb-2">
-                            {renderInput()}
+                        <div className="w-100 bg-light rounded-pill mt-3" style={{height: '4px', overflow:'hidden'}}>
+                            <div className="h-100" style={{
+                                width: `${((questionIndex + 1) / section.questions.length) * 100}%`, 
+                                backgroundColor: ORANGE, 
+                                borderRadius: '10px',
+                                transition: 'width 0.3s ease'
+                            }}></div>
+                        </div>
+                        <div className="text-center text-muted mt-2" style={{fontSize:'0.75rem', fontWeight:'500', letterSpacing:'0.5px'}}>
+                            QUESTION {questionIndex + 1} / {section.questions.length}
                         </div>
                     </div>
 
-                    {/* Footer Buttons */}
-                    <div className="d-flex justify-content-between align-items-center pt-3 pb-2 mt-auto">
-                        <button
-                            onClick={back}
-                            className="btn btn-lg text-secondary border-0 px-3 font-outfit"
+                    {/* Question Title - קבוע */}
+                    <div className="flex-shrink-0 text-center px-2 mb-3">
+                        <h2 className="fw-bold text-dark" style={{fontSize: '1.8rem', lineHeight: '1.3'}}>
+                            {question.question}
+                        </h2>
+                    </div>
+
+                    {/* Answer Area - כאן הלוגיקה החדשה לגלילה! */}
+                    <div 
+                        className={`px-2 ${isLongList ? 'flex-grow-1 custom-scrollbar' : 'mb-2'}`}
+                        style={{ overflowY: isLongList ? 'auto' : 'visible', minHeight: isLongList ? '0' : 'auto' }}
+                    >
+                        {renderInput()}
+                        {/* רווח קטן רק אם יש גלילה */}
+                        {isLongList && <div style={{height: '10px'}}></div>}
+                    </div>
+
+                    {/* Spacer - דוחף את הפוטר למטה אם הרשימה קצרה */}
+                    {!isLongList && <div className="flex-grow-1"></div>}
+
+                    {/* Footer Actions - תמיד למטה */}
+                    <div className="flex-shrink-0 mt-3 pt-3 border-top border-light d-flex align-items-center justify-content-between">
+                        <button 
+                            onClick={back} 
+                            className="btn btn-link text-decoration-none text-secondary"
                             style={{ 
-                                opacity: (sectionIndex === 0 && questionIndex === 0) ? 0 : 1, 
-                                pointerEvents: (sectionIndex === 0 && questionIndex === 0) ? 'none' : 'auto', 
-                                fontSize: '1rem', fontWeight: '500',
-                                display: 'flex', alignItems: 'center', gap: '8px'
+                                visibility: (sectionIndex === 0 && questionIndex === 0) ? 'hidden' : 'visible',
+                                fontWeight: '500', display: 'flex', alignItems: 'center', gap: '5px'
                             }}
                         >
                             <ChevronLeft /> Back
@@ -337,19 +361,38 @@ function HealthForm() {
 
                         <button 
                             onClick={next} 
-                            disabled={isAnswerEmpty()}
-                            className="font-outfit"
-                            style={styles.gradientBtn(isAnswerEmpty())}
+                            disabled={isAnswerEmpty() || isLoading}
+                            style={styles.orangeButton(isAnswerEmpty() || isLoading)}
+                            onMouseOver={(e) => {
+                                if(!isAnswerEmpty()) {
+                                    e.currentTarget.style.transform = "translateY(-2px)";
+                                    e.currentTarget.style.boxShadow = "0 8px 20px rgba(249, 100, 36, 0.5)";
+                                }
+                            }}
+                            onMouseOut={(e) => {
+                                if(!isAnswerEmpty()) {
+                                    e.currentTarget.style.transform = "translateY(0)";
+                                    e.currentTarget.style.boxShadow = "0 4px 14px rgba(249, 100, 36, 0.4)";
+                                }
+                            }}
                         >
-                            {sectionIndex === surveyData.sections.length - 1 && questionIndex === section.questions.length - 1 ? 'Finish Assessment' : 'Next Question'} 
-                            <ChevronRight />
+                            {isLoading ? (
+                                <>
+                                    <style>{`@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } } .animate-spin { animation: spin 1s linear infinite; }`}</style>
+                                    <Spinner /> Processing...
+                                </>
+                            ) : (
+                                <>
+                                    {sectionIndex === surveyData.sections.length - 1 && questionIndex === section.questions.length - 1 ? 'Finish' : (question.type === 'file' ? 'Skip / Next' : 'Next')} 
+                                    <ChevronRight />
+                                </>
+                            )}
                         </button>
                     </div>
 
                 </div>
             </div>
         </div>
-        </>
     );
 }
 
