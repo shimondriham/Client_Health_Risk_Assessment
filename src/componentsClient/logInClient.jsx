@@ -89,15 +89,6 @@ const LoginClient = () => {
               {errors.password && <small className='text-danger d-block mt-1'>{errors.password.message}</small>}
             </div>
 
-            {/* שורת אפשרויות */}
-            <div className="options-row">
-              <label className="remember-label">
-                <input type="checkbox" style={{ accentColor: '#ff6b35' }} />
-                Remember me
-              </label>
-              <a href="#" className="forgot-link">Forgot password</a>
-            </div>
-
             {/* כפתור Submit */}
             <button className="btn-login-orange">Sign in</button>
         </form>
