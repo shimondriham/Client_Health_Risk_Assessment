@@ -308,6 +308,7 @@ function BiomechanicalAss() {
       </div>
 
     </div>
+    </>
   );
 }
 

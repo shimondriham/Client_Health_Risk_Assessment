@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react'; // הוספתי useState בשביל העין של הסיסמה אם תרצי
 import { useForm } from "react-hook-form";
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -6,13 +6,15 @@ import { addEmail, addIfShowNav, addName } from '../featuers/myDetailsSlice';
 import { doApiMethod } from '../services/apiService';
 import { saveTokenLocal } from '../services/localService';
 import reactIcon from '../assets/react.svg';
+import '../App.css'; // חובה: וודאי שה-CSS מהתגובה הקודמת נמצא כאן!
 
 const LoginClient = () => {
   let nav = useNavigate();
   let { register, handleSubmit, formState: { errors } } = useForm();
   const dispatch = useDispatch();
-
-  const ORANGE = "#F96424";
+  
+  // סטייט להצגה/הסתרה של סיסמה (אופציונלי, אבל קיים בעיצוב)
+  const [showPassword, setShowPassword] = useState(false);
 
   const onSubForm = (data) => {
     data.email = data.email.toLowerCase();
@@ -24,83 +26,104 @@ const LoginClient = () => {
       let resp = await doApiMethod("/users/login", "POST", _dataBody);
       if (resp.data.token) {
         saveTokenLocal(resp.data.token);
-        dispatch(addName({ name: _dataBody.fullName })); // וודא שהשרת מחזיר fullName
+        dispatch(addName({ name: resp.data.fullName || "User" })); 
         dispatch(addEmail({ email: _dataBody.email }));
         dispatch(addIfShowNav({ ifShowNav: true }));
         nav("/homeClient");
       }
     } catch (error) {
-      alert("Login failed, please try again.");
+      alert("Login failed, please check your credentials.");
     }
   }
 
   return (
-    <div className="vh-100 bg-white d-flex flex-column font-sans text-dark overflow-hidden">
+    <div className="login-wrapper">
       
-      {/* Navbar Minimal */}
-      <nav className="d-flex align-items-center px-4 py-3" style={{ height: '60px' }}>
-        <img src={reactIcon} alt="Logo" width="24" />
-        <span className="ms-2 fw-bold fst-italic" style={{fontSize: '1.1rem'}}>Fitwave.ai</span>
-      </nav>
+      {/* --- לוגו עליון --- */}
+                  <nav className="top-nav" style={{ padding: '5px 0' }}>
+                    <img src={reactIcon} alt="Logo" width="22" className="logo-icon opacity-75" />
+                    <span className="logo-text" style={{ fontSize: '2rem' }}>Fitwave.ai</span>
+                  </nav>
 
-      {/* Main Content Centered */}
-      <div className="flex-grow-1 d-flex justify-content-center align-items-center">
-        <div className="w-100 px-3" style={{ maxWidth: '400px' }}>
-          
-          <div className="text-center mb-4">
-            <h2 className="fw-bold mb-1 fs-2">Welcome back</h2>
-            <p className="text-muted small m-0">Please enter your details to sign in</p>
-          </div>
+      {/* --- תוכן מרכזי --- */}
+      <div className="login-content">
+        
+        {/* כותרת מעוצבת לפי התמונה */}
+        <h1 className="main-title">
+          Welcome Back to <span className="brand-highlight">Fitwave.ai</span> 
+        </h1>
+        <p className="subtitle">Start your journey to mastering interviews.</p>
 
-          <form onSubmit={handleSubmit(onSubForm)}>
+        <form onSubmit={handleSubmit(onSubForm)} style={{width: '100%'}}>
             
             {/* Email Input */}
-            <div className="mb-3">
-              <label className="form-label fw-bold small m-0 text-secondary">Email</label>
+            <div className="form-group">
+              <label className="form-label">Email*</label>
               <input 
-                {...register("email", { required: true, pattern: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i })} 
+                {...register("email", { 
+                    required: "Email is required", 
+                    pattern: {
+                        value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                        message: "Invalid email address"
+                    }
+                })} 
                 type="email" 
-                className="form-control bg-light border-0 py-2 rounded-3 shadow-none"
                 placeholder="Enter your email" 
+                className="custom-input"
               />
-              {errors.email && <small className='text-danger ps-1' style={{fontSize: '0.75rem'}}>Invalid email</small>}
+              {errors.email && <small className='text-danger d-block mt-1'>{errors.email.message}</small>}
             </div>
 
             {/* Password Input */}
-            <div className="mb-4">
-              <div className="d-flex justify-content-between align-items-center mb-1">
-                 <label className="form-label fw-bold small m-0 text-secondary">Password</label>
+            <div className="form-group">
+              <label className="form-label">Password*</label>
+              <div className="input-container">
+                <input 
+                  {...register("password", { required: "Password is required", minLength: { value: 3, message: "Min length is 3" } })} 
+                  type={showPassword ? "text" : "password"} // החלפה בין טקסט לסיסמה
+                  placeholder="Enter your password" 
+                  className="custom-input"
+                />
+                
               </div>
-              <input 
-                {...register("password", { required: true, minLength: 3 })} 
-                type="password" 
-                className="form-control bg-light border-0 py-2 rounded-3 shadow-none"
-                placeholder="Enter your password" 
-              />
-              {errors.password && <small className='text-danger ps-1' style={{fontSize: '0.75rem'}}>Min 3 chars required</small>}
+              {errors.password && <small className='text-danger d-block mt-1'>{errors.password.message}</small>}
             </div>
 
-            {/* Submit Button */}
-            <button className="btn w-100 py-2 fw-bold text-white rounded-pill mb-3 shadow-none" style={{ backgroundColor: ORANGE }}>
-              Sign in
-            </button>
+            {/* שורת אפשרויות */}
+            <div className="options-row">
+              <label className="remember-label">
+                <input type="checkbox" style={{ accentColor: '#ff6b35' }} />
+                Remember me
+              </label>
+              <a href="#" className="forgot-link">Forgot password</a>
+            </div>
 
-          </form>
+            {/* כפתור Submit */}
+            <button className="btn-login-orange">Sign in</button>
+        </form>
 
-          {/* Footer Link */}
-          <div className="text-center small text-muted">
-            Don't have an account? 
-            <span 
-                onClick={() => nav("/SignUp")} 
-                className="fw-bold ms-1" 
-                style={{ cursor: 'pointer', color: ORANGE }}
-            >
-              Sign up
-            </span>
-          </div>
 
+        {/* קישור להרשמה */}
+        <div className="register-text">
+          Don't have an account? 
+          <span 
+            onClick={() => nav("/SignUp")} 
+            className="register-link" 
+            style={{cursor: 'pointer'}}
+          >
+            Register
+          </span>
         </div>
       </div>
+
+      {/* --- פוטר --- */}
+      <footer className="footer">
+        <div>© Fitwave.ai 2026</div>
+        <div className="footer-right">
+          <span>✉️</span> support@fitwave.ai
+        </div>
+      </footer>
+
     </div>
   );
 };

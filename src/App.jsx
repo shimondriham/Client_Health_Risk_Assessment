@@ -5,6 +5,7 @@ import  myDetailsSlice from "./featuers/myDetailsSlice";
 import { configureStore } from '@reduxjs/toolkit';
 import { Provider } from 'react-redux';
 
+
 const myStore = configureStore({
   reducer: {
     myDetailsSlice

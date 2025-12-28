@@ -1,20 +1,24 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { addEmail, addName } from '../featuers/myDetailsSlice';
 import { doApiMethod } from '../services/apiService';
-import logo from '../assets/react.svg'; 
+import reactIcon from '../assets/react.svg'; 
+import '../App.css'; 
 
 function SignUpClient() {
   const nav = useNavigate();
   const dispatch = useDispatch();
   const { register, handleSubmit, formState: { errors } } = useForm();
   
-  const ORANGE = "#F96424"; 
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   const onSubForm = (data) => {
-    if(data.password !== data.ConfirmPassword) return alert("Passwords do not match");
+    if(data.password !== data.ConfirmPassword) {
+        return alert("Passwords do not match");
+    }
     data.email = data.email.toLowerCase();
     const { ConfirmPassword, ...body } = data;
     doApi(body);
@@ -33,135 +37,139 @@ function SignUpClient() {
     }
   }
 
-  // --- סגנונות עדינים ודקים ---
-  const styles = {
-    input: {
-      backgroundColor: "#F3F4F6", // אפור בהיר מאוד ועדין
-      fontSize: "0.9rem",         // פונט קטן יותר בשדה
-      fontWeight: "400",          // פונט דק (רגיל)
-      padding: "10px 15px",       // פחות גובה (יותר דק)
-      borderRadius: "8px"         // פינות מעוגלות בעדינות
-    },
-    label: {
-      fontSize: "0.85rem",
-      fontWeight: "500",          // לא מודגש מידי
-      color: "#4B5563",           // אפור כהה (לא שחור)
-      marginBottom: "4px"
-    },
-    button: {
-      backgroundColor: ORANGE,
-      padding: "10px",            // כפתור דק יותר
-      fontSize: "0.95rem",
-      fontWeight: "600",          // מודגש עדין
-      borderRadius: "50px",       // עגול מלא
-      letterSpacing: "0.3px"      // ריווח אותיות קליל למראה יוקרתי
-    }
-  };
+  // סגנון לכיווץ רווחים למניעת גלילה
+  const compactGroupStyle = { marginBottom: '10px' };
+  const compactInputStyle = { padding: '10px 16px' };
 
   return (
-    <div className="vh-100 bg-white d-flex flex-column font-sans text-dark overflow-hidden position-relative">
+    <div className="login-wrapper" style={{ height: '100vh', overflow: 'hidden' }}>
       
-      {/* 1. לוגו עדין בצד */}
-      <div className="position-absolute top-0 start-0 p-4">
-        <div className="d-flex align-items-center">
-             <img src={logo} alt="Logo" width="22" className="me-2 opacity-75"/>
-             <span className="fw-semibold fst-italic" style={{fontSize:'1rem', color:'#333'}}>Fitwave.ai</span>
+      {/* --- לוגו עליון --- */}
+            <nav className="top-nav" style={{ padding: '5px 0' }}>
+              <img src={reactIcon} alt="Logo" width="22" className="logo-icon opacity-75" />
+              <span className="logo-text" style={{ fontSize: '2rem' }}>Fitwave.ai</span>
+            </nav>
+
+      {/* --- תוכן מרכזי --- */}
+      <div className="login-content" style={{ justifyContent: 'center' }}>
+        
+        {/* כותרת בשורה אחת עם Fitwave מוגבה קצת */}
+        <div style={{ 
+            display: 'flex', 
+            justifyContent: 'center', 
+            alignItems: 'baseline', 
+            flexWrap: 'wrap',       
+            marginBottom: '4px' 
+        }}>
+            <h1 className="main-title" style={{ fontSize: '1.6rem', margin: 0 }}>
+              Create your
+            </h1>
+            
+            <span className="brand-highlight" style={{ 
+                fontSize: '2rem', 
+                marginLeft: '8px', 
+                marginRight: '8px',
+                position: 'relative', 
+                top: '-1px' 
+            }}>
+                Fitwave.ai
+            </span>
+
+            <h1 className="main-title" style={{ fontSize: '1.6rem', margin: 0 }}>
+              account
+            </h1>
         </div>
-      </div>
+        
+        <p className="subtitle" style={{ fontSize: '0.9rem', marginBottom: '20px' }}>
+            Start your journey to vitality.
+        </p>
 
-      {/* 2. תוכן מרכזי */}
-      <div className="d-flex justify-content-center align-items-center h-100 w-100">
-        <div style={{ width: '100%', maxWidth: '380px', padding: '20px' }}>
-          
-          <div className="text-center mb-4">
-            <h2 className="fw-bold mb-1" style={{ fontSize: '1.75rem', letterSpacing: '-0.5px' }}>
-                Create account
-            </h2>
-            <p className="text-muted small" style={{fontWeight: '400'}}>Start your journey to vitality</p>
-          </div>
-
-          <form onSubmit={handleSubmit(onSubForm)}>
+        <form onSubmit={handleSubmit(onSubForm)} style={{width: '100%'}}>
             
             {/* Full Name */}
-            <div className="mb-3">
-              <label style={styles.label}>Full Name</label>
+            <div className="form-group" style={compactGroupStyle}>
+              <label className="form-label" style={{marginBottom: '4px'}}>Full Name*</label>
               <input 
-                {...register("fullName", { required: true, minLength: 2 })}
-                className="form-control border-0 shadow-none"
-                style={styles.input}
-                placeholder="Name"
+                {...register("fullName", { required: "Name is required", minLength: 2 })}
+                type="text" 
+                placeholder="Enter your full name" 
+                className="custom-input"
+                style={compactInputStyle}
               />
-              {errors.fullName && <small className="text-danger ps-1" style={{fontSize:'0.7rem'}}>Name required</small>}
+              {errors.fullName && <small className="text-danger d-block" style={{fontSize: '0.75rem'}}>{errors.fullName.message}</small>}
             </div>
 
             {/* Email */}
-            <div className="mb-3">
-              <label style={styles.label}>Email</label>
+            <div className="form-group" style={compactGroupStyle}>
+              <label className="form-label" style={{marginBottom: '4px'}}>Email Address*</label>
               <input 
-                {...register("email", { required: true, pattern: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i })}
-                className="form-control border-0 shadow-none"
-                style={styles.input}
-                placeholder="Email address"
+                {...register("email", { 
+                    required: "Email is required", 
+                    pattern: { value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i, message: "Invalid email" }
+                })}
+                type="email" 
+                placeholder="Enter your email" 
+                className="custom-input"
+                style={compactInputStyle}
               />
-              {errors.email && <small className="text-danger ps-1" style={{fontSize:'0.7rem'}}>Invalid email</small>}
+              {errors.email && <small className="text-danger d-block" style={{fontSize: '0.75rem'}}>{errors.email.message}</small>}
             </div>
 
             {/* Password */}
-            <div className="mb-3">
-              <label style={styles.label}>Password</label>
-              <input 
-                {...register("password", { required: true, minLength: 4 })}
-                type="password"
-                className="form-control border-0 shadow-none"
-                style={styles.input}
-                placeholder="Password"
-              />
-              {errors.password && <small className="text-danger ps-1" style={{fontSize:'0.7rem'}}>Min 4 chars</small>}
+            <div className="form-group" style={compactGroupStyle}>
+              <label className="form-label" style={{marginBottom: '4px'}}>Password*</label>
+              <div className="input-container">
+                <input 
+                  {...register("password", { required: "Required", minLength: 4 })}
+                  type={showPassword ? "text" : "password"} 
+                  placeholder="Create a password" 
+                  className="custom-input"
+                  style={compactInputStyle}
+                />
+              </div>
+              {errors.password && <small className="text-danger d-block" style={{fontSize: '0.75rem'}}>Min 4 chars</small>}
             </div>
 
             {/* Confirm Password */}
-            <div className="mb-4">
-              <label style={styles.label}>Confirm Password</label>
-              <input 
-                {...register("ConfirmPassword", { required: true })}
-                type="password"
-                className="form-control border-0 shadow-none"
-                style={styles.input}
-                placeholder="Confirm password"
-              />
+            <div className="form-group" style={compactGroupStyle}>
+              <label className="form-label" style={{marginBottom: '4px'}}>Confirm Password*</label>
+              <div className="input-container">
+                <input 
+                  {...register("ConfirmPassword", { required: "Required" })}
+                  type={showConfirmPassword ? "text" : "password"} 
+                  placeholder="Repeat password" 
+                  className="custom-input"
+                  style={compactInputStyle}
+                />
+                
+              </div>
             </div>
 
-            {/* Submit Button - דק ונקי */}
-            <button 
-              className="btn w-100 text-white border-0 shadow-none mb-3"
-              style={styles.button}
-              onMouseOver={(e) => e.currentTarget.style.opacity = '0.9'}
-              onMouseOut={(e) => e.currentTarget.style.opacity = '1'}
-            >
-              Create account
+            {/* Submit Button */}
+            <button className="btn-login-orange" style={{marginTop: '5px', padding: '12px'}}>
+                Create Account
             </button>
-          </form>
+        </form>
 
-          {/* Footer Link */}
-          <div className="text-center" style={{fontSize: '0.85rem', color: '#666'}}>
-            Already have an account? 
-            <span 
-              onClick={() => nav("/login")} 
-              className="fw-semibold ms-1" 
-              style={{ color: ORANGE, cursor: 'pointer' }}
-            >
-              Log in
-            </span>
-          </div>
+        <div className="divider" style={{margin: '10px 0'}}>Or</div>
 
+        {/* Login Link */}
+        <div className="register-text" style={{marginTop: '15px'}}>
+          Already have an account? 
+          <span onClick={() => nav("/login")} className="register-link" style={{cursor: 'pointer'}}>
+            Log in
+          </span>
         </div>
+
       </div>
 
-      {/* 3. פוטר דק וקטן */}
-      <div className="position-absolute bottom-0 w-100 px-4 py-3 d-flex justify-content-between align-items-center text-muted" style={{fontSize: '0.75rem'}}>
-          <div>© Fitwave.ai 2026</div>
-          <div>support@fitwave.ai</div>
-      </div>
+      {/* --- Footer --- */}
+      <footer className="footer" style={{paddingTop: '10px'}}>
+        <div>© Fitwave.ai 2026</div>
+        <div className="footer-right">
+          <span>✉️</span> support@fitwave.ai
+        </div>
+      </footer>
 
     </div>
   );
