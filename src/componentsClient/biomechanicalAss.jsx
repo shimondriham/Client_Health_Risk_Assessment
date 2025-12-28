@@ -30,7 +30,10 @@ const resultsData = {
   assessment1: false,
   Chair_Stand: false,
   Comfortable_Stand: false,
-  Weight_Shift: false,
+  Weight_Shift: {
+    right: false,
+    left: false
+  },
   Forward_Reach: false,
   Arm_Raise: false,
   Seated_Trunk_Turn: {
@@ -131,22 +134,24 @@ function BiomechanicalAss() {
               },
               () => {
                 if (!resultsData.Comfortable_Stand)
-                  resultsData.Comfortable_Stand = true;
+                  resultsData.Comfortable_Stand = Math.trunc(landmarks[27].x*10) === Math.trunc(landmarks[11].x*10) && Math.trunc(landmarks[28].x*10) ===Math.trunc(landmarks[12].x*10);
                 return resultsData.Comfortable_Stand;
               },
               () => {
-                if (!resultsData.Weight_Shift)
-                  resultsData.Weight_Shift = true;
-                return resultsData.Weight_Shift;
+                if (!resultsData.Weight_Shift.right)
+                  resultsData.Weight_Shift.right = landmarks[0].x < landmarks[24].x;
+                if (!resultsData.Weight_Shift.left)
+                  resultsData.Weight_Shift.left = landmarks[0].x > landmarks[23].x;
+                return resultsData.Weight_Shift.right && resultsData.Weight_Shift.left;
               },
               () => {
                 if (!resultsData.Forward_Reach)
-                  resultsData.Forward_Reach = true;
+                  resultsData.Forward_Reach = Math.trunc(landmarks[16].x*10) === Math.trunc(landmarks[12].x*10) && Math.trunc(landmarks[16].y*10) === Math.trunc(landmarks[12].y*10); 
                 return resultsData.Forward_Reach;
               },
               () => {
                 if (!resultsData.Arm_Raise)
-                  resultsData.Arm_Raise = true;
+                  resultsData.Arm_Raise = landmarks[14].y<landmarks[0].y && landmarks[15].y<landmarks[0].y;                
                 return resultsData.Arm_Raise;
               },
               () => {
