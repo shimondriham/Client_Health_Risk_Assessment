@@ -154,7 +154,23 @@ function Calibration() {
   const toBiomechanicalAss = () => {
     nav("/biomechanicalAss");
   };
+  
+  const stopCamera = () => {
+    try {
+      if (videoRef.current && videoRef.current.srcObject) {
+        const stream = videoRef.current.srcObject;
+        const tracks = stream.getTracks();
+        tracks.forEach(track => track.stop());
+        videoRef.current.srcObject = null;
+      }
 
+      if (videoRef.current) {
+        videoRef.current.pause();
+      }
+    } catch (err) {
+      console.warn('Error stopping camera:', err);
+    }
+  };
 
 
   return (
@@ -167,7 +183,7 @@ function Calibration() {
           <span className="logo-text" style={{ fontSize: '2rem' }}>Fitwave.ai</span>
         </div>
 
-        <div onClick={goBackHome} className="btn-exit d-flex align-items-center gap-2">
+        <div onClick={()=>{stopCamera(); goBackHome();}} className="btn-exit d-flex align-items-center gap-2">
           <span>Exit to Home</span>
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
             <path d="M18 6L6 18M6 6l12 12" />
