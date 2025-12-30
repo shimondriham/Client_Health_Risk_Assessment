@@ -1,6 +1,8 @@
 import {useEffect,useState,useRef} from 'react';
 import { useNavigate } from 'react-router-dom';
 import thisIcon from '../assets/icon.png'; 
+import { FilesetResolver, PoseLandmarker } from '@mediapipe/tasks-vision';
+
 
 function Calibration() {
   const nav = useNavigate();
