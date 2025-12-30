@@ -2,7 +2,6 @@ import React, { useEffect, useState, useRef } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from 'react-router-dom';
 import { addIfShowNav } from "../featuers/myDetailsSlice";
-import reactIcon from '../assets/react.svg'; 
 import thisIcon from '../assets/icon.png'; 
 
 const Welcome = () => {
@@ -154,8 +153,8 @@ const Welcome = () => {
                  style={{zIndex: 100, backgroundColor: 'rgba(255,255,255,0.85)', backdropFilter: 'blur(12px)'}}>
                 
                 <div className="d-flex align-items-center gap-2 cursor-pointer" onClick={() => window.scrollTo({top: 0, behavior: 'smooth'})}>
-                    <img src={reactIcon} alt="Logo" width="24" className="opacity-75" />
-                    <span className="logo-font" style={{ fontSize: '2.5rem', lineHeight: 0.8 }}>Fitwave.ai</span>
+                    <img src={thisIcon} alt="Logo" width="35" className="opacity-75" />
+                    <span className="logo-font" style={{ fontSize: '2rem', lineHeight: 0.8 }}>Fitwave.ai</span>
                 </div>
 
                 <div className="d-flex gap-3">
@@ -305,8 +304,8 @@ const Welcome = () => {
             {/* === Footer === */}
             <footer className="text-center py-5 border-top mt-auto bg-white">
                 <div className="d-flex align-items-center justify-content-center gap-2 mb-3 opacity-50">
-                    <img src={reactIcon} alt="Logo" width="20" />
-                    <span className="logo-font" style={{ fontSize: '1.8rem' }}>Fitwave.ai</span>
+                    <img src={thisIcon} alt="Logo" width="35" />
+                    <span className="logo-font" style={{ fontSize: '2rem' }}>Fitwave.ai</span>
                 </div>
                 <p className="text-muted small m-0">© 2026 Fitwave Inc. All rights reserved.</p>
             </footer>
