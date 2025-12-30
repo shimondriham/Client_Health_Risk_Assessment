@@ -31,7 +31,7 @@ export default function HStatement() {
   // פונקציית המעבר לדף הבא
   const handleContinue = () => {
     if (confirmed) {
-        nav("/biomechanicalAss");
+        nav("/calibrationVideo");
     }
   };
 

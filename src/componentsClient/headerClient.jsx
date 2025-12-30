@@ -74,9 +74,9 @@ function HeaderClient() {
         {IfShowNav && <button className='btn btn-info m-1' onClick={onHomeClick}>Home</button>}
         {IfShowNav && <button className='btn btn-info m-1' onClick={onExplanatoryVClick}>ExplanatoryV</button>}
         {IfShowNav && <button className='btn btn-info m-1' onClick={onHealthFormClick}>Health Form</button>}
+        {IfShowNav && <button className='btn btn-info m-1' onClick={onH_statementClick}>Health Statement</button>}
         {IfShowNav && <button className='btn btn-info m-1' onClick={onCaliVClick}>Calibration Video</button>}
         {IfShowNav && <button className='btn btn-info m-1' onClick={onCaliClick}>Calibration</button>}
-        {IfShowNav && <button className='btn btn-info m-1' onClick={onH_statementClick}>Health Statement</button>}
         {IfShowNav && <button className='btn btn-info m-1' onClick={onBioMClick}>Bio Assessment</button>}
         {IfShowNav && <button className='btn btn-info m-1' onClick={onOutComeClick}>Outcome</button>}
         {/* {IfShowNav && <button className='btn btn-info m-1' onClick={onReportsClick}>Reports</button>} */}
