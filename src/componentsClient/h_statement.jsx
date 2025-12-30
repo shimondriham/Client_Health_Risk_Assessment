@@ -143,10 +143,8 @@ export default function HStatement() {
             
             <div className="d-flex flex-column gap-3">
                 {[
-                    "I am currently feeling well and in suitable physical condition to participate in this assessment.",
-                    "To the best of my knowledge, I do not have any medical condition that would prevent me from exercising safely.",
-                    "If I experience any pain, dizziness, or discomfort during the test, I will stop immediately.",
-                    "I understand that this AI assessment is for fitness tracking purposes and does not replace professional medical advice."
+                    "I confirm that all information I have provided so far is complete, accurate, and truthful to the best of my knowledge, and I have not withheld any medical information that could affect my participation in this assessment.",
+                    "I declare that my current health permits me to perform minimal movements and basic physical actions required during the on-camera assessment; I will stop immediately if I experience pain, dizziness, shortness of breath, or any other discomfort."
                 ].map((text, i) => (
                     <div className="d-flex gap-3 align-items-start" key={i}>
                         <div style={{ marginTop: '2px', flexShrink: 0 }}>
@@ -176,7 +174,7 @@ export default function HStatement() {
                         )}
                     </div>
                     <span className="fw-bold" style={{ fontSize: '1rem', color: '#111' }}>
-                        I read and confirm the health declaration
+                        I have read and confirm my information is accurate and that I can perform minimal on-camera movements.
                     </span>
                 </div>
 
