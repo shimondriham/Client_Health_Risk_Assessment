@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import reactIcon from '../assets/react.svg'; // וודא שהנתיב תואם לקובץ שלך
+import thisIcon from '../assets/icon.png'; // וודא שהנתיב תואם לקובץ שלך
 
 function CalibrationVideo() {
   const nav = useNavigate();
@@ -82,7 +82,7 @@ function CalibrationVideo() {
         
         {/* לוגו: אייקון + טקסט */}
         <div className="d-flex align-items-center gap-2">
-             <img src={reactIcon} alt="Logo" width="22" className="logo-icon opacity-75" />
+             <img src={thisIcon} alt="Logo" width="35" className="logo-icon opacity-75" />
              <span className="logo-text" style={{ fontSize: '2rem' }}>Fitwave.ai</span>
         </div>
         

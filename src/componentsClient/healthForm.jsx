@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { addIdQuestions } from "../featuers/myDetailsSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { doApiMethod } from "../services/apiService";
-import reactIcon from '../assets/react.svg'; 
+import thisIcon from '../assets/icon.png'; 
 
 // --- אייקונים ---
 const ChevronRight = () => <svg width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M9 18l6-6-6-6"/></svg>;
@@ -270,7 +270,7 @@ function HealthForm() {
             {/* Navbar */}
             <nav className="d-flex align-items-center justify-content-between px-4 py-3 flex-shrink-0">
                     <div className="d-flex align-items-center gap-2">
-                        <img src={reactIcon} alt="Logo" width="22" className="opacity-75" />
+                        <img src={thisIcon} alt="Logo" width="35" className="opacity-75" />
                         <span className="logo-text" style={{ fontSize: '2rem' }}>Fitwave.ai</span>
                     </div>
                 {/* יציאה ימין */}

@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import CameraComponent from './cameraComponent.jsx';
-import reactIcon from '../assets/react.svg'; 
+import thisIcon from '../assets/icon.png'; 
 
 function Calibration() {
   const nav = useNavigate();
@@ -20,7 +20,7 @@ function Calibration() {
       {/* Navbar */}
       <nav className="d-flex align-items-center justify-content-between px-4 py-2 flex-shrink-0" style={{ height: '70px', padding: '5px 0' }}>
         <div className="d-flex align-items-center gap-2">
-             <img src={reactIcon} alt="Logo" width="22" className="logo-icon opacity-75" />
+             <img src={thisIcon} alt="Logo" width="35" className="logo-icon opacity-75" />
              <span className="logo-text" style={{ fontSize: '2rem' }}>Fitwave.ai</span>
         </div>
         

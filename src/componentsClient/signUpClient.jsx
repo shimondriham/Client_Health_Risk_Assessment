@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { addEmail, addName } from '../featuers/myDetailsSlice';
 import { doApiMethod } from '../services/apiService';
-import reactIcon from '../assets/react.svg'; 
+import thisIcon from '../assets/icon.png'; 
 import '../App.css'; 
 
 function SignUpClient() {
@@ -46,7 +46,7 @@ function SignUpClient() {
       
       {/* --- לוגו עליון --- */}
             <nav className="top-nav" style={{ padding: '5px 0' }}>
-              <img src={reactIcon} alt="Logo" width="22" className="logo-icon opacity-75" />
+              <img src={thisIcon} alt="Logo" width="35" className="logo-icon opacity-75" />
               <span className="logo-text" style={{ fontSize: '2rem' }}>Fitwave.ai</span>
             </nav>
 

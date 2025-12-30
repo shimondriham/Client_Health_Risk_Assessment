@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { useNavigate } from 'react-router-dom';
-import reactIcon from '../assets/react.svg'; 
+import thisIcon from '../assets/icon.png'; 
 
 // --- Icons ---
 const CheckIconOrange = () => (
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#F96424" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{minWidth:'22px'}}>
+    <svg width="35" height="22" viewBox="0 0 24 24" fill="none" stroke="#F96424" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{minWidth:'22px'}}>
       <polyline points="20 6 9 17 4 12"></polyline>
     </svg>
 );
@@ -104,7 +104,7 @@ export default function HStatement() {
       {/* 1. Navbar */}
       <nav className="d-flex align-items-center justify-content-between px-4 py-3 flex-shrink-0">
         <div className="d-flex align-items-center gap-2">
-            <img src={reactIcon} alt="Logo" width="22" className="opacity-75" />
+            <img src={thisIcon} alt="Logo" width="35" className="opacity-75" />
             <span className="logo-text" style={{ fontSize: '2rem' }}>Fitwave.ai</span>
         </div>
         

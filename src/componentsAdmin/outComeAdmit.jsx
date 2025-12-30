@@ -5,7 +5,7 @@ import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import myQuestions from "../assets/questions.json";
 import { useSelector } from "react-redux";
-import reactIcon from '../assets/react.svg'; 
+import thisIcon from '../assets/icon.png'; 
 
 // --- Icons ---
 const DownloadIcon = () => <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>;
@@ -172,7 +172,7 @@ function OutComeAdmin() {
         {/* Navbar */}
         <nav className="d-flex align-items-center px-4 py-3 flex-shrink-0 justify-content-between border-bottom">
             <div className="d-flex align-items-center gap-2">
-                <img src={reactIcon} alt="Logo" width="22" className="opacity-75" />
+                <img src={thisIcon} alt="Logo" width="35" className="opacity-75" />
                 <span className="logo-text" style={{ fontSize: '1.8rem' }}>Fitwave.ai <span style={{fontSize:'0.9rem', color:'#999', fontWeight:'normal'}}>| Admin</span></span>
             </div>
             

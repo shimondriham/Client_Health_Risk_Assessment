@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { doApiGet } from "../services/apiService";
 import { useNavigate } from "react-router-dom";
 import { addIdOutComeAdmin } from "../featuers/myDetailsSlice";
-import reactIcon from '../assets/react.svg'; 
+import thisIcon from '../assets/icon.png'; 
 
 // --- Icons ---
 const ArrowLeftIcon = () => <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>;
@@ -153,7 +153,7 @@ function DashboardAdmin222() {
         {/* Navbar */}
         <nav className="d-flex align-items-center px-4 py-3 flex-shrink-0 justify-content-between border-bottom">
             <div className="d-flex align-items-center gap-2">
-                <img src={reactIcon} alt="Logo" width="22" className="opacity-75" />
+                <img src={thisIcon} alt="Logo" width="35" className="opacity-75" />
                 <span className="logo-text" style={{ fontSize: '1.8rem' }}>Fitwave.ai <span style={{fontSize:'0.9rem', color:'#999', fontWeight:'normal'}}>| Admin</span></span>
             </div>
             
