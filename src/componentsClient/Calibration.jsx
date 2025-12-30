@@ -1,14 +1,6 @@
-<<<<<<< HEAD
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import CameraComponent from './cameraComponent.jsx';
 import thisIcon from '../assets/icon.png'; 
-=======
-import reactIcon from '../assets/react.svg';
-import React, { useRef, useEffect, useState } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
-import { FilesetResolver, PoseLandmarker } from '@mediapipe/tasks-vision';
->>>>>>> 50d8cc68234932e61c431d0182888ec17f1f2226
 
 function Calibration() {
   const nav = useNavigate();
@@ -186,13 +178,8 @@ function Calibration() {
       {/* Navbar */}
       <nav className="d-flex align-items-center justify-content-between px-4 py-2 flex-shrink-0" style={{ height: '70px', padding: '5px 0' }}>
         <div className="d-flex align-items-center gap-2">
-<<<<<<< HEAD
              <img src={thisIcon} alt="Logo" width="35" className="logo-icon opacity-75" />
              <span className="logo-text" style={{ fontSize: '2rem' }}>Fitwave.ai</span>
-=======
-          <img src={reactIcon} alt="Logo" width="22" className="logo-icon opacity-75" />
-          <span className="logo-text" style={{ fontSize: '2rem' }}>Fitwave.ai</span>
->>>>>>> 50d8cc68234932e61c431d0182888ec17f1f2226
         </div>
 
         <div onClick={()=>{stopCamera(); goBackHome();}} className="btn-exit d-flex align-items-center gap-2">
