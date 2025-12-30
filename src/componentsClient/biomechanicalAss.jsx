@@ -7,7 +7,7 @@ const ChevronRight = () => <svg width="20" height="20" fill="none" stroke="curre
 const ChevronLeft = () => <svg width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M15 18l-6-6 6-6" /></svg>;
 
 const assessments = [
-  { name: "First assessment" },
+  { name: "Ready to begin?" },
   { name: "Chair Stand" },
   { name: "Comfortable Stand" },
   { name: "Weight Shift" },
@@ -17,13 +17,13 @@ const assessments = [
 ];
 
 const feedbackAssessments = [
-  'Raise your left hand higher',
-  'Chair Stand - Stand up from the chair and sit back down twice at a comfortable pace.',
-  'Comfortable Stand - Stand comfortably in front of the chair for about 15 seconds.',
-  'Weight Shift - Gently shift your weight from side to side while standing',
-  'Forward Reach - Raise one arm and gently reach forward, then return.',
-  'Arm Raise - Slowly raise both arms up and lower them back down while seated.',
-  'Seated Trunk Turn - Turn your upper body gently to each side while seated.'
+  'Show thumbs up if you’re Ready to Begin ',
+  'Stand up from the chair and sit back down twice at a comfortable pace.',
+  'Stand comfortably in front of the chair for about 15 seconds.',
+  'Gently shift your weight from side to side while standing',
+  'Raise one arm and gently reach forward, then return.',
+  'Slowly raise both arms up and lower them back down while seated.',
+  'Turn your upper body gently to each side while seated.'
 ];
 
 const resultsData = {
@@ -124,7 +124,7 @@ function BiomechanicalAss() {
             const ifAssessmentDone = [
               () => {
                 if (!resultsData.assessment1)
-                  resultsData.assessment1 = landmarks[13].y < landmarks[11].y;
+                  resultsData.assessment1 = Math.trunc(landmarks[16].y*10) == Math.trunc(landmarks[12].y*10) && Math.trunc(landmarks[16].x*10) == Math.trunc(landmarks[12].x*10);
                 return resultsData.assessment1;
               },
               () => {
@@ -167,7 +167,7 @@ function BiomechanicalAss() {
 
             isDone = ifAssessmentDone[assessmentIndexRef.current]();
 
-            const newFeedback = !isDone ? feedbackAssessments[assessmentIndexRef.current] : 'Perfect!';
+            const newFeedback = !isDone ? " " : 'Perfect!';
             setFeedback(prev => (prev !== newFeedback ? newFeedback : prev));
           }
         }
@@ -214,9 +214,9 @@ function BiomechanicalAss() {
     toOutCome();
   };
 
-  const name = () => {
-    return assessments[assessmentIndex].name
-  };
+  const getAssessmentName =()=> {
+  return assessments[assessmentIndex].name;
+}
 
   const ORANGE = '#FF5722';
   return (
@@ -280,8 +280,8 @@ function BiomechanicalAss() {
         <div className="d-flex flex-column gap-3" style={{ flexBasis: '40%', maxWidth: '500px' }}>
           {/* כותרת הנחיה */}
           <div className="bg-white p-3 rounded-3 border shadow-sm flex-shrink-0">
-            <h5 className="m-0 fw-bold">Instructions</h5>
-            <p className="text-muted m-0 small">Follow the video below precisely.</p>
+            <h5 className="m-0 fw-bold">{getAssessmentName()}</h5>
+            <p className="text-muted m-0 small">{feedbackAssessments[assessmentIndex]}</p>
           </div>
 
           {/* וידאו הדרכה */}
