@@ -403,7 +403,7 @@ const HomeClient = () => {
                                                         </td>
                                                         <td className="text-end pe-4">
                                                             <button 
-                                                                onClick={() => { dispatch(addIdQuestions({ idQuestions: test._id })); test.finished ? navigate(`/outCome`) : (test.finishedT1 ? navigate(`/calibration`) : navigate(`/HealthForm`)); }}
+                                                                onClick={() => { dispatch(addIdQuestions({ idQuestions: test._id })); test.finished ? navigate(`/outCome`) : (test.finishedT1 ? navigate(`/CalibrationVideo`) : navigate(`/HealthForm`)); }}
                                                                 className={`btn btn-sm rounded-pill fw-bold px-3 hover-lift ${test.finished ? 'btn-light border text-muted' : 'text-white'}`}
                                                                 style={!test.finished ? { backgroundColor: ORANGE, border: 'none' } : {}}
                                                             >
