@@ -2,10 +2,11 @@ import React, { useRef, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FilesetResolver, PoseLandmarker } from '@mediapipe/tasks-vision';
 import logo from '../assets/react.svg';
+import { doApiMethod } from '../services/apiService';
+import { useSelector } from 'react-redux';
 
 const ChevronRight = () => <svg width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 18l6-6-6-6" /></svg>;
 const ChevronLeft = () => <svg width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M15 18l-6-6 6-6" /></svg>;
-
 const assessments = [
   { name: "Ready to begin?" },
   { name: "Chair Stand" },
@@ -26,7 +27,7 @@ const feedbackAssessments = [
   'Turn your upper body gently to each side while seated.'
 ];
 
-const resultsData = {
+let resultsData = {
   assessment1: false,
   Chair_Stand: false,
   Comfortable_Stand: false,
@@ -43,6 +44,7 @@ const resultsData = {
 };
 
 function BiomechanicalAss() {
+  const thisidQuestions = useSelector(state => state.myDetailsSlice.idQuestions);
   const nav = useNavigate();
   const [assessmentIndex, setassessmentIndex] = useState(0);
   const videoRef = useRef(null);
@@ -124,7 +126,7 @@ function BiomechanicalAss() {
             const ifAssessmentDone = [
               () => {
                 if (!resultsData.assessment1)
-                  resultsData.assessment1 = Math.trunc(landmarks[16].y*10) == Math.trunc(landmarks[12].y*10) && Math.trunc(landmarks[16].x*10) == Math.trunc(landmarks[12].x*10);
+                  resultsData.assessment1 = Math.trunc(landmarks[16].y * 10) == Math.trunc(landmarks[12].y * 10) && Math.trunc(landmarks[16].x * 10) == Math.trunc(landmarks[12].x * 10);
                 return resultsData.assessment1;
               },
               () => {
@@ -134,7 +136,7 @@ function BiomechanicalAss() {
               },
               () => {
                 if (!resultsData.Comfortable_Stand)
-                  resultsData.Comfortable_Stand = Math.trunc(landmarks[27].x*10) === Math.trunc(landmarks[11].x*10) && Math.trunc(landmarks[28].x*10) ===Math.trunc(landmarks[12].x*10);
+                  resultsData.Comfortable_Stand = Math.trunc(landmarks[27].x * 10) === Math.trunc(landmarks[11].x * 10) && Math.trunc(landmarks[28].x * 10) === Math.trunc(landmarks[12].x * 10);
                 return resultsData.Comfortable_Stand;
               },
               () => {
@@ -146,12 +148,12 @@ function BiomechanicalAss() {
               },
               () => {
                 if (!resultsData.Forward_Reach)
-                  resultsData.Forward_Reach = Math.trunc(landmarks[16].x*10) === Math.trunc(landmarks[12].x*10) && Math.trunc(landmarks[16].y*10) === Math.trunc(landmarks[12].y*10); 
+                  resultsData.Forward_Reach = Math.trunc(landmarks[16].x * 10) === Math.trunc(landmarks[12].x * 10) && Math.trunc(landmarks[16].y * 10) === Math.trunc(landmarks[12].y * 10);
                 return resultsData.Forward_Reach;
               },
               () => {
                 if (!resultsData.Arm_Raise)
-                  resultsData.Arm_Raise = landmarks[14].y<landmarks[0].y && landmarks[15].y<landmarks[0].y;                
+                  resultsData.Arm_Raise = landmarks[14].y < landmarks[0].y && landmarks[15].y < landmarks[0].y;
                 return resultsData.Arm_Raise;
               },
               () => {
@@ -202,21 +204,41 @@ function BiomechanicalAss() {
   const Back = () => {
     assessmentIndex > 0 ? setassessmentIndex(assessmentIndex - 1) : null
   };
-  const Next = () => {
+  const Next = async () => {
     if (assessmentIndex < assessments.length - 1) {
       setassessmentIndex(assessmentIndex + 1)
       return;
     }
     const finishMsg = "You have completed the test — you are being redirected to the report page.";
     window.alert(finishMsg);
-    console.log(resultsData);
-    stopCamera();
-    toOutCome();
+    await doApi()
+    //console.log(resultsData);
   };
 
-  const getAssessmentName =()=> {
-  return assessments[assessmentIndex].name;
-}
+  const doApi = async () => {
+    let data = {
+      resultsData: resultsData,
+      section: "bio section",
+      idQuestions: thisidQuestions
+      // idQuestions: "695a9e908ac90d64613448b4"
+    }
+    try {
+      let resData = await doApiMethod("/questions/edit", "PUT", data);
+      console.log("resData" + resData);
+      if (resData.status == 200) {
+        stopCamera();
+        toOutCome();
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+
+
+  const getAssessmentName = () => {
+    return assessments[assessmentIndex].name;
+  }
 
   const ORANGE = '#FF5722';
   return (
