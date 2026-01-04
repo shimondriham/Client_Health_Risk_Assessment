@@ -24,7 +24,6 @@ const PowerIcon = () => <svg width="28" height="28" viewBox="0 0 24 24" fill="no
 // --- Custom Hook for Number Animation ---
 const useCountUp = (end, duration = 2000) => {
     const [count, setCount] = useState(0);
-
     useEffect(() => {
         let startTime = null;
         const animate = (currentTime) => {
@@ -185,7 +184,7 @@ const HomeClient = () => {
     const greeting = hour < 12 ? "Good Morning" : hour < 18 ? "Good Afternoon" : "Good Evening";
 
     useEffect(() => {
-        dispatch(addIfShowNav({ ifShowNav: false })); 
+        dispatch(addIfShowNav({ ifShowNav: true })); 
         dispatch(addIdQuestions({ idQuestions: "0" }));
         fetchUserData();
         const handleClickOutside = (e) => { if (menuRef.current && !menuRef.current.contains(e.target)) setMenuOpen(false); };
