@@ -38,9 +38,9 @@ function CalibrationVideo() {
   const brandDark = "#1a1a1a";
 
   const NextPage = () => {
-    if (confirmed) {
+    // if (confirmed) {
         nav("/Calibration"); // המעבר לדף הבא
-    }
+    // }
   };
 
   const goBackHome = () => {
@@ -170,7 +170,7 @@ function CalibrationVideo() {
             <div className="d-flex flex-column align-items-center gap-3">
                 
                 {/* Checkbox Line */}
-                <div 
+                {/* <div 
                     onClick={() => setConfirmed(!confirmed)}
                     className="d-flex align-items-center gap-2 p-1 rounded-3 user-select-none"
                     style={{ cursor: 'pointer' }}
@@ -181,18 +181,23 @@ function CalibrationVideo() {
                     <span className="fw-bold" style={{ fontSize: '1rem', color: '#111' }}>
                         I confirm the environment is ready
                     </span>
-                </div>
+                </div> */}
 
                 {/* Submit Button */}
-                <button 
-                    onClick={NextPage} 
-                    disabled={!confirmed}
-                    style={styles.submitBtn(confirmed)}
-                    onMouseOver={(e) => { if(confirmed) e.currentTarget.style.transform = 'translateY(-2px)' }}
-                    onMouseOut={(e) => { if(confirmed) e.currentTarget.style.transform = 'translateY(0)' }}
-                >
-                    Start Calibration <ArrowRight />
-                </button>
+<button
+  onClick={NextPage}
+  onMouseEnter={e => e.currentTarget.style.transform = 'translateY(-2px)'}
+  onMouseLeave={e => e.currentTarget.style.transform = 'translateY(0)'}
+  className="btn btn-lg px-5 py-3 rounded-pill btn-brand-orange"
+  style={{ 
+    transition: 'transform 0.2s ease',
+    minWidth: '240px',
+    fontSize: '1.2rem',
+  }}
+>
+  Start Calibration <ArrowRight />
+</button>
+
 
             </div>
 
