@@ -302,7 +302,7 @@
           "question": "what is your gender?",
           "type": "radio",
           "options": ["Male","Female","Other","Prefer not to say"],
-          "followUps": [30],
+          "followUps": [30,31,32],
           "whenShowFollowUps": ["Female"]
         },
         {

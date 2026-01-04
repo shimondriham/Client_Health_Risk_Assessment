@@ -5,30 +5,30 @@ import { useNavigate } from "react-router-dom";
 import { addIdQuestions } from "../featuers/myDetailsSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { doApiMethod } from "../services/apiService";
-import thisIcon from '../assets/icon.png'; 
+import thisIcon from '../assets/icon.png';
 
 // --- אייקונים ---
-const ChevronRight = () => <svg width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M9 18l6-6-6-6"/></svg>;
-const ChevronLeft = () => <svg width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M15 18l-6-6 6-6"/></svg>;
-const CheckIcon = () => <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"/></svg>;
+const ChevronRight = () => <svg width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M9 18l6-6-6-6" /></svg>;
+const ChevronLeft = () => <svg width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M15 18l-6-6 6-6" /></svg>;
+const CheckIcon = () => <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12" /></svg>;
 const XIcon = () => <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>;
-const Spinner = () => <svg className="animate-spin" width="20" height="20" viewBox="0 0 24 24" fill="none" style={{animation: 'spin 1s linear infinite'}}><circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" className="opacity-25"></circle><path fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" className="opacity-75"></path></svg>;
+const Spinner = () => <svg className="animate-spin" width="20" height="20" viewBox="0 0 24 24" fill="none" style={{ animation: 'spin 1s linear infinite' }}><circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" className="opacity-25"></circle><path fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z" className="opacity-75"></path></svg>;
 const HomeIcon = () => <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>;
 
 const styles = {
-          exitButton: {
-            backgroundColor: "white",
-            border: "1px solid #E5E7EB",
-            borderRadius: "50px",
-            padding: "8px 20px",
-            color: "#6B7280",
-            fontWeight: "600",
-            fontSize: "0.9rem",
-            display: "flex", alignItems: "center", gap: '8px',
-            cursor: "pointer",
-            transition: "all 0.2s ease"
-        }
-      };
+    exitButton: {
+        backgroundColor: "white",
+        border: "1px solid #E5E7EB",
+        borderRadius: "50px",
+        padding: "8px 20px",
+        color: "#6B7280",
+        fontWeight: "600",
+        fontSize: "0.9rem",
+        display: "flex", alignItems: "center", gap: '8px',
+        cursor: "pointer",
+        transition: "all 0.2s ease"
+    }
+};
 
 function HealthForm() {
     const thisidQuestions = useSelector(state => state.myDetailsSlice.idQuestions);
@@ -41,8 +41,8 @@ function HealthForm() {
     const nav = useNavigate();
     const dispatch = useDispatch();
     const didRunRef = useRef(false);
-    
-    const ORANGE = "#F96424"; 
+
+    const ORANGE = "#F96424";
 
     // --- לוגיקה ---
     useEffect(() => {
@@ -56,7 +56,10 @@ function HealthForm() {
         try {
             let resp = await doApiMethod("/questions/thisQuestion", "PUT", _dataBody);
             if (resp.data._id) {
-                if (resp.data.section === "Safety First") { setSectionIndex(1); }
+                if (resp.data.section === "Safety First") {
+                    setSectionIndex(1);
+                    // setSectionIndex(33);
+                }
                 else if (resp.data.section === "Your Active Life") { setSectionIndex(2); }
                 else if (resp.data.section === "How You Feel Day to Day") { setSectionIndex(3); }
                 setId_Questions(resp.data._id);
@@ -81,8 +84,8 @@ function HealthForm() {
 
     const isAnswerEmpty = () => {
         const ans = getCurrentAnswer();
-        if (question.type === 'file') return false; 
-        if (question.type === 'slider') return false; 
+        if (question.type === 'file') return false;
+        if (question.type === 'slider') return false;
         return ans === undefined || ans === "" || (Array.isArray(ans) && ans.length === 0);
     };
 
@@ -92,33 +95,50 @@ function HealthForm() {
 
         try {
             if (isAnswerEmpty()) return;
+            // if (isAnswerEmpty()) return;
 
             const ansValue = getCurrentAnswer();
-            setAnswers(prev => ({...prev, [question.id]: ansValue}));
+            setAnswers(prev => ({ ...prev, [question.id]: ansValue }));
 
             const currentSection = surveyData.sections[sectionIndex];
             const allAnswers = { ...answers, [question.id]: ansValue };
-            
+
             const answersForSection = currentSection.questions
                 .filter(q => allAnswers[q.id] !== undefined && allAnswers[q.id] !== "")
                 .map(q => ({ id: q.id, answer: allAnswers[q.id] }));
-            
-            if (currentSection.section === "Safety First" && (!id_Questions || id_Questions === "0")) {
-                try {
-                    let resp = await doApiMethod("/questions", "POST", { section: currentSection.section, answers: answersForSection });
-                    if (resp.data._id) {
-                        setId_Questions(resp.data._id);
-                        dispatch(addIdQuestions({ idQuestions: resp.data._id }));
-                    }
-                } catch (e) { console.log(e); }
-            } else {
-                try {
-                    await doApiMethod("/questions/edit", "PUT", { 
-                        idQuestions: id_Questions, 
-                        section: currentSection.section, 
-                        answers: answersForSection 
-                    });
-                } catch (e) { console.log(e); }
+            console.log(questionIndex);
+            console.log(answersForSection);
+            if (answersForSection[answersForSection.length - 1].id == 53
+                || answersForSection[answersForSection.length - 1].id == 51
+                || answersForSection[answersForSection.length - 1].id == 39
+                || answersForSection[answersForSection.length - 1].id == 32
+                || (answersForSection[answersForSection.length - 1].id == 30 && answersForSection[answersForSection.length - 1].answer != "Yes")
+                || (answersForSection[answersForSection.length - 1].id == 29 && answersForSection[answersForSection.length - 1].answer != "Female")
+            ) {
+                console.log(questionIndex);
+                console.log("send");
+                console.log(answersForSection);
+
+                if (currentSection.section === "Safety First" && (!id_Questions || id_Questions === "0")) {
+                    try {
+                        let resp = await doApiMethod("/questions", "POST", { section: currentSection.section, answers: answersForSection });
+                        console.log(resp.data);
+
+                        if (resp.data._id) {
+                            setId_Questions(resp.data._id);
+                            dispatch(addIdQuestions({ idQuestions: resp.data._id }));
+                        }
+                    } catch (e) { console.log(e); }
+                } else {
+                    try {
+                        let resp = await doApiMethod("/questions/edit", "PUT", {
+                            idQuestions: id_Questions,
+                            section: currentSection.section,
+                            answers: answersForSection
+                        });
+                        console.log(resp.data);
+                    } catch (e) { console.log(e); }
+                }
             }
 
             let nextQ = questionIndex + 1;
@@ -133,7 +153,7 @@ function HealthForm() {
                     nav("/h_statement");
                 }
             }
-        } catch(err) {
+        } catch (err) {
             console.error(err);
         } finally {
             setIsLoading(false);
@@ -151,18 +171,18 @@ function HealthForm() {
 
     const handleExit = () => {
         if (window.confirm("Exit assessment? Progress is saved.")) {
-             nav("/homeClient");
+            nav("/homeClient");
         }
     };
 
-    
+
     const isLongList = question.options && question.options.length > 4;
 
     // --- CSS פנימי ---
     const styles = {
         optionCard: (selected) => ({
-            display: "flex", alignItems: "center", padding: "16px 20px", marginBottom: "12px", 
-            borderRadius: "16px", 
+            display: "flex", alignItems: "center", padding: "16px 20px", marginBottom: "12px",
+            borderRadius: "16px",
             border: selected ? `2px solid ${ORANGE}` : "2px solid #F3F4F6",
             backgroundColor: selected ? "#FFFBF9" : "#fff",
             cursor: "pointer", fontSize: "1rem", color: "#1a1a1a", fontWeight: selected ? "500" : "400",
@@ -170,27 +190,27 @@ function HealthForm() {
             boxShadow: selected ? "0 4px 12px rgba(249, 100, 36, 0.15)" : "none"
         }),
         radioCircle: (selected) => ({
-            width: '22px', height: '22px', borderRadius: '50%', 
-            border: selected ? `6px solid ${ORANGE}` : '2px solid #E5E7EB', 
+            width: '22px', height: '22px', borderRadius: '50%',
+            border: selected ? `6px solid ${ORANGE}` : '2px solid #E5E7EB',
             marginRight: '16px', flexShrink: 0, backgroundColor: "white",
             transition: "all 0.2s ease"
         }),
         stepperCircle: (active, completed) => ({
             width: "36px", height: "36px", borderRadius: "50%",
             display: "flex", alignItems: "center", justifyContent: "center",
-            fontWeight: "600", fontSize: "14px", 
+            fontWeight: "600", fontSize: "14px",
             backgroundColor: (active || completed) ? ORANGE : "#F3F4F6",
             color: (active || completed) ? "white" : "#9CA3AF",
-            marginBottom: "8px", 
+            marginBottom: "8px",
             transition: "all 0.3s ease",
             boxShadow: active ? `0 4px 10px ${ORANGE}60` : "none",
-            flexShrink: 0 
+            flexShrink: 0
         }),
         orangeButton: (disabled) => ({
             backgroundColor: disabled ? "#E5E7EB" : ORANGE,
             color: disabled ? "#9CA3AF" : "white",
             border: "none",
-            borderRadius: "50px", 
+            borderRadius: "50px",
             padding: "14px 40px",
             fontSize: "1.1rem",
             fontWeight: "600",
@@ -216,7 +236,7 @@ function HealthForm() {
 
     const renderInput = () => {
         const val = getCurrentAnswer();
-        
+
         switch (question.type) {
             case "radio":
                 return question.options.map((opt, i) => (
@@ -234,10 +254,10 @@ function HealthForm() {
                             handleAnswer(isChecked ? prev.filter(x => x !== opt) : [...prev, opt]);
                         }} style={styles.optionCard(isChecked)}>
                             <div style={{
-                                width:'22px', height:'22px', borderRadius:'6px', border: isChecked ? 'none' : '2px solid #E5E7EB',
-                                backgroundColor: isChecked ? ORANGE : 'white', 
-                                display:'flex', alignItems:'center', justifyContent:'center', 
-                                marginRight:'16px', flexShrink: 0
+                                width: '22px', height: '22px', borderRadius: '6px', border: isChecked ? 'none' : '2px solid #E5E7EB',
+                                backgroundColor: isChecked ? ORANGE : 'white',
+                                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                                marginRight: '16px', flexShrink: 0
                             }}>
                                 {isChecked && <CheckIcon />}
                             </div>
@@ -249,11 +269,11 @@ function HealthForm() {
                 return (
                     <div className="py-5 px-3">
                         <div className="text-center mb-4">
-                            <span className="display-3 fw-bold font-outfit" style={{color: ORANGE}}>{val}</span>
+                            <span className="display-3 fw-bold font-outfit" style={{ color: ORANGE }}>{val}</span>
                         </div>
                         <input type="range" className="form-range w-100" min={0} max={20} value={val}
                             onChange={(e) => handleAnswer(Number(e.target.value))}
-                            style={{accentColor: ORANGE, cursor: 'pointer', height: '8px'}} 
+                            style={{ accentColor: ORANGE, cursor: 'pointer', height: '8px' }}
                         />
                         <div className="d-flex justify-content-between text-muted small fw-bold mt-2">
                             <span>0</span><span>20</span>
@@ -275,7 +295,7 @@ function HealthForm() {
 
     return (
         <div className="vh-100 bg-white d-flex flex-column page-wrapper overflow-hidden">
-            
+
             <style>{`
                 .custom-scrollbar::-webkit-scrollbar { width: 6px; }
                 .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
@@ -285,13 +305,13 @@ function HealthForm() {
 
             {/* Navbar */}
             <nav className="d-flex align-items-center justify-content-between px-4 py-3 flex-shrink-0">
-                    <div className="d-flex align-items-center gap-2">
-                        <img src={thisIcon} alt="Logo" width="35" className="opacity-75" />
-                        <span className="logo-text" style={{ fontSize: '2rem' }}>Fitwave.ai</span>
-                    </div>
+                <div className="d-flex align-items-center gap-2">
+                    <img src={thisIcon} alt="Logo" width="35" className="opacity-75" />
+                    <span className="logo-text" style={{ fontSize: '2rem' }}>Fitwave.ai</span>
+                </div>
                 {/* יציאה ימין */}
-                 <button 
-                    onClick={() => nav("/HomeClient")} 
+                <button
+                    onClick={() => nav("/HomeClient")}
                     style={styles.exitButton}
                     onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#f9fafb'}
                     onMouseOut={(e) => e.currentTarget.style.backgroundColor = 'white'}
@@ -303,7 +323,7 @@ function HealthForm() {
             {/* Main Content */}
             <div className="flex-grow-1 d-flex flex-column justify-content-center align-items-center p-3 overflow-hidden">
                 <div className="w-100 h-100 d-flex flex-column" style={{ maxWidth: '750px' }}>
-                    
+
                     {/* Stepper & Header - נשאר קבוע */}
                     <div className="flex-shrink-0 mb-3 mt-2">
                         <div className="d-flex justify-content-center gap-3 mb-2">
@@ -311,15 +331,15 @@ function HealthForm() {
                                 const isActive = i === sectionIndex;
                                 const isCompleted = i < sectionIndex;
                                 return (
-                                    <div key={i} className="d-flex flex-column align-items-center" style={{width: '120px'}}>
+                                    <div key={i} className="d-flex flex-column align-items-center" style={{ width: '120px' }}>
                                         <div style={styles.stepperCircle(isActive, isCompleted)}>
                                             {isCompleted ? <CheckIcon /> : i + 1}
                                         </div>
                                         <div className="text-center w-100" style={{
-                                            fontSize: '0.75rem', 
+                                            fontSize: '0.75rem',
                                             fontWeight: isActive ? '700' : '500',
                                             color: isActive ? '#1a1a1a' : '#9ca3af',
-                                            lineHeight: '1.2', 
+                                            lineHeight: '1.2',
                                             whiteSpace: 'normal'
                                         }}>
                                             {s.section}
@@ -328,35 +348,35 @@ function HealthForm() {
                                 );
                             })}
                         </div>
-                        
-                        <div className="w-100 bg-light rounded-pill mt-3" style={{height: '4px', overflow:'hidden'}}>
+
+                        <div className="w-100 bg-light rounded-pill mt-3" style={{ height: '4px', overflow: 'hidden' }}>
                             <div className="h-100" style={{
-                                width: `${((questionIndex + 1) / section.questions.length) * 100}%`, 
-                                backgroundColor: ORANGE, 
+                                width: `${((questionIndex + 1) / section.questions.length) * 100}%`,
+                                backgroundColor: ORANGE,
                                 borderRadius: '10px',
                                 transition: 'width 0.3s ease'
                             }}></div>
                         </div>
-                        <div className="text-center text-muted mt-2" style={{fontSize:'0.75rem', fontWeight:'500', letterSpacing:'0.5px'}}>
+                        <div className="text-center text-muted mt-2" style={{ fontSize: '0.75rem', fontWeight: '500', letterSpacing: '0.5px' }}>
                             QUESTION {questionIndex + 1} / {section.questions.length}
                         </div>
                     </div>
 
                     {/* Question Title - קבוע */}
                     <div className="flex-shrink-0 text-center px-2 mb-3">
-                        <h2 className="fw-bold text-dark" style={{fontSize: '1.8rem', lineHeight: '1.3'}}>
+                        <h2 className="fw-bold text-dark" style={{ fontSize: '1.8rem', lineHeight: '1.3' }}>
                             {question.question}
                         </h2>
                     </div>
 
                     {/* Answer Area - כאן הלוגיקה החדשה לגלילה! */}
-                    <div 
+                    <div
                         className={`px-2 ${isLongList ? 'flex-grow-1 custom-scrollbar' : 'mb-2'}`}
                         style={{ overflowY: isLongList ? 'auto' : 'visible', minHeight: isLongList ? '0' : 'auto' }}
                     >
                         {renderInput()}
                         {/* רווח קטן רק אם יש גלילה */}
-                        {isLongList && <div style={{height: '10px'}}></div>}
+                        {isLongList && <div style={{ height: '10px' }}></div>}
                     </div>
 
                     {/* Spacer - דוחף את הפוטר למטה אם הרשימה קצרה */}
@@ -364,10 +384,10 @@ function HealthForm() {
 
                     {/* Footer Actions - תמיד למטה */}
                     <div className="flex-shrink-0 mt-3 pt-3 border-top border-light d-flex align-items-center justify-content-between">
-                        <button 
-                            onClick={back} 
+                        <button
+                            onClick={back}
                             className="btn btn-link text-decoration-none text-secondary"
-                            style={{ 
+                            style={{
                                 visibility: (sectionIndex === 0 && questionIndex === 0) ? 'hidden' : 'visible',
                                 fontWeight: '500', display: 'flex', alignItems: 'center', gap: '5px'
                             }}
@@ -375,18 +395,18 @@ function HealthForm() {
                             <ChevronLeft /> Back
                         </button>
 
-                        <button 
-                            onClick={next} 
+                        <button
+                            onClick={next}
                             disabled={isAnswerEmpty() || isLoading}
                             style={styles.orangeButton(isAnswerEmpty() || isLoading)}
                             onMouseOver={(e) => {
-                                if(!isAnswerEmpty()) {
+                                if (!isAnswerEmpty()) {
                                     e.currentTarget.style.transform = "translateY(-2px)";
                                     e.currentTarget.style.boxShadow = "0 8px 20px rgba(249, 100, 36, 0.5)";
                                 }
                             }}
                             onMouseOut={(e) => {
-                                if(!isAnswerEmpty()) {
+                                if (!isAnswerEmpty()) {
                                     e.currentTarget.style.transform = "translateY(0)";
                                     e.currentTarget.style.boxShadow = "0 4px 14px rgba(249, 100, 36, 0.4)";
                                 }
@@ -399,7 +419,7 @@ function HealthForm() {
                                 </>
                             ) : (
                                 <>
-                                    {sectionIndex === surveyData.sections.length - 1 && questionIndex === section.questions.length - 1 ? 'Finish' : (question.type === 'file' ? 'Skip / Next' : 'Next')} 
+                                    {sectionIndex === surveyData.sections.length - 1 && questionIndex === section.questions.length - 1 ? 'Finish' : (question.type === 'file' ? 'Skip / Next' : 'Next')}
                                     <ChevronRight />
                                 </>
                             )}
