@@ -202,7 +202,10 @@ function Calibration() {
         </div>
 
                 <button 
-                    onClick={() => nav("/HomeClient")} 
+                    onClick={() => {
+                      stopCamera();
+                      nav("/HomeClient");
+                    }} 
                     style={styles.exitButton}
                     onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#f9fafb'}
                     onMouseOut={(e) => e.currentTarget.style.backgroundColor = 'white'}
@@ -271,7 +274,7 @@ function Calibration() {
               minWidth: '240px',
               fontSize: '1.2rem',
             }}
-            disabled={!isValid.current}
+        disabled={!isValid.current}
           >
             Start Analysis
           </button>

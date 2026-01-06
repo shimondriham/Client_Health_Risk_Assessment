@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { FilesetResolver, PoseLandmarker } from '@mediapipe/tasks-vision';
 import { doApiMethod } from '../services/apiService';
 import { useSelector } from 'react-redux';
-import thisIcon from '../assets/icon.png'; 
+import thisIcon from '../assets/icon.png';
 
 const ChevronRight = () => <svg width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 18l6-6-6-6" /></svg>;
 const ChevronLeft = () => <svg width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M15 18l-6-6 6-6" /></svg>;
@@ -30,19 +30,19 @@ const feedbackAssessments = [
 const HomeIcon = () => <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>;
 
 const styles = {
-          exitButton: {
-            backgroundColor: "white",
-            border: "1px solid #E5E7EB",
-            borderRadius: "50px",
-            padding: "8px 20px",
-            color: "#6B7280",
-            fontWeight: "600",
-            fontSize: "0.9rem",
-            display: "flex", alignItems: "center", gap: '8px',
-            cursor: "pointer",
-            transition: "all 0.2s ease"
-        }
-      };
+  exitButton: {
+    backgroundColor: "white",
+    border: "1px solid #E5E7EB",
+    borderRadius: "50px",
+    padding: "8px 20px",
+    color: "#6B7280",
+    fontWeight: "600",
+    fontSize: "0.9rem",
+    display: "flex", alignItems: "center", gap: '8px',
+    cursor: "pointer",
+    transition: "all 0.2s ease"
+  }
+};
 let resultsData = {
   assessment1: false,
   Chair_Stand: false,
@@ -217,6 +217,7 @@ function BiomechanicalAss() {
       console.warn('Error stopping camera:', err);
     }
   };
+  
   const Back = () => {
     assessmentIndex > 0 ? setassessmentIndex(assessmentIndex - 1) : null
   };
@@ -242,8 +243,8 @@ function BiomechanicalAss() {
       let resData = await doApiMethod("/questions/edit", "PUT", data);
       console.log("resData" + resData);
       if (resData.status == 200) {
-        stopCamera();
-        toOutCome();
+        {stopCamera();
+        toOutCome();}
       }
     } catch (error) {
       console.log(error);
@@ -259,22 +260,22 @@ function BiomechanicalAss() {
   const ORANGE = '#FF5722';
   return (
     // מבנה קשיח: גובה 100% מהמסך, ללא גלילה (overflow-hidden)
-   <div className="vh-100 bg-white d-flex flex-column page-wrapper overflow-hidden">
-   
-         {/* Navbar */}
-         <nav className="d-flex align-items-center justify-content-between px-4 py-2 flex-shrink-0" style={{ height: '70px', padding: '5px 0' }}>
-           <div className="d-flex align-items-center gap-2">
-                <img src={thisIcon} alt="Logo" width="35" className="logo-icon opacity-75" />
-                <span className="logo-text" style={{ fontSize: '2rem' }}>Fitwave.ai</span>
-           </div>
-        <button 
-                    onClick={() => nav("/HomeClient")} 
-                    style={styles.exitButton}
-                    onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#f9fafb'}
-                    onMouseOut={(e) => e.currentTarget.style.backgroundColor = 'white'}
-                >
-                    <HomeIcon /> Home
-                </button>
+    <div className="vh-100 bg-white d-flex flex-column page-wrapper overflow-hidden">
+
+      {/* Navbar */}
+      <nav className="d-flex align-items-center justify-content-between px-4 py-2 flex-shrink-0" style={{ height: '70px', padding: '5px 0' }}>
+        <div className="d-flex align-items-center gap-2">
+          <img src={thisIcon} alt="Logo" width="35" className="logo-icon opacity-75" />
+          <span className="logo-text" style={{ fontSize: '2rem' }}>Fitwave.ai</span>
+        </div>
+        <button
+          onClick={() => { stopCamera(); nav("/HomeClient"); }}
+          style={styles.exitButton}
+          onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#f9fafb'}
+          onMouseOut={(e) => e.currentTarget.style.backgroundColor = 'white'}
+        >
+          <HomeIcon /> Home
+        </button>
       </nav>
 
       {/* 2. Stepper (גובה קבוע 80px) */}
