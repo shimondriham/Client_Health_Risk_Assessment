@@ -224,50 +224,42 @@ function Calibration() {
 
         {/* Camera Wrapper */}
         <div
-          className="camera-wrapper w-100 rounded-4 overflow-hidden bg-black mb-4 shadow-sm"
-          style={{
-            flex: '1 1 auto',
-            maxWidth: '900px',
-            maxHeight: '55vh',
-            width: '100%',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            position: 'relative',
-            border: '1px solid #eee'
-          }}
-        >
-          <div>
-            <div
-              className="container mt-5 shadow-lg p-4 d-flex flex-column text-center"
-              style={{ width: '95%', maxWidth: '80%', height: '90vh', backgroundColor: 'white' }}
-            >
-              <div className="row justify-content-center">
-                <h4 className="m-2">Camera Calibration</h4>
-                <div style={{ position: 'relative', width: '100%' }}>
-                  <video
-                    ref={videoRef}
-                    autoPlay
-                    playsInline
-                    style={{
-                      width: '100%',
-                      border: '1px solid #ccc',
-                      borderRadius: '8px',
-                      transform: 'scaleX(-1)'
-                    }}
-                  />
-                  <canvas
-                    ref={canvasRef}
-                    style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }}
-                  />
-                </div>
-                <p style={{ marginTop: '10px', fontWeight: 'bold', color: 'blue' }}>{feedback}</p>
-              </div>
-            </div>
-            <div>
-            </div>
-          </div>
-        </div>
+  className="camera-wrapper w-100 rounded-4 overflow-hidden shadow-sm"
+  style={{
+    flex: '1 1 auto',
+    maxWidth: '900px',
+    aspectRatio: '4 / 3',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    position: 'relative',
+    backgroundColor: '#000'
+  }}
+>
+  <video
+    ref={videoRef}
+    autoPlay
+    playsInline
+    style={{
+      width: '100%',
+      height: '100%',
+      objectFit: 'cover',
+      transform: 'scaleX(-1)'
+    }}
+  />
+
+  <canvas
+    ref={canvasRef}
+    style={{
+      position: 'absolute',
+      inset: 0,
+      width: '100%',
+      height: '100%'
+    }}
+  />
+</div>
+
+<p className="mt-2 fw-bold text-primary text-center">{feedback}</p>
 
         {/* Action Button */}
         <div className="flex-shrink-0 pb-2">
