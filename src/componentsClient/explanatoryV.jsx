@@ -3,20 +3,7 @@ import { useNavigate } from "react-router-dom";
 import thisIcon from "../assets/icon.png"; // וודא שהשם תואם לקובץ שלך
 const HomeIcon = () => <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>;
 
-const styles = {
-          exitButton: {
-            backgroundColor: "white",
-            border: "1px solid #E5E7EB",
-            borderRadius: "50px",
-            padding: "8px 20px",
-            color: "#6B7280",
-            fontWeight: "600",
-            fontSize: "0.9rem",
-            display: "flex", alignItems: "center", gap: '8px',
-            cursor: "pointer",
-            transition: "all 0.2s ease"
-        }
-      };
+// inline styles removed in favor of a CSS string below
 function ExplanatoryV() {
   const nav = useNavigate();
 
@@ -32,65 +19,61 @@ function ExplanatoryV() {
     nav("/homeClient");
   };
 
-  // --- CSS פנימי: עיצוב ואנימציות ---
-  const styles =` 
-      // /* ייבוא פונטים */
-      // @import url('https://fonts.googleapis.com/css2?family=Oooh+Baby&family=Inter:wght@400;500;600&display=swap');
+    // --- CSS פנימי: עיצוב ואנימציות ---
+    const css = `
+      @import url('https://fonts.googleapis.com/css2?family=Oooh+Baby&family=Inter:wght@400;500;600&display=swap');
 
-      // /* הגדרת הפונט הראשי */
-      // page-wrapper {
-      //     font-family: 'Swissintl', 'Inter', -apple-system, sans-serif !important;
-      //     color: ${brandDark};
-      // }
+      .page-wrapper {
+        font-family: 'Swissintl', 'Inter', -apple-system, sans-serif !important;
+        color: ${brandDark};
+      }
 
-      // /* פונט לוגו */
-      // logo-text {
-      //     font-family: 'Oooh Baby', cursive !important;
-      //     line-height: 1;
-      //     color: ${brandDark};
-      // }
+      .logo-text {
+        font-family: 'Oooh Baby', cursive !important;
+        line-height: 1;
+        color: ${brandDark};
+      }
 
-      // /* --- כפתור משודרג עם הנפשה --- */
-      // btn-brand-orange {
-      //     background-color: ${brandOrange};
-      //     color: white;
-      //     border: none;
-      //     font-weight: 500;
-      //     letter-spacing: 0.5px;
-      //     box-shadow: 0 4px 10px rgba(249, 100, 36, 0.3);
-      //     transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-      // }
-      
-      // btn-brand-orange:hover {
-      //     background-color: #ff7b42;
-      //     transform: translateY(-4px);
-      //     box-shadow: 0 10px 20px rgba(249, 100, 36, 0.4);
-      // }
-      
-      // btn-brand-orange:active {
-      //     transform: translateY(-1px);
-      //     box-shadow: 0 5px 10px rgba(249, 100, 36, 0.3);
-      // }
+      .btn-brand-orange {
+        background-color: ${brandOrange};
+        color: white;
+        border: none;
+        font-weight: 500;
+        letter-spacing: 0.5px;
+        box-shadow: 0 4px 10px rgba(249, 100, 36, 0.3);
+        transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+      }
+      .btn-brand-orange:hover {
+        background-color: #ff7b42;
+        transform: translateY(-4px);
+        box-shadow: 0 10px 20px rgba(249, 100, 36, 0.4);
+      }
+      .btn-brand-orange:active {
+        transform: translateY(-1px);
+        box-shadow: 0 5px 10px rgba(249, 100, 36, 0.3);
+      }
 
-    exitButton: {
-        backgroundColor: "white",
-        border: "1px solid #E5E7EB",
-        borderRadius: "50px",
-        padding: "8px 20px",
-        color: "#6B7280",
-        fontWeight: "600",
-        fontSize: "0.9rem",
-        display: "flex", alignItems: "center", gap: '8px',
-        cursor: "pointer",
-        transition: "all 0.2s ease"
-    }
-    `
+      .exit-button {
+        background-color: white;
+        border: 1px solid #E5E7EB;
+        border-radius: 50px;
+        padding: 8px 20px;
+        color: #6B7280;
+        font-weight: 600;
+        font-size: 0.9rem;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+      .exit-button:hover { background-color: #f9fafb; }
+    `;
   ;
 
   return (
     <>
-      <style>{styles}</style>
-
+      <style>{css}</style>
       <div
         className="vh-100 d-flex flex-column font-inter text-dark overflow-hidden"
         style={{ backgroundColor: "#F9FAFB" }}
@@ -117,14 +100,12 @@ function ExplanatoryV() {
           </div>
 
           {/* כפתור היציאה נשאר בצד ימין */}
-           <button 
-                    onClick={() => nav("/HomeClient")} 
-                    style={styles.exitButton}
-                    onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#f9fafb'}
-                    onMouseOut={(e) => e.currentTarget.style.backgroundColor = 'white'}
-                >
-                    <HomeIcon /> Home
-                </button>
+             <button
+                onClick={() => nav("/HomeClient")}
+                className="exit-button"
+              >
+                <HomeIcon /> Home
+              </button>
         </nav>
 
         {/* תוכן מרכזי */}
