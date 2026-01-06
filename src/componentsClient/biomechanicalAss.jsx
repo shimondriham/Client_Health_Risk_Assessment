@@ -27,6 +27,22 @@ const feedbackAssessments = [
   'Turn your upper body gently to each side while seated.'
 ];
 
+const HomeIcon = () => <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>;
+
+const styles = {
+          exitButton: {
+            backgroundColor: "white",
+            border: "1px solid #E5E7EB",
+            borderRadius: "50px",
+            padding: "8px 20px",
+            color: "#6B7280",
+            fontWeight: "600",
+            fontSize: "0.9rem",
+            display: "flex", alignItems: "center", gap: '8px',
+            cursor: "pointer",
+            transition: "all 0.2s ease"
+        }
+      };
 let resultsData = {
   assessment1: false,
   Chair_Stand: false,
@@ -251,9 +267,14 @@ function BiomechanicalAss() {
           <img src={logo} alt="Logo" width="24" />
           <span className="fw-bold fs-5 text-dark">Fitwave</span>
         </div>
-        <button onClick={() => { stopCamera(); nav("/HomeClient"); }} className="btn btn-link text-decoration-none text-secondary fw-bold" style={{ fontSize: '0.95rem' }}>
-          Exit Test
-        </button>
+        <button 
+                    onClick={() => nav("/HomeClient")} 
+                    style={styles.exitButton}
+                    onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#f9fafb'}
+                    onMouseOut={(e) => e.currentTarget.style.backgroundColor = 'white'}
+                >
+                    <HomeIcon /> Home
+                </button>
       </nav>
 
       {/* 2. Stepper (גובה קבוע 80px) */}
