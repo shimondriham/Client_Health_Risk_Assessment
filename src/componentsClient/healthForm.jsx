@@ -94,36 +94,31 @@ function HealthForm() {
         setIsLoading(true);
 
         try {
-            if (isAnswerEmpty()) return;
-            // if (isAnswerEmpty()) return;
+            if (isAnswerEmpty()) {
+                setIsLoading(false);
+                return;
+            }
 
             const ansValue = getCurrentAnswer();
-            setAnswers(prev => ({ ...prev, [question.id]: ansValue }));
+            const updatedAnswers = { ...answers, [question.id]: ansValue };
+            setAnswers(updatedAnswers);
 
             const currentSection = surveyData.sections[sectionIndex];
-            const allAnswers = { ...answers, [question.id]: ansValue };
-
             const answersForSection = currentSection.questions
-                .filter(q => allAnswers[q.id] !== undefined && allAnswers[q.id] !== "")
-                .map(q => ({ id: q.id, answer: allAnswers[q.id] }));
-            console.log(questionIndex);
-            console.log(answersForSection);
-            if (answersForSection[answersForSection.length - 1].id == 53
+                .filter(q => updatedAnswers[q.id] !== undefined && updatedAnswers[q.id] !== "")
+                .map(q => ({ id: q.id, answer: updatedAnswers[q.id] }));
+
+            if (answersForSection.length > 0 && (
+                   answersForSection[answersForSection.length - 1].id == 53
                 || answersForSection[answersForSection.length - 1].id == 51
                 || answersForSection[answersForSection.length - 1].id == 39
                 || answersForSection[answersForSection.length - 1].id == 32
                 || (answersForSection[answersForSection.length - 1].id == 30 && answersForSection[answersForSection.length - 1].answer != "Yes")
                 || (answersForSection[answersForSection.length - 1].id == 29 && answersForSection[answersForSection.length - 1].answer != "Female")
-            ) {
-                console.log(questionIndex);
-                console.log("send");
-                console.log(answersForSection);
-
-                if (currentSection.section === "Safety First" && (!id_Questions || id_Questions === "0")) {
+            )) {
+                 if (currentSection.section === "Safety First" && (!id_Questions || id_Questions === "0")) {
                     try {
                         let resp = await doApiMethod("/questions", "POST", { section: currentSection.section, answers: answersForSection });
-                        console.log(resp.data);
-
                         if (resp.data._id) {
                             setId_Questions(resp.data._id);
                             dispatch(addIdQuestions({ idQuestions: resp.data._id }));
@@ -131,19 +126,28 @@ function HealthForm() {
                     } catch (e) { console.log(e); }
                 } else {
                     try {
-                        let resp = await doApiMethod("/questions/edit", "PUT", {
+                        await doApiMethod("/questions/edit", "PUT", {
                             idQuestions: id_Questions,
                             section: currentSection.section,
                             answers: answersForSection
                         });
-                        console.log(resp.data);
                     } catch (e) { console.log(e); }
                 }
             }
+        
+            let skipCount = 0;
 
-            let nextQ = questionIndex + 1;
-            if (nextQ < currentSection.questions.length) {
-                setQuestionIndex(nextQ);
+            if (question.followUps && question.followUps.length > 0) {
+                const shouldShow = question.whenShowFollowUps.includes(ansValue);
+                if (!shouldShow) {
+                    skipCount = question.followUps.length;
+                    console.log(`Skipping ${skipCount} questions because answer was "${ansValue}"`);
+                }
+            }
+
+            let nextQIndex = questionIndex + 1 + skipCount;
+            if (nextQIndex < currentSection.questions.length) {
+                setQuestionIndex(nextQIndex);
             } else {
                 if (sectionIndex < surveyData.sections.length - 1) {
                     setSectionIndex(prev => prev + 1);
@@ -153,6 +157,7 @@ function HealthForm() {
                     nav("/h_statement");
                 }
             }
+
         } catch (err) {
             console.error(err);
         } finally {
@@ -161,11 +166,51 @@ function HealthForm() {
     };
 
     const back = () => {
+        const findParentQuestion = (currentQId, sectionQuestions) => {
+            return sectionQuestions.find(q => q.followUps && q.followUps.includes(currentQId));
+        };
+
         if (questionIndex > 0) {
-            setQuestionIndex(questionIndex - 1);
+            const currentSection = surveyData.sections[sectionIndex];
+            let newIndex = questionIndex - 1;
+            
+            while (newIndex >= 0) {
+                const targetQ = currentSection.questions[newIndex];
+                const parentQ = findParentQuestion(targetQ.id, currentSection.questions);
+
+                if (parentQ) {
+                    const parentAnswer = answers[parentQ.id];
+                    if (!parentQ.whenShowFollowUps.includes(parentAnswer)) {
+                        newIndex = currentSection.questions.findIndex(q => q.id === parentQ.id);
+                        continue; 
+                    }
+                }
+                break; 
+            }
+            
+            setQuestionIndex(newIndex);
+
         } else if (sectionIndex > 0) {
-            setSectionIndex(sectionIndex - 1);
-            setQuestionIndex(surveyData.sections[sectionIndex - 1].questions.length - 1);
+            const prevSectionIndex = sectionIndex - 1;
+            const prevSection = surveyData.sections[prevSectionIndex];
+            let newIndex = prevSection.questions.length - 1;
+
+            while (newIndex >= 0) {
+                const targetQ = prevSection.questions[newIndex];
+                const parentQ = findParentQuestion(targetQ.id, prevSection.questions);
+
+                if (parentQ) {
+                    const parentAnswer = answers[parentQ.id];
+                    if (!parentQ.whenShowFollowUps.includes(parentAnswer)) {
+                        newIndex = prevSection.questions.findIndex(q => q.id === parentQ.id);
+                        continue;
+                    }
+                }
+                break;
+            }
+
+            setSectionIndex(prevSectionIndex);
+            setQuestionIndex(newIndex);
         }
     };
 
@@ -369,7 +414,7 @@ function HealthForm() {
                         </h2>
                     </div>
 
-                    {/* Answer Area - כאן הלוגיקה החדשה לגלילה! */}
+                    
                     <div
                         className={`px-2 ${isLongList ? 'flex-grow-1 custom-scrollbar' : 'mb-2'}`}
                         style={{ overflowY: isLongList ? 'auto' : 'visible', minHeight: isLongList ? '0' : 'auto' }}
