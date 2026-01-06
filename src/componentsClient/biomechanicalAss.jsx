@@ -1,9 +1,9 @@
 import React, { useRef, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FilesetResolver, PoseLandmarker } from '@mediapipe/tasks-vision';
-import logo from '../assets/react.svg';
 import { doApiMethod } from '../services/apiService';
 import { useSelector } from 'react-redux';
+import thisIcon from '../assets/icon.png'; 
 
 const ChevronRight = () => <svg width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 18l6-6-6-6" /></svg>;
 const ChevronLeft = () => <svg width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M15 18l-6-6 6-6" /></svg>;
@@ -259,14 +259,14 @@ function BiomechanicalAss() {
   const ORANGE = '#FF5722';
   return (
     // מבנה קשיח: גובה 100% מהמסך, ללא גלילה (overflow-hidden)
-    <div className="vh-100 d-flex flex-column bg-light text-dark overflow-hidden" style={{ fontFamily: 'system-ui, -apple-system, sans-serif' }}>
-
-      {/* 1. Header (גובה קבוע 60px) */}
-      <nav className="d-flex align-items-center justify-content-between px-4 bg-white border-bottom" style={{ height: '60px', flexShrink: 0 }}>
-        <div className="d-flex align-items-center gap-2">
-          <img src={logo} alt="Logo" width="24" />
-          <span className="fw-bold fs-5 text-dark">Fitwave</span>
-        </div>
+   <div className="vh-100 bg-white d-flex flex-column page-wrapper overflow-hidden">
+   
+         {/* Navbar */}
+         <nav className="d-flex align-items-center justify-content-between px-4 py-2 flex-shrink-0" style={{ height: '70px', padding: '5px 0' }}>
+           <div className="d-flex align-items-center gap-2">
+                <img src={thisIcon} alt="Logo" width="35" className="logo-icon opacity-75" />
+                <span className="logo-text" style={{ fontSize: '2rem' }}>Fitwave.ai</span>
+           </div>
         <button 
                     onClick={() => nav("/HomeClient")} 
                     style={styles.exitButton}
