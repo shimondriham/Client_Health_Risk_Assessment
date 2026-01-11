@@ -26,6 +26,7 @@ function Calibration() {
   const videoRef = useRef(null);
   const canvasRef = useRef(null);
   const isValid = useRef(false);
+  const navigationStarted = useRef(false);
   const [feedback, setFeedback] = useState('');
   const poseLandmarkerRef = useRef(null);
 
@@ -142,6 +143,16 @@ function Calibration() {
             const valid = isCentered && isVisible;
             if (!isValid.current) {
               isValid.current = valid;
+            }
+
+            if (valid && !navigationStarted.current) {
+              navigationStarted.current = true;
+              try {
+                stopCamera();
+              } catch (err) {
+                console.warn('Error stopping camera before navigation:', err);
+              }
+              toBiomechanicalAss();
             }
 
             if (!isCentered) setFeedback('Move to center');
@@ -267,17 +278,9 @@ function Calibration() {
 
         {/* Action Button */}
         <div className="flex-shrink-0 pb-2">
-          <button
-            onClick={() => { toBiomechanicalAss(); }}
-            className="btn btn-lg px-5 py-3 rounded-pill btn-brand-orange"
-            style={{
-              minWidth: '240px',
-              fontSize: '1.2rem',
-            }}
-        disabled={!isValid.current}
-          >
-            Start Analysis
-          </button>
+          <p className="text-secondary m-0">
+            Once you are positioned correctly, the test will begin automatically.
+          </p>
         </div>
 
       </div>

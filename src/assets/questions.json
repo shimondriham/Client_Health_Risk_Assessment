@@ -5,7 +5,7 @@
       "questions": [
         {
           "id": 1,
-          "question": "What is your height?",
+          "question": "What is your height? (Size in cm)",
           "type": "dropdown",
          "options": [
          "40","41","42","43","44","45","46","47","48","49",
@@ -40,7 +40,7 @@
 
          {
           "id": 2,
-          "question": "What is your weight?",
+          "question": "What is your weight? (Weight in kg)",
           "type": "dropdown",
          "options": [
          "40","41","42","43","44","45","46","47","48","49",
@@ -299,7 +299,7 @@
         },
         {
           "id": 29,
-          "question": "what is your gender?",
+          "question": "What is your gender?",
           "type": "radio",
           "options": ["Male","Female","Other","Prefer not to say"],
           "followUps": [30,31,32],
@@ -479,7 +479,7 @@
           "id": 50,
           "question": "If YES, check all that apply",
           "type": "checkbox",
-          "options": ["Cane","Walker","Wheelchair (manual)","Wheelchair (power)","Brace or orthotic","Other: [text field]"],
+          "options": ["Cane","Walker","Wheelchair (manual)","Wheelchair (power)","Brace or orthotic","Other: describe here"],
           "followUps": [],
           "whenShowFollowUps": []
         },
