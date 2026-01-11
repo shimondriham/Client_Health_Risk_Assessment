@@ -55,16 +55,14 @@ function OutCome() {
                     }
                 }
             }
-            // add 6 bio
-            // tempAr.push({ question: "aaa", answer: resData.Arm_Raise? "true" : "false" });
             tempAr.push({ question: "Performed two consecutive sit-to-stand repetitions at a comfortable pace.", answer: data.Chair_Stand? "succeeded " : "failed" });
-            tempAr.push({ question: "Performed active arm elevation.", answer: resData.data.Arm_Raise? "succeeded" : "failed" });
-            tempAr.push({ question: "Performed standing lateral weight shift to the right.", answer: resData.data.Weight_Shift[0]? "succeeded" : "failed" });
-            tempAr.push({ question: "Performed standing lateral weight shift to the left.", answer: resData.data.Weight_Shift[1]? "succeeded" : "failed" });
-            tempAr.push({ question: "Performed a unilateral functional forward reach.", answer: resData.data.Forward_Reach? "succeeded" : "failed" });
-            tempAr.push({ question: "Performed controlled bilateral arm elevation in a seated position.", answer: resData.data.Arm_Raise? "succeeded" : "failed" });
-            tempAr.push({ question: "Performed seated upper body rotation to the right.", answer: resData.data.Seated_Trunk_Turn[0]? "succeeded" : "failed" });
-            tempAr.push({ question: "Performed seated upper body rotation to the left.", answer: resData.data.Seated_Trunk_Turn[1]? "succeeded" : "failed" });
+            tempAr.push({ question: "Performed active arm elevation.", answer: data.Arm_Raise? "succeeded" : "failed" });
+            tempAr.push({ question: "Performed standing lateral weight shift to the right.", answer: data.Weight_Shift[0]? "succeeded" : "failed" });
+            tempAr.push({ question: "Performed standing lateral weight shift to the left.", answer: data.Weight_Shift[1]? "succeeded" : "failed" });
+            tempAr.push({ question: "Performed a unilateral functional forward reach.", answer: data.Forward_Reach? "succeeded" : "failed" });
+            tempAr.push({ question: "Performed controlled bilateral arm elevation in a seated position.", answer: data.Arm_Raise? "succeeded" : "failed" });
+            tempAr.push({ question: "Performed seated upper body rotation to the right.", answer: data.Seated_Trunk_Turn[0]? "succeeded" : "failed" });
+            tempAr.push({ question: "Performed seated upper body rotation to the left.", answer: data.Seated_Trunk_Turn[1]? "succeeded" : "failed" });
            
             setAr(tempAr);
             setLoading(false);
