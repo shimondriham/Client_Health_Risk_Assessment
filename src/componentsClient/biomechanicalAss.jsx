@@ -263,7 +263,7 @@ function BiomechanicalAss() {
     <div className="vh-100 bg-white d-flex flex-column page-wrapper overflow-hidden">
 
       {/* Navbar */}
-      <nav className="d-flex align-items-center justify-content-between px-4 py-2 flex-shrink-0" style={{ height: '70px', padding: '5px 0' }}>
+      <nav className="d-flex align-items-center justify-content-between px-4  flex-shrink-0" style={{ height: '70px', padding: '5px 0' }}>
         <div className="d-flex align-items-center gap-2">
           <img src={thisIcon} alt="Logo" width="35" className="logo-icon opacity-75" />
           <span className="logo-text" style={{ fontSize: '2rem' }}>Fitwave.ai</span>
@@ -308,7 +308,7 @@ function BiomechanicalAss() {
       <div className="flex-grow-1 d-flex p-3 gap-3" style={{ minHeight: 0 }}>
 
         {/* צד שמאל: מצלמת משתמש (גדול) */}
-        <div className="flex-grow-1 bg-black rounded-3 overflow-hidden position-relative border shadow-sm" style={{ flexBasis: '60%' }}>
+        <div className="flex-grow-1 bg-black rounded-3 overflow-hidden position-relative border shadow-sm" style={{ flexBasis: '50%' }}>
           <video ref={videoRef} autoPlay playsInline muted style={{ width: '100%', height: '100%', objectFit: 'cover', transform: 'scaleX(-1)' }} />
           <canvas ref={canvasRef} style={{ position: "absolute", top: 0, left: 0, width: '100%', height: '100%', objectFit: 'cover', transform: 'scaleX(-1)' }} />
 
@@ -321,7 +321,7 @@ function BiomechanicalAss() {
         </div>
 
         {/* צד ימין: הוראות (צר יותר) */}
-        <div className="d-flex flex-column gap-3" style={{ flexBasis: '40%', maxWidth: '500px' }}>
+        <div className="d-flex flex-column gap-3" style={{ flexBasis: '50%' }}>
           {/* כותרת הנחיה */}
           <div className="bg-white p-3 rounded-3 border shadow-sm flex-shrink-0">
             <h5 className="m-0 fw-bold">{getAssessmentName()}</h5>
