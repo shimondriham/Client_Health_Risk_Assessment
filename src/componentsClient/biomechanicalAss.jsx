@@ -43,6 +43,20 @@ const styles = {
     transition: "all 0.2s ease"
   }
 };
+// orange button style similar to healthForm
+styles.orangeButton = (disabled) => ({
+  backgroundColor: disabled ? "#E5E7EB" : "#F96424",
+  color: disabled ? "#9CA3AF" : "white",
+  border: "none",
+  borderRadius: "50px",
+  padding: "14px 40px",
+  fontSize: "1.1rem",
+  fontWeight: "600",
+  cursor: disabled ? "not-allowed" : "pointer",
+  boxShadow: disabled ? "none" : "0 4px 14px rgba(249, 100, 36, 0.4)",
+  display: "flex", alignItems: "center", gap: "10px",
+  transition: "all 0.3s ease"
+});
 let resultsData = {
   assessment1: false,
   Chair_Stand: false,
@@ -349,8 +363,16 @@ function BiomechanicalAss() {
 
         <button
           onClick={Next}
-          className="btn text-white px-5 fw-bold d-flex align-items-center gap-2"
-          style={{ backgroundColor: isDone ? ORANGE : '#ccc', border: 'none', fontSize: '1.1rem' }}
+          className="d-flex align-items-center gap-2 fw-bold"
+          style={styles.orangeButton(false)}
+          onMouseOver={(e) => {
+            e.currentTarget.style.transform = "translateY(-2px)";
+            e.currentTarget.style.boxShadow = "0 8px 20px rgba(249, 100, 36, 0.5)";
+          }}
+          onMouseOut={(e) => {
+            e.currentTarget.style.transform = "translateY(0)";
+            e.currentTarget.style.boxShadow = "0 4px 14px rgba(249, 100, 36, 0.4)";
+          }}
         >
           {assessmentIndex === assessments.length - 1 ? 'Finish' : 'Next Step'} <ChevronRight />
         </button>
