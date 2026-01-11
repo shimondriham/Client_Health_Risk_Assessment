@@ -361,7 +361,7 @@
         {
           "id": 36,
           "question": "How many hours of sleep do you typically get each night?",
-          "type": "slider",
+          "type": "sleepslider",
           "options": ["4","5","6","7","8","9","10"],
           "followUps": [],
           "whenShowFollowUps": []

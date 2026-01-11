@@ -109,14 +109,14 @@ function HealthForm() {
                 .map(q => ({ id: q.id, answer: updatedAnswers[q.id] }));
 
             if (answersForSection.length > 0 && (
-                   answersForSection[answersForSection.length - 1].id == 53
+                answersForSection[answersForSection.length - 1].id == 53
                 || answersForSection[answersForSection.length - 1].id == 51
                 || answersForSection[answersForSection.length - 1].id == 39
                 || answersForSection[answersForSection.length - 1].id == 32
                 || (answersForSection[answersForSection.length - 1].id == 30 && answersForSection[answersForSection.length - 1].answer != "Yes")
                 || (answersForSection[answersForSection.length - 1].id == 29 && answersForSection[answersForSection.length - 1].answer != "Female")
             )) {
-                 if (currentSection.section === "Safety First" && (!id_Questions || id_Questions === "0")) {
+                if (currentSection.section === "Safety First" && (!id_Questions || id_Questions === "0")) {
                     try {
                         let resp = await doApiMethod("/questions", "POST", { section: currentSection.section, answers: answersForSection });
                         if (resp.data._id) {
@@ -134,7 +134,7 @@ function HealthForm() {
                     } catch (e) { console.log(e); }
                 }
             }
-        
+
             let skipCount = 0;
 
             if (question.followUps && question.followUps.length > 0) {
@@ -173,7 +173,7 @@ function HealthForm() {
         if (questionIndex > 0) {
             const currentSection = surveyData.sections[sectionIndex];
             let newIndex = questionIndex - 1;
-            
+
             while (newIndex >= 0) {
                 const targetQ = currentSection.questions[newIndex];
                 const parentQ = findParentQuestion(targetQ.id, currentSection.questions);
@@ -182,12 +182,12 @@ function HealthForm() {
                     const parentAnswer = answers[parentQ.id];
                     if (!parentQ.whenShowFollowUps.includes(parentAnswer)) {
                         newIndex = currentSection.questions.findIndex(q => q.id === parentQ.id);
-                        continue; 
+                        continue;
                     }
                 }
-                break; 
+                break;
             }
-            
+
             setQuestionIndex(newIndex);
 
         } else if (sectionIndex > 0) {
@@ -279,152 +279,170 @@ function HealthForm() {
         }
     };
 
-   const renderInput = () => {
-    const val = getCurrentAnswer();
+    const renderInput = () => {
+        const val = getCurrentAnswer();
 
-    // רוחבים שונים לפי סוג שאלה
-    const widths = {
-        radio: "400px",
-        checkbox: "400px",
-        slider: "500px",
-        date: "300px",
-        dropdown: "350px",
-        textarea: "450px",
-        file: "400px"
-    };
+        // רוחבים שונים לפי סוג שאלה
+        const widths = {
+            radio: "400px",
+            checkbox: "400px",
+            slider: "500px",
+            date: "300px",
+            dropdown: "350px",
+            textarea: "450px",
+            file: "400px"
+        };
 
-    const inputWidth = {
-        width: widths[question.type] || "400px",
-        maxWidth: "100%"
-    };
+        const inputWidth = {
+            width: widths[question.type] || "400px",
+            maxWidth: "100%"
+        };
 
-    switch (question.type) {
-        case "radio":
-            return question.options.map((opt, i) => (
-                <div 
-                    key={i} 
-                    onClick={() => handleAnswer(opt)} 
-                    style={{ 
-                        ...styles.optionCard(val === opt), 
-                        ...inputWidth, 
-                        margin: "8px auto",      // מרכז אופקית
-                        display: "flex",          // יישור פנימי של ה-radio + text
-                        alignItems: "center" 
-                    }}
-                >
-                    <div style={styles.radioCircle(val === opt)}></div>
-                    <span>{opt}</span>
-                </div>
-            ));
-
-        case "checkbox":
-            return question.options.map((opt, i) => {
-                const isChecked = val?.includes(opt) || false;
-                return (
-                    <div 
-                        key={i} 
-                        onClick={() => {
-                            const prev = val || [];
-                            handleAnswer(isChecked ? prev.filter(x => x !== opt) : [...prev, opt]);
-                        }} 
-                        style={{ 
-                            ...styles.optionCard(isChecked), 
-                            ...inputWidth, 
+        switch (question.type) {
+            case "radio":
+                return question.options.map((opt, i) => (
+                    <div
+                        key={i}
+                        onClick={() => handleAnswer(opt)}
+                        style={{
+                            ...styles.optionCard(val === opt),
+                            ...inputWidth,
                             margin: "8px auto",      // מרכז אופקית
-                            display: "flex", 
-                            alignItems: "center" 
+                            display: "flex",          // יישור פנימי של ה-radio + text
+                            alignItems: "center"
                         }}
                     >
-                        <div style={{
-                            width: '22px', height: '22px', borderRadius: '6px',
-                            border: isChecked ? 'none' : '2px solid #E5E7EB',
-                            backgroundColor: isChecked ? ORANGE : 'white',
-                            display: 'flex', alignItems: 'center', justifyContent: 'center',
-                            marginRight: '16px', flexShrink: 0
-                        }}>
-                            {isChecked && <CheckIcon />}
-                        </div>
+                        <div style={styles.radioCircle(val === opt)}></div>
                         <span>{opt}</span>
                     </div>
+                ));
+
+            case "checkbox":
+                return question.options.map((opt, i) => {
+                    const isChecked = val?.includes(opt) || false;
+                    return (
+                        <div
+                            key={i}
+                            onClick={() => {
+                                const prev = val || [];
+                                handleAnswer(isChecked ? prev.filter(x => x !== opt) : [...prev, opt]);
+                            }}
+                            style={{
+                                ...styles.optionCard(isChecked),
+                                ...inputWidth,
+                                margin: "8px auto",      // מרכז אופקית
+                                display: "flex",
+                                alignItems: "center"
+                            }}
+                        >
+                            <div style={{
+                                width: '22px', height: '22px', borderRadius: '6px',
+                                border: isChecked ? 'none' : '2px solid #E5E7EB',
+                                backgroundColor: isChecked ? ORANGE : 'white',
+                                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                                marginRight: '16px', flexShrink: 0
+                            }}>
+                                {isChecked && <CheckIcon />}
+                            </div>
+                            <span>{opt}</span>
+                        </div>
+                    );
+                });
+
+            case "slider":
+                return (
+                    <div className="py-5 px-3 d-flex flex-column align-items-center" style={{ ...inputWidth, margin: "0 auto" }}>
+                        <div className="text-center mb-4">
+                            <span className="display-3 fw-bold font-outfit" style={{ color: ORANGE }}>{val}</span>
+                        </div>
+                        <input
+                            type="range"
+                            min={0} max={5} value={val}
+                            onChange={(e) => handleAnswer(Number(e.target.value))}
+                            className="form-range"
+                            style={{ ...inputWidth, accentColor: ORANGE, cursor: 'pointer', height: '8px' }}
+                        />
+                        <div className="d-flex justify-content-between text-muted small fw-bold mt-2" style={inputWidth}>
+                            <span>0</span><span>5</span>
+                        </div>
+                    </div>
                 );
-            });
-
-        case "slider":
-            return (
-                <div className="py-5 px-3 d-flex flex-column align-items-center" style={{ ...inputWidth, margin: "0 auto" }}>
-                    <div className="text-center mb-4">
-                        <span className="display-3 fw-bold font-outfit" style={{ color: ORANGE }}>{val}</span>
+            case "sleepslider":
+                return (
+                    <div className="py-5 px-3 d-flex flex-column align-items-center" style={{ ...inputWidth, margin: "0 auto" }}>
+                        <div className="text-center mb-4">
+                            <span className="display-3 fw-bold font-outfit" style={{ color: ORANGE }}>{val}</span>
+                        </div>
+                        <input
+                            type="range"
+                            min={0} max={12} value={val}
+                            onChange={(e) => handleAnswer(Number(e.target.value))}
+                            className="form-range"
+                            style={{ ...inputWidth, accentColor: ORANGE, cursor: 'pointer', height: '8px' }}
+                        />
+                        <div className="d-flex justify-content-between text-muted small fw-bold mt-2" style={inputWidth}>
+                            <span>0</span><span>12</span>
+                        </div>
                     </div>
-                    <input 
-                        type="range" 
-                        min={0} max={5} value={val} 
-                        onChange={(e) => handleAnswer(Number(e.target.value))} 
-                        className="form-range" 
-                        style={{ ...inputWidth, accentColor: ORANGE, cursor: 'pointer', height: '8px' }}
-                    />
-                    <div className="d-flex justify-content-between text-muted small fw-bold mt-2" style={inputWidth}>
-                        <span>0</span><span>5</span>
+                );
+
+            case "date":
+                return (
+                    <div className="d-flex justify-content-center">
+                        <input
+                            type="date"
+                            className="form-control border bg-light p-3 rounded-3"
+                            style={{ ...inputWidth, margin: "0 auto" }}
+                            value={val || ""}
+                            onChange={(e) => handleAnswer(e.target.value)}
+                        />
                     </div>
-                </div>
-            );
+                );
 
-        case "date":
-            return (
-                <div className="d-flex justify-content-center">
-                    <input 
-                        type="date" 
-                        className="form-control border bg-light p-3 rounded-3" 
-                        style={{ ...inputWidth, margin: "0 auto" }}
-                        value={val || ""} 
-                        onChange={(e) => handleAnswer(e.target.value)} 
-                    />
-                </div>
-            );
+            case "dropdown":
+                return (
+                    <div className="d-flex justify-content-center">
+                        <select
+                            className="form-select border bg-light p-3 rounded-3"
+                            value={val || ""}
+                            onChange={(e) => handleAnswer(e.target.value)}
+                            style={{ ...inputWidth, margin: "0 auto" }}
+                        >
+                            <option value="" disabled>Select...</option>
+                            {question.options.map((opt, i) => <option key={i} value={opt}>{opt}</option>)}
+                        </select>
+                    </div>
+                );
 
-        case "dropdown":
-            return (
-                <div className="d-flex justify-content-center">
-                    <select 
-                        className="form-select border bg-light p-3 rounded-3" 
-                        value={val || ""} 
-                        onChange={(e) => handleAnswer(e.target.value)}
-                        style={{ ...inputWidth, margin: "0 auto" }}
-                    >
-                        <option value="" disabled>Select...</option>
-                        {question.options.map((opt, i) => <option key={i} value={opt}>{opt}</option>)}
-                    </select>
-                </div>
-            );
+            case "textarea":
+                return (
+                    <div className="d-flex justify-content-center">
+                        <textarea
+                            className="form-control border bg-light p-3 rounded-3"
+                            rows={4}
+                            value={val || ""}
+                            onChange={(e) => handleAnswer(e.target.value)}
+                            style={{ ...inputWidth, margin: "0 auto" }}
+                        />
+                    </div>
+                );
 
-        case "textarea":
-            return (
-                <div className="d-flex justify-content-center">
-                    <textarea 
-                        className="form-control border bg-light p-3 rounded-3" 
-                        rows={4} 
-                        value={val || ""} 
-                        onChange={(e) => handleAnswer(e.target.value)}
-                        style={{ ...inputWidth, margin: "0 auto" }}
-                    />
-                </div>
-            );
+            case "file":
+                return (
+                    <div className="d-flex justify-content-center">
+                        <input
+                            type="file"
+                            className="form-control"
+                            style={{ ...inputWidth, margin: "0 auto" }}
+                            onChange={(e) => handleAnswer(e.target.files[0]?.name)}
+                        />
+                    </div>
+                );
 
-        case "file":
-            return (
-                <div className="d-flex justify-content-center">
-                    <input 
-                        type="file" 
-                        className="form-control" 
-                        style={{ ...inputWidth, margin: "0 auto" }}
-                        onChange={(e) => handleAnswer(e.target.files[0]?.name)} 
-                    />
-                </div>
-            );
-
-        default:
-            return null;
-    }
-};
+            default:
+                return null;
+        }
+    };
 
 
     return (
@@ -503,7 +521,7 @@ function HealthForm() {
                         </h2>
                     </div>
 
-                    
+
                     <div
                         className={`px-2 ${isLongList ? 'flex-grow-1 custom-scrollbar' : 'mb-2'}`}
                         style={{ overflowY: isLongList ? 'auto' : 'visible', minHeight: isLongList ? '0' : 'auto' }}
