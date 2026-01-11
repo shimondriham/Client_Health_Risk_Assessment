@@ -1,14 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import thisIcon from '../assets/icon.png'; 
-const HomeIcon = () => <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>;
 
-// --- Icons ---
-const CheckIconOrange = () => (
-    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#F96424" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{minWidth:'22px'}}>
-      <polyline points="20 6 9 17 4 12"></polyline>
-    </svg>
-);
+const HomeIcon = () => <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>;
 
 const ArrowRight = () => (
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
@@ -17,19 +11,36 @@ const ArrowRight = () => (
     </svg>
 );
 
-const XIcon = () => (
-    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-        <line x1="18" y1="6" x2="6" y2="18"></line>
-        <line x1="6" y1="6" x2="18" y2="18"></line>
+// --- Specific Instructions Icons (Orange) ---
+const iconStyle = { minWidth: '24px' };
+const ORANGE_COLOR = "#F96424";
+
+const CameraIcon = () => (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke={ORANGE_COLOR} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={iconStyle}>
+      <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path>
+      <circle cx="12" cy="13" r="4"></circle>
     </svg>
 );
 
-// אייקון וי לבן לצ'קבוקס המסומן
-const WhiteCheck = () => (
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-        <polyline points="20 6 9 17 4 12"></polyline>
+const DistanceIcon = () => (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke={ORANGE_COLOR} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={iconStyle}>
+      <path d="M2 12h20"></path>
+      <path d="M2 12l5 5"></path>
+      <path d="M2 12l5-5"></path>
+      <path d="M22 12l-5 5"></path>
+      <path d="M22 12l-5-5"></path>
     </svg>
 );
+
+const WifiIcon = () => (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke={ORANGE_COLOR} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={iconStyle}>
+      <path d="M5 12.55a11 11 0 0 1 14.08 0"></path>
+      <path d="M1.42 9a16 16 0 0 1 21.16 0"></path>
+      <path d="M8.53 16.11a6 6 0 0 1 6.95 0"></path>
+      <line x1="12" y1="20" x2="12.01" y2="20"></line>
+    </svg>
+);
+
 
 function CalibrationVideo() {
   const [confirmed, setConfirmed] = useState(false);
@@ -39,16 +50,14 @@ function CalibrationVideo() {
   const brandDark = "#1a1a1a";
 
   const NextPage = () => {
-    // if (confirmed) {
-        nav("/Calibration"); // המעבר לדף הבא
-    // }
+        nav("/Calibration"); 
   };
 
   const goBackHome = () => {
     nav("/homeClient");
   };
 
-  // --- Styles (זהה ל-HStatement) ---
+  // --- Styles ---
   const styles = {
       pageWrapper: {
           height: '100vh',
@@ -79,36 +88,22 @@ function CalibrationVideo() {
           display: "flex", alignItems: "center", gap: '8px',
           cursor: "pointer",
           transition: "all 0.2s ease"
-      },
-      submitBtn: (isActive) => ({
-          backgroundColor: isActive ? ORANGE : '#e9ecef',
-          color: isActive ? 'white' : '#adb5bd',
-          border: 'none',
-          padding: '12px 32px',
-          borderRadius: '50px',
-          fontSize: '1rem',
-          fontWeight: '600',
-          cursor: isActive ? 'pointer' : 'not-allowed',
-          transition: 'all 0.3s ease',
-          boxShadow: isActive ? '0 4px 15px rgba(249, 100, 36, 0.3)' : 'none',
-          display: 'flex', alignItems: 'center', gap: '10px'
-      }),
-      checkboxBox: (isActive) => ({
-          width: '24px', height: '24px',
-          borderRadius: '6px',
-          border: isActive ? `none` : '2px solid #ced4da',
-          backgroundColor: isActive ? ORANGE : 'transparent',
-          display: 'flex', alignItems: 'center', justifyContent: 'center',
-          transition: 'all 0.2s',
-          flexShrink: 0
-      })
+      }
   };
 
-  // --- תוכן ההוראות המקצועי ---
   const instructionsList = [
-      "Ensure your device has a functional camera and the lens is clean for accurate motion detection.",
-      "Clear a space of at least 3 meters (approx. 10 feet) from the camera. Ensure the area is well-lit and free of obstacles blocking your full body view.",
-      "Verify that you have a stable and strong internet connection to prevent interruptions during the analysis."
+      {
+          icon: <CameraIcon />,
+          text: "Ensure your device has a functional camera and the lens is clean for accurate motion detection."
+      },
+      {
+          icon: <DistanceIcon />,
+          text: "Clear a space of at least 3 meters (approx. 10 feet) from the camera. Ensure the area is well-lit."
+      },
+      {
+          icon: <WifiIcon />,
+          text: "Verify that you have a stable and strong internet connection to prevent interruptions."
+      }
   ];
 
   return (
@@ -122,13 +117,13 @@ function CalibrationVideo() {
         </div>
         
          <button 
-                    onClick={() => nav("/HomeClient")} 
-                    style={styles.exitButton}
-                    onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#f9fafb'}
-                    onMouseOut={(e) => e.currentTarget.style.backgroundColor = 'white'}
-                >
-                    <HomeIcon /> Home
-                </button>
+                onClick={() => nav("/HomeClient")} 
+                style={styles.exitButton}
+                onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#f9fafb'}
+                onMouseOut={(e) => e.currentTarget.style.backgroundColor = 'white'}
+            >
+                <HomeIcon /> Home
+            </button>
       </nav>
 
       {/* 2. Main Content */}
@@ -147,50 +142,37 @@ function CalibrationVideo() {
         <div style={styles.declarationCard}>
             
             <div className="d-flex flex-column gap-4">
-                {instructionsList.map((text, i) => (
+                {/* לולאה שעוברת על האובייקטים החדשים */}
+                {instructionsList.map((item, i) => (
                     <div className="d-flex gap-3 align-items-start" key={i}>
                         <div style={{ marginTop: '2px', flexShrink: 0 }}>
-                            <CheckIconOrange />
+                            {/* רינדור האייקון הספציפי */}
+                            {item.icon}
                         </div>
-                        <span style={{ fontSize: '1rem', color: '#333', lineHeight: '1.4' }}>{text}</span>
+                        <span style={{ fontSize: '1rem', color: '#333', lineHeight: '1.5' }}>{item.text}</span>
                     </div>
                 ))}
             </div>
 
             <hr className="my-4" style={{opacity: 0.1}}/>
 
-            {/* אזור האישור והכפתור */}
+            {/* אזור הכפתור */}
             <div className="d-flex flex-column align-items-center gap-3">
                 
-                {/* Checkbox Line */}
-                {/* <div 
-                    onClick={() => setConfirmed(!confirmed)}
-                    className="d-flex align-items-center gap-2 p-1 rounded-3 user-select-none"
-                    style={{ cursor: 'pointer' }}
-                >
-                    <div style={styles.checkboxBox(confirmed)}>
-                        {confirmed && <WhiteCheck />}
-                    </div>
-                    <span className="fw-bold" style={{ fontSize: '1rem', color: '#111' }}>
-                        I confirm the environment is ready
-                    </span>
-                </div> */}
-
                 {/* Submit Button */}
-<button
-  onClick={NextPage}
-  onMouseEnter={e => e.currentTarget.style.transform = 'translateY(-2px)'}
-  onMouseLeave={e => e.currentTarget.style.transform = 'translateY(0)'}
-  className="btn btn-lg px-5 py-3 rounded-pill btn-brand-orange"
-  style={{ 
-    transition: 'transform 0.2s ease',
-    minWidth: '240px',
-    fontSize: '1.2rem',
-  }}
->
-  Start Calibration <ArrowRight />
-</button>
-
+                <button
+                  onClick={NextPage}
+                  onMouseEnter={e => e.currentTarget.style.transform = 'translateY(-2px)'}
+                  onMouseLeave={e => e.currentTarget.style.transform = 'translateY(0)'}
+                  className="btn btn-lg px-5 py-3 rounded-pill btn-brand-orange"
+                  style={{ 
+                    transition: 'transform 0.2s ease',
+                    minWidth: '240px',
+                    fontSize: '1.2rem',
+                  }}
+                >
+                  Start Calibration <ArrowRight />
+                </button>
 
             </div>
 

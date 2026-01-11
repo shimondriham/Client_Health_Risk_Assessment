@@ -6,154 +6,72 @@ import { addIfShowNav, addIsAdmin, addName, addIdQuestions } from '../featuers/m
 import "bootstrap/dist/css/bootstrap.min.css";
 import thisIcon from '../assets/icon.png';
 
-// --- Clean Icons ---
-const PlusIcon = () => <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>;
-const ChartIcon = () => <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M3 3v18h18"/><path d="M18 17V9"/><path d="M13 17V5"/><path d="M8 17v-3"/></svg>;
+// --- Icons (Existing - Right Side) ---
+const ChartIcon = () => <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M3 3v18h18" /><path d="M18 17V9" /><path d="M13 17V5" /><path d="M8 17v-3" /></svg>;
 const CheckIcon = () => <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>;
 const TimeIcon = () => <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>;
 const MenuIcon = () => <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>;
-const UserIcon = () => <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>;
 const PlayIcon = () => <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>;
 
-// Gauge Icons
-const RunIcon = () => <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>; 
-const StabilityIcon = () => <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"></rect><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"></path></svg>;
-const SymmetryIcon = () => <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>;
-const PowerIcon = () => <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>;
+// --- NEW Icons for Health Cards (FIXED VISIBILITY) ---
+// Shield (Cardio)
+const ShieldIcon = () => <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#D97706" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg>;
+// Diamond (Strength) - Using a simple shape
+const DiamondIcon = () => <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#059669" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M6 3h12l4 6-10 13L2 9z"></path></svg>;
+// Person/Balance
+const BalanceIcon = () => <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#D97706" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>;
+// Mobility/Joints
+const MobilityIcon = () => <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#D97706" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M12 6v6l4 2"></path></svg>;
 
-// --- Custom Hook for Number Animation ---
-const useCountUp = (end, duration = 2000) => {
-    const [count, setCount] = useState(0);
-    useEffect(() => {
-        let startTime = null;
-        const animate = (currentTime) => {
-            if (!startTime) startTime = currentTime;
-            const progress = currentTime - startTime;
-            const percentage = Math.min(progress / duration, 1);
-            
-            // Easing function
-            const ease = (t) => t === 1 ? 1 : 1 - Math.pow(2, -10 * t);
-            
-            setCount(Math.floor(ease(percentage) * end));
+// Small Check for Footer
+const SmallCheck = () => <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>;
 
-            if (progress < duration) {
-                requestAnimationFrame(animate);
-            }
-        };
-        requestAnimationFrame(animate);
-    }, [end, duration]);
-
-    return count;
-};
-
-// --- Modern Gauge Component ---
-const ModernGauge = ({ percent, color, label, icon, subLabel }) => {
-    const animatedPercent = useCountUp(percent, 2000);
-    const [animateStroke, setAnimateStroke] = useState(false);
-
-    useEffect(() => {
-        const timer = setTimeout(() => setAnimateStroke(true), 100);
-        return () => clearTimeout(timer);
-    }, []);
-
-    
-    const radius = 62; 
-    const circumference = 2 * Math.PI * radius;
-    const visiblePercent = 0.75; 
-    const dashOffsetBackground = circumference * (1 - visiblePercent);
-    const targetOffset = circumference * (1 - (visiblePercent * (percent / 100)));
-    const currentOffset = animateStroke ? targetOffset : circumference * (1 - (visiblePercent * 0));
-
+// --- Health Profile Card Component ---
+const HealthProfileCard = ({ title, icon, badgeText, badgeBg, badgeColor, description, footerText, iconBg }) => {
     return (
-        <div className="bg-white rounded-4 p-2 shadow-sm border border-light w-100 h-100 d-flex flex-column align-items-center justify-content-center hover-lift position-relative mx-auto" 
-             style={{minHeight: 0, maxWidth: '320px'}}> 
-            
-            <div className="w-100 text-center mt-3 mb-0">
-                <span className="fw-bold text-dark font-swiss" style={{fontSize: '1.1rem'}}>{label}</span>
-            </div>
-            
-            <div className="flex-grow-1 d-flex align-items-center justify-content-center position-relative" style={{ width: '100%', maxHeight: '180px' }}>
-                <svg viewBox="0 0 160 160" style={{ transform: 'rotate(135deg)', height: '100%', width: 'auto' }}>
-                    <circle 
-                        cx="80" cy="80" r={radius} 
-                        stroke="#F3F4F6" strokeWidth="10" fill="none" strokeLinecap="round"
-                        strokeDasharray={circumference}
-                        strokeDashoffset={dashOffsetBackground}
-                    />
-                    <circle 
-                        cx="80" cy="80" r={radius} 
-                        stroke={color} strokeWidth="10" fill="none" strokeLinecap="round"
-                        strokeDasharray={circumference}
-                        strokeDashoffset={currentOffset}
-                        style={{ transition: 'stroke-dashoffset 2s cubic-bezier(0.22, 1, 0.36, 1)' }}
-                    />
-                </svg>
-                
-                <div className="position-absolute text-center" style={{ top: '48%', transform: 'translateY(-30%)' }}>
-                    <div className="mb-2 opacity-75" style={{color: '#333', transform: 'scale(0.9)'}}>{icon}</div>
-                    <div className="fw-bold text-dark font-swiss" style={{ fontSize: '2.2rem', lineHeight: 1 }}>
-                        {animatedPercent}
-                    </div>
-                    <div className="text-muted small" style={{ fontSize: '0.75rem' }}>{subLabel}</div>
-                </div>
-            </div>
-        </div>
-    );
-};
-
-// --- Cool Graph Component ---
-const CoolGraph = () => {
-    const [showGraph, setShowGraph] = useState(false);
-    useEffect(() => { setTimeout(() => setShowGraph(true), 300); }, []);
-
-    return (
-        
-        <div className="bg-white rounded-4 p-3 shadow-sm border border-light h-100 w-100 d-flex flex-column justify-content-center" style={{height: '140px'}}>
-            <div className="d-flex justify-content-between align-items-center mb-1 flex-shrink-0">
-                <h6 className="fw-bold m-0 text-dark font-swiss" style={{fontSize:'0.9rem'}}>Recovery Trend</h6>
-                <span className="badge bg-success bg-opacity-10 text-success rounded-pill px-2 py-0" style={{fontSize:'0.65rem'}}>+12%</span>
-            </div>
-            
-            <div className="flex-grow-1 position-relative w-100 overflow-hidden h-100">
-                
-                <svg viewBox="0 0 300 150" preserveAspectRatio="none" style={{width:'100%', height:'100%', opacity: showGraph ? 1 : 0, transition: 'opacity 1s ease'}}>
-                    <defs>
-                        <linearGradient id="gradientOrange" x1="0" x2="0" y1="0" y2="1">
-                            <stop offset="0%" stopColor="#F96424" stopOpacity="0.3" />
-                            <stop offset="100%" stopColor="#F96424" stopOpacity="0" />
-                        </linearGradient>
-                    </defs>
-                    
-                    {/* Area Fill */}
-                    <path d="M0,100 Q40,85 75,60 T150,70 T225,40 T300,80 V150 H0 Z" fill="url(#gradientOrange)" />
-                    
-                    {/* Stroke Line */}
-                    <path d="M0,100 Q40,85 75,60 T150,70 T225,40 T300,80" fill="none" stroke="#F96424" strokeWidth="4" strokeLinecap="round" />
-                </svg>
-            </div>
-        </div>
-    );
-};
-
-// --- Stat Box with Animation ---
-const StatBox = ({ label, value, icon, color, bg }) => {
-    const animatedValue = useCountUp(value, 1500);
-    
-    return (
-        <div className="bg-white rounded-4 p-3 border shadow-sm h-100 d-flex flex-column justify-content-between hover-lift">
-            <div className="d-flex justify-content-between align-items-start">
-                <div className="text-muted text-uppercase fw-bold" style={{ fontSize: '0.7rem', letterSpacing: '0.5px' }}>{label}</div>
-                <div className="rounded-circle d-flex align-items-center justify-content-center" 
-                     style={{ width: '32px', height: '32px', backgroundColor: bg, color: color }}>
+        <div className="bg-white rounded-4 p-3 border shadow-sm h-100 d-flex flex-column hover-lift" style={{ minHeight: '180px' }}>
+            <div className="d-flex align-items-start gap-3 mb-2">
+                <div className="rounded-circle d-flex align-items-center justify-content-center flex-shrink-0"
+                    style={{ width: '42px', height: '42px', backgroundColor: iconBg }}>
                     {icon}
                 </div>
+                <div>
+                    <h6 className="fw-bold text-dark font-swiss m-0 mb-1" style={{ fontSize: '0.95rem' }}>{title}</h6>
+                    <span className="badge rounded-pill fw-medium"
+                        style={{ backgroundColor: badgeBg, color: badgeColor, fontSize: '0.7rem', padding: '5px 10px' }}>
+                        {badgeText}
+                    </span>
+                </div>
             </div>
-            <div className="fw-bold text-dark fs-3 lh-1 font-swiss mt-2">{animatedValue}</div>
+            <div className="flex-grow-1 mt-1">
+                <p className="text-secondary small m-0" style={{ lineHeight: '1.5', fontSize: '0.85rem' }}>
+                    {description}
+                </p>
+            </div>
+            <div className="mt-3 pt-2 border-top border-light d-flex align-items-center text-muted" style={{ fontSize: '0.7rem' }}>
+                <span className="me-1 text-success"><SmallCheck /></span>
+                <span>{footerText}</span>
+            </div>
         </div>
     );
 };
 
+// --- Stat Box ---
+const StatBox = ({ label, value, icon, color, bg }) => (
+    <div className="bg-white rounded-4 p-3 border shadow-sm h-100 d-flex flex-column justify-content-between hover-lift">
+        <div className="d-flex justify-content-between align-items-start">
+            <div className="text-muted text-uppercase fw-bold" style={{ fontSize: '0.7rem', letterSpacing: '0.5px' }}>{label}</div>
+            <div className="rounded-circle d-flex align-items-center justify-content-center"
+                style={{ width: '32px', height: '32px', backgroundColor: bg, color: color }}>
+                {icon}
+            </div>
+        </div>
+        <div className="fw-bold text-dark fs-3 lh-1 font-swiss mt-2">{value}</div>
+    </div>
+);
+
 const HomeClient = () => {
+    // --- Data ---
     const _tests = [
         { _id: 1, date_created: "2025-01-22T10:00:00", finished: true, finishedT1: true },
         { _id: 2, date_created: "2025-01-20T14:30:00", finished: false, finishedT1: false },
@@ -170,7 +88,7 @@ const HomeClient = () => {
     const IsAdmin = useSelector(state => state.myDetailsSlice.isAdmin);
     const navigate = useNavigate();
     const [tests, setTests] = useState(_tests);
-    const [hasTests, setHasTests] = useState(true); 
+    const [hasTests, setHasTests] = useState(true);
     const completedCount = tests.filter(t => t.finished).length;
     const pendingCount = tests.length - completedCount;
 
@@ -184,7 +102,7 @@ const HomeClient = () => {
     const greeting = hour < 12 ? "Good Morning" : hour < 18 ? "Good Afternoon" : "Good Evening";
 
     useEffect(() => {
-        dispatch(addIfShowNav({ ifShowNav: true })); 
+        dispatch(addIfShowNav({ ifShowNav: true }));
         dispatch(addIdQuestions({ idQuestions: "0" }));
         fetchUserData();
         const handleClickOutside = (e) => { if (menuRef.current && !menuRef.current.contains(e.target)) setMenuOpen(false); };
@@ -208,7 +126,7 @@ const HomeClient = () => {
 
     return (
         <div className="vh-100 d-flex flex-column bg-light overflow-hidden page-wrapper">
-            
+
             <style>{`
                 @import url('https://fonts.googleapis.com/css2?family=Oooh+Baby&family=Inter:wght@300;400;500;600;700&display=swap');
                 
@@ -258,16 +176,16 @@ const HomeClient = () => {
                         <div className="fw-bold text-dark font-swiss">{greeting}, {myName}</div>
                         <div className="text-muted small">Overview</div>
                     </div>
-                    
+
                     <div style={{ position: "relative" }} ref={menuRef}>
-                        <button onClick={() => setMenuOpen(!menuOpen)} className="bg-white border p-2 rounded-circle burger-btn text-dark shadow-sm d-flex align-items-center justify-content-center" style={{width:'40px', height:'40px'}}>
+                        <button onClick={() => setMenuOpen(!menuOpen)} className="bg-white border p-2 rounded-circle burger-btn text-dark shadow-sm d-flex align-items-center justify-content-center" style={{ width: '40px', height: '40px' }}>
                             <MenuIcon />
                         </button>
                         {menuOpen && (
                             <div className="bg-white rounded-4 shadow-lg border position-absolute end-0 mt-3 py-2 animate__animated animate__fadeIn" style={{ width: "180px", zIndex: 100 }}>
                                 {IsAdmin && (
-                                    <div 
-                                        onClick={() => navigate("/admin")} 
+                                    <div
+                                        onClick={() => navigate("/admin")}
                                         className="px-4 py-2 cursor-pointer hover-bg-light fw-medium small text-dark border-bottom"
                                     >
                                         Admin Panel
@@ -283,7 +201,7 @@ const HomeClient = () => {
             {/* === MAIN CONTENT === */}
             <div className="flex-grow-1 overflow-hidden p-4">
                 <div className="container-fluid h-100 px-0" style={{ maxWidth: '1600px', margin: '0 auto' }}>
-                    
+
                     {!hasTests ? (
                         /* --- מצב משתמש חדש --- */
                         <div className="h-100 d-flex justify-content-center align-items-center">
@@ -295,7 +213,7 @@ const HomeClient = () => {
                                 <p className="text-muted mb-5">
                                     Perform your first AI biomechanical assessment to unlock your personalized dashboard.
                                 </p>
-                                <button 
+                                <button
                                     onClick={() => navigate("/explanatoryV")}
                                     className="btn btn-lg rounded-pill px-5 py-3 fw-bold action-gradient w-100 shadow hover-lift border-0"
                                 >
@@ -306,47 +224,74 @@ const HomeClient = () => {
                     ) : (
                         /* --- מצב משתמש קיים --- */
                         <div className="row h-100 g-4">
-                            
-                            <div className="col-lg-6 d-flex flex-column h-100 overflow-hidden gap-3">
-                                <h5 className="fw-bold m-0 text-dark font-swiss flex-shrink-0">Metrics Analysis</h5>
-    
-                                <div className="row g-3 flex-shrink-0">
-                                    <div className="col-6">
-                                        <div style={{height: '200px'}}>
-                                            <ModernGauge percent={85} color={ORANGE} label="Mobility" icon={<RunIcon />} subLabel="Joint Range" />
-                                        </div>
-                                    </div>
-                                    <div className="col-6">
-                                        <div style={{height: '200px'}}>
-                                            <ModernGauge percent={92} color="#10B981" label="Stability" icon={<StabilityIcon />} subLabel="Core Balance" />
-                                        </div>
-                                    </div>
-                                    <div className="col-6">
-                                        <div style={{height: '200px'}}>
-                                            <ModernGauge percent={78} color="#6366F1" label="Symmetry" icon={<SymmetryIcon />} subLabel="L/R Balance" />
-                                        </div>
-                                    </div>
-                                    <div className="col-6">
-                                        <div style={{height: '200px'}}>
-                                            <ModernGauge percent={88} color="#8B5CF6" label="Power" icon={<UserIcon />} subLabel="Force Output" />
-                                        </div>
-                                    </div>
+
+                            {/* === צד שמאל: HEALTH PROFILE CARDS === */}
+                            <div className="col-lg-6 d-flex flex-column h-100 overflow-hidden justify-content-center">
+                                <div className="d-flex align-items-center justify-content-between mb-3 flex-shrink-0">
+                                    <h5 className="fw-bold m-0 text-dark font-swiss">Your Health Profile</h5>
                                 </div>
 
-                                {/* Graph Area (דחפנו אותו למטה) */}
-                                <div className="w-100">
-                                    <CoolGraph />
+                                <div className="overflow-y-auto overflow-x-hidden pe-1 pb-2">
+                                    <div className="row g-3">
+                                        <div className="col-6">
+                                            <HealthProfileCard
+                                                title="Cardiovascular"
+                                                icon={<ShieldIcon />}
+                                                iconBg="#FFFBEB" 
+                                                badgeText="Cleared with precautions"
+                                                badgeBg="#FEF3C7"
+                                                badgeColor="#D97706"
+                                                description="No active cardiac red flags. Exercise intensity adjusted."
+                                                footerText="Screened via guidelines"
+                                            />
+                                        </div>
+                                        <div className="col-6">
+                                            <HealthProfileCard
+                                                title="Functional Strength"
+                                                icon={<DiamondIcon />}
+                                                iconBg="#ECFDF5" 
+                                                badgeText="Within expected range"
+                                                badgeBg="#D1FAE5"
+                                                badgeColor="#059669"
+                                                description="Lower-body strength supports independent movement."
+                                                footerText="Screened via mobility tests"
+                                            />
+                                        </div>
+                                        <div className="col-6">
+                                            <HealthProfileCard
+                                                title="Balance & Falls"
+                                                icon={<BalanceIcon />}
+                                                iconBg="#FFFBEB" 
+                                                badgeText="Elevated fall risk"
+                                                badgeBg="#FEF3C7"
+                                                badgeColor="#D97706"
+                                                description="One fall in past year, reduced single-leg stability."
+                                                footerText="Screened via STEADI tests"
+                                            />
+                                        </div>
+                                        <div className="col-6">
+                                            <HealthProfileCard
+                                                title="Mobility & Pain"
+                                                icon={<MobilityIcon />}
+                                                iconBg="#FFFBEB" 
+                                                badgeText="Mild limitations"
+                                                badgeBg="#FEF3C7"
+                                                badgeColor="#D97706"
+                                                description="~25% of adults aged 60-70 report comparable history."
+                                                footerText="Screened via ROM tests"
+                                            />
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
 
-                            {/* === צד ימין: תוכן ראשי (50% עכשיו!) === */}
+                            {/*צד ימין: OVERVIEW  */}
                             <div className="col-lg-6 d-flex flex-column h-100 overflow-hidden gap-4">
                                 <h5 className="fw-bold m-0 text-dark mb-0 font-swiss flex-shrink-0">Overview</h5>
-                                
-                                {/* 1. שורה עליונה */}
+
                                 <div className="row g-3 flex-shrink-0">
                                     <div className="col-md-5 p-1">
-                                        <div 
+                                        <div
                                             onClick={() => navigate("/explanatoryV")}
                                             className="action-gradient rounded-4 p-4 d-flex align-items-center justify-content-between cursor-pointer shadow-sm hover-lift h-100"
                                         >
@@ -375,15 +320,14 @@ const HomeClient = () => {
                                     </div>
                                 </div>
 
-                                {/* 2. Table Container */}
                                 <div className="flex-grow-1 bg-white rounded-4 border shadow-sm d-flex flex-column overflow-hidden">
                                     <div className="px-4 py-3 border-bottom bg-white flex-shrink-0">
                                         <h6 className="fw-bold m-0 text-dark font-swiss">Recent History</h6>
                                     </div>
-                                    
+
                                     <div className="overflow-y-auto flex-grow-1 custom-scrollbar p-0">
                                         <table className="w-100 modern-table">
-                                            <thead className="bg-white sticky-top" style={{top: 0, zIndex: 10}}>
+                                            <thead className="bg-white sticky-top" style={{ top: 0, zIndex: 10 }}>
                                                 <tr>
                                                     <th className="ps-4">ID</th>
                                                     <th>Date</th>
@@ -397,13 +341,13 @@ const HomeClient = () => {
                                                         <td className="fw-bold text-dark ps-4">#{i + 1001}</td>
                                                         <td className="text-secondary">{test.date_created.substring(0, 10)}</td>
                                                         <td>
-                                                            <span className={`badge rounded-pill px-3 py-2 fw-medium font-swiss ${test.finished ? 'bg-success bg-opacity-10 text-success' : 'bg-warning bg-opacity-10 text-warning'}`} style={{fontSize:'0.7rem'}}>
+                                                            <span className={`badge rounded-pill px-3 py-2 fw-medium font-swiss ${test.finished ? 'bg-success bg-opacity-10 text-success' : 'bg-warning bg-opacity-10 text-warning'}`} style={{ fontSize: '0.7rem' }}>
                                                                 {test.finished ? 'COMPLETED' : 'PENDING'}
                                                             </span>
                                                         </td>
                                                         <td className="text-end pe-4">
-                                                            <button 
-                                                                onClick={() => { dispatch(addIdQuestions({ idQuestions: test._id })); test.finished ? navigate(`/outCome`) : (test.finishedT1 ? navigate(`/CalibrationVideo`) : navigate(`/HealthForm`)); }}
+                                                            <button
+                                                                onClick={() => { dispatch(addIdQuestions({ idQuestions: test._id })); test.finished ? navigate(`/outCome`) : (test.finishedT1 ? navigate(`/calibration`) : navigate(`/HealthForm`)); }}
                                                                 className={`btn btn-sm rounded-pill fw-bold px-3 hover-lift ${test.finished ? 'btn-light border text-muted' : 'text-white'}`}
                                                                 style={!test.finished ? { backgroundColor: ORANGE, border: 'none' } : {}}
                                                             >
