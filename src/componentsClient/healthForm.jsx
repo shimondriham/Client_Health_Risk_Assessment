@@ -79,6 +79,7 @@ function HealthForm() {
     const getCurrentAnswer = () => {
         let ans = answers[question.id];
         if (question.type === 'slider' && ans === undefined) return 0;
+        if (question.type === 'sleepslider' && ans === undefined) return 0;
         return ans;
     };
 
@@ -86,6 +87,7 @@ function HealthForm() {
         const ans = getCurrentAnswer();
         if (question.type === 'file') return false;
         if (question.type === 'slider') return false;
+        if (question.type === 'sleepslider') return false;
         return ans === undefined || ans === "" || (Array.isArray(ans) && ans.length === 0);
     };
 
