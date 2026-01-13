@@ -5,6 +5,7 @@ import { doApiGet } from '../services/apiService';
 import { addIfShowNav, addIsAdmin, addName, addIdQuestions } from '../featuers/myDetailsSlice';
 import "bootstrap/dist/css/bootstrap.min.css";
 import thisIcon from '../assets/icon.png';
+import { forEach } from 'lodash';
 
 // --- Icons (Existing - Right Side) ---
 const ChartIcon = () => <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"><path d="M3 3v18h18" /><path d="M18 17V9" /><path d="M13 17V5" /><path d="M8 17v-3" /></svg>;
@@ -88,6 +89,7 @@ const HomeClient = () => {
     const IsAdmin = useSelector(state => state.myDetailsSlice.isAdmin);
     const navigate = useNavigate();
     const [tests, setTests] = useState(_tests);
+    const [testsF, setTestsf] = useState({});
     const [hasTests, setHasTests] = useState(true);
     const completedCount = tests.filter(t => t.finished).length;
     const pendingCount = tests.length - completedCount;
@@ -119,6 +121,11 @@ const HomeClient = () => {
                 let qResp = await doApiGet("/questions/myInfo");
                 if (qResp.data && qResp.data.length > 0) {
                     setTests(qResp.data); setHasTests(true); dispatch(addIdQuestions({ idQuestions: qResp.data._id }));
+                    let tempTestsf = [];
+                    forEach(qResp.data, (item) => { if (item.finished) { tempTestsf.push(item); } });
+                    setTestsf(tempTestsf[tempTestsf.length - 1]);
+                    console.log(tempTestsf[tempTestsf.length - 1]);
+                    
                 } else { setHasTests(false); }
             } catch (err) { setHasTests(false); }
         } catch (error) { console.log(error); }
@@ -237,11 +244,11 @@ const HomeClient = () => {
                                             <HealthProfileCard
                                                 title="Cardiovascular"
                                                 icon={<ShieldIcon />}
-                                                iconBg="#FFFBEB" 
-                                                badgeText="Cleared with precautions"
+                                                iconBg="#FFFBEB"
+                                                badgeText={testsF.cardio_readiness[0]? testsF.cardio_readiness[0] :"--- No Data ---"}
                                                 badgeBg="#FEF3C7"
                                                 badgeColor="#D97706"
-                                                description="No active cardiac red flags. Exercise intensity adjusted."
+                                                description={testsF.cardio_readiness[1]? testsF.cardio_readiness[1] :"--- No Data ---"}
                                                 footerText="Screened via guidelines"
                                             />
                                         </div>
@@ -249,11 +256,11 @@ const HomeClient = () => {
                                             <HealthProfileCard
                                                 title="Functional Strength"
                                                 icon={<DiamondIcon />}
-                                                iconBg="#ECFDF5" 
-                                                badgeText="Within expected range"
+                                                iconBg="#ECFDF5"
+                                                badgeText={testsF.functional_strength[0]? testsF.functional_strength[0] :"--- No Data ---"}
                                                 badgeBg="#D1FAE5"
                                                 badgeColor="#059669"
-                                                description="Lower-body strength supports independent movement."
+                                                description={testsF.functional_strength[1]? testsF.functional_strength[1] :"--- No Data ---"}
                                                 footerText="Screened via mobility tests"
                                             />
                                         </div>
@@ -261,11 +268,11 @@ const HomeClient = () => {
                                             <HealthProfileCard
                                                 title="Balance & Falls"
                                                 icon={<BalanceIcon />}
-                                                iconBg="#FFFBEB" 
-                                                badgeText="Elevated fall risk"
+                                                iconBg="#FFFBEB"
+                                                badgeText={testsF.balance_fall_risk[0]? testsF.balance_fall_risk[0] :"--- No Data ---"}
                                                 badgeBg="#FEF3C7"
                                                 badgeColor="#D97706"
-                                                description="One fall in past year, reduced single-leg stability."
+                                                description={testsF.balance_fall_risk[1]? testsF.balance_fall_risk[1] :"--- No Data ---"}
                                                 footerText="Screened via STEADI tests"
                                             />
                                         </div>
@@ -273,11 +280,11 @@ const HomeClient = () => {
                                             <HealthProfileCard
                                                 title="Mobility & Pain"
                                                 icon={<MobilityIcon />}
-                                                iconBg="#FFFBEB" 
-                                                badgeText="Mild limitations"
+                                                iconBg="#FFFBEB"
+                                                badgeText={testsF.mobility_pain[0]? testsF.mobility_pain[0] :"--- No Data ---"}
                                                 badgeBg="#FEF3C7"
                                                 badgeColor="#D97706"
-                                                description="~25% of adults aged 60-70 report comparable history."
+                                                description={testsF.mobility_pain[1]? testsF.mobility_pain[1] :"--- No Data ---"}
                                                 footerText="Screened via ROM tests"
                                             />
                                         </div>
