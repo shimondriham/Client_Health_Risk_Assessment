@@ -344,9 +344,7 @@ function BiomechanicalAss() {
 
           {/* וידאו הדרכה */}
           <div className="flex-grow-1 bg-white rounded-3 overflow-hidden border shadow-sm position-relative">
-            <video width="100%" height="100%" controls style={{ objectFit: 'cover', position: 'absolute', top: 0, left: 0 }}>
-              <source src="/videos/121212.mp4" type="video/mp4" />
-            </video>
+            <img src={thisIcon} alt="Logo" width="35" className="opacity-75" />
           </div>
         </div>
       </div>
