@@ -8,7 +8,6 @@ import thisIcon from '../assets/icon.png';
 const ChevronRight = () => <svg width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 18l6-6-6-6" /></svg>;
 const ChevronLeft = () => <svg width="20" height="20" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M15 18l-6-6 6-6" /></svg>;
 const assessments = [
-  { name: "Ready to begin?" },
   { name: "Chair Stand" },
   { name: "Comfortable Stand" },
   { name: "Weight Shift" },
@@ -18,7 +17,6 @@ const assessments = [
 ];
 
 const feedbackAssessments = [
-  'Show thumbs up if you’re Ready to Begin ',
   'Stand up from the chair and sit back down twice at a comfortable pace.',
   'Stand comfortably in front of the chair for about 15 seconds.',
   'Gently shift your weight from side to side while standing',
@@ -231,7 +229,7 @@ function BiomechanicalAss() {
       console.warn('Error stopping camera:', err);
     }
   };
-  
+
   const Back = () => {
     assessmentIndex > 0 ? setassessmentIndex(assessmentIndex - 1) : null
   };
@@ -257,8 +255,10 @@ function BiomechanicalAss() {
       let resData = await doApiMethod("/questions/edit", "PUT", data);
       console.log("resData" + resData);
       if (resData.status == 200) {
-        {stopCamera();
-        toOutCome();}
+        {
+          stopCamera();
+          toOutCome();
+        }
       }
     } catch (error) {
       console.log(error);
@@ -322,7 +322,7 @@ function BiomechanicalAss() {
       <div className="flex-grow-1 d-flex p-3 gap-3" style={{ minHeight: 0 }}>
 
         {/* צד שמאל: מצלמת משתמש (גדול) */}
-        <div className="flex-grow-1 bg-black rounded-3 overflow-hidden position-relative border shadow-sm" style={{ flexBasis: '50%' }}>
+        <div className="flex-grow-1 bg-black  overflow-hidden position-relative  " style={{ flexBasis: '60%' }}>
           <video ref={videoRef} autoPlay playsInline muted style={{ width: '100%', height: '100%', objectFit: 'cover', transform: 'scaleX(-1)' }} />
           <canvas ref={canvasRef} style={{ position: "absolute", top: 0, left: 0, width: '100%', height: '100%', objectFit: 'cover', transform: 'scaleX(-1)' }} />
 
@@ -335,16 +335,13 @@ function BiomechanicalAss() {
         </div>
 
         {/* צד ימין: הוראות (צר יותר) */}
-        <div className="d-flex flex-column gap-3" style={{ flexBasis: '50%' }}>
+        <div className="d-flex flex-column gap-3" style={{ flexBasis: '40%' }}>
           {/* כותרת הנחיה */}
-          <div className="bg-white p-3 rounded-3 border shadow-sm flex-shrink-0">
-            <h5 className="m-0 fw-bold">{getAssessmentName()}</h5>
-            <p className="text-muted m-0 small">{feedbackAssessments[assessmentIndex]}</p>
-          </div>
+
 
           {/* וידאו הדרכה */}
           <div className="flex-grow-1 bg-white rounded-3 overflow-hidden border shadow-sm position-relative">
-            <img src={thisIcon} alt="Logo" width="35" className="opacity-75" />
+            <img src={`src/assets/pic${assessmentIndex + 1}.jpg`} alt="Logo" height="100%" width="100%" className="opacity-75" />
           </div>
         </div>
       </div>
@@ -358,7 +355,10 @@ function BiomechanicalAss() {
         >
           Back
         </button>
-
+      <div className="bg-orange px-4 py-2  d-flex flex-column align-items-center" style={{borderRadius: "20px", backgroundColor: "#FF5722" ,opacity: "0.8" , color: "white"}}>
+          <h5 className="m-0 fw-bold ">{getAssessmentName()}</h5>
+          <p  className=" m-0 small" >{feedbackAssessments[assessmentIndex]}</p>
+        </div>
         <button
           onClick={Next}
           className="d-flex align-items-center gap-2 fw-bold"
