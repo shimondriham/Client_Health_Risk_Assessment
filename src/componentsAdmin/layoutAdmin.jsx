@@ -5,7 +5,7 @@ import HeaderAdmin from './headerAdmin';
 function LayoutAdmin() {
   return (
     <React.Fragment>
-    <HeaderAdmin />
+    {/* <HeaderAdmin /> */}
     <Outlet />
   </React.Fragment>
   )
