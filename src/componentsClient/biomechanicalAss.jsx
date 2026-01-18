@@ -153,11 +153,6 @@ function BiomechanicalAss() {
 
             const ifAssessmentDone = [
               () => {
-                if (!resultsData.assessment1)
-                  resultsData.assessment1 = Math.trunc(landmarks[16].y * 10) == Math.trunc(landmarks[12].y * 10) && Math.trunc(landmarks[16].x * 10) == Math.trunc(landmarks[12].x * 10);
-                return resultsData.assessment1;
-              },
-              () => {
                 if (!resultsData.Chair_Stand)
                   resultsData.Chair_Stand = landmarks[23].y > landmarks[25].y;
                 return resultsData.Chair_Stand;
