@@ -115,6 +115,8 @@ const HomeClient = () => {
     const fetchUserData = async () => {
         try {
             let data = await doApiGet("/users/myInfo");
+         
+            
             dispatch(addName({ name: data.data.fullName }));
             if (data.data.role === "admin") dispatch(addIsAdmin({ isAdmin: true }));
             try {
@@ -124,7 +126,8 @@ const HomeClient = () => {
                     let tempTestsf = [];
                     forEach(qResp.data, (item) => { if (item.finished) { tempTestsf.push(item); } });
                     setTestsf(tempTestsf[tempTestsf.length - 1]);
-                    console.log(tempTestsf[tempTestsf.length - 1]);
+                   
+                    
                     
                 } else { setHasTests(false); }
             } catch (err) { setHasTests(false); }
@@ -241,26 +244,34 @@ const HomeClient = () => {
                                 <div className="overflow-y-auto overflow-x-hidden pe-1 pb-2">
                                     <div className="row g-3">
                                         <div className="col-6">
+                                           
+                                            
                                             <HealthProfileCard
                                                 title="Cardiovascular"
                                                 icon={<ShieldIcon />}
                                                 iconBg="#FFFBEB"
-                                                badgeText={testsF.cardio_readiness[0]? testsF.cardio_readiness[0] :"--- No Data ---"}
+                                                badgeText={testsF.cardio_readiness?.[0] ? testsF.cardio_readiness?.[0] : "--- No Data ---"}
                                                 badgeBg="#FEF3C7"
                                                 badgeColor="#D97706"
-                                                description={testsF.cardio_readiness[1]? testsF.cardio_readiness[1] :"--- No Data ---"}
+                                                description={testsF.cardio_readiness?.[1] ? testsF.cardio_readiness?.[1] : "--- No Data ---"}
                                                 footerText="Screened via guidelines"
                                             />
+                                            
+                                            
+                                            
+                                            
+                                            
+                                            
                                         </div>
                                         <div className="col-6">
                                             <HealthProfileCard
                                                 title="Functional Strength"
                                                 icon={<DiamondIcon />}
                                                 iconBg="#ECFDF5"
-                                                badgeText={testsF.functional_strength[0]? testsF.functional_strength[0] :"--- No Data ---"}
+                                                badgeText={testsF.functional_strength?.[0] ? testsF.functional_strength?.[0] : "--- No Data ---"}
                                                 badgeBg="#D1FAE5"
                                                 badgeColor="#059669"
-                                                description={testsF.functional_strength[1]? testsF.functional_strength[1] :"--- No Data ---"}
+                                                description={testsF.functional_strength?.[1] ? testsF.functional_strength?.[1] : "--- No Data ---"}
                                                 footerText="Screened via mobility tests"
                                             />
                                         </div>
@@ -269,10 +280,10 @@ const HomeClient = () => {
                                                 title="Balance & Falls"
                                                 icon={<BalanceIcon />}
                                                 iconBg="#FFFBEB"
-                                                badgeText={testsF.balance_fall_risk[0]? testsF.balance_fall_risk[0] :"--- No Data ---"}
+                                                badgeText={testsF.balance_fall_risk?.[0] ? testsF.balance_fall_risk?.[0] : "--- No Data ---"}
                                                 badgeBg="#FEF3C7"
                                                 badgeColor="#D97706"
-                                                description={testsF.balance_fall_risk[1]? testsF.balance_fall_risk[1] :"--- No Data ---"}
+                                                description={testsF.balance_fall_risk?.[1] ? testsF.balance_fall_risk?.[1] : "--- No Data ---"}
                                                 footerText="Screened via STEADI tests"
                                             />
                                         </div>
@@ -281,10 +292,10 @@ const HomeClient = () => {
                                                 title="Mobility & Pain"
                                                 icon={<MobilityIcon />}
                                                 iconBg="#FFFBEB"
-                                                badgeText={testsF.mobility_pain[0]? testsF.mobility_pain[0] :"--- No Data ---"}
+                                                badgeText={testsF.mobility_pain?.[0] ? testsF.mobility_pain?.[0] : "--- No Data ---"}
                                                 badgeBg="#FEF3C7"
                                                 badgeColor="#D97706"
-                                                description={testsF.mobility_pain[1]? testsF.mobility_pain[1] :"--- No Data ---"}
+                                                description={testsF.mobility_pain?.[1] ? testsF.mobility_pain?.[1] : "--- No Data ---"}
                                                 footerText="Screened via ROM tests"
                                             />
                                         </div>
